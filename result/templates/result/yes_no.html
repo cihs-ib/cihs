@@ -1,0 +1,16 @@
+<!doctype html>
+{% extends "base_generic.html" %}
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>{% block title %} deleting {{ qry.username }}'s account {% endblock %}</title>
+	</head>
+	{% block content %}
+	<body>
+		 <form>
+		 	<div class="cap_form">Action:<pre>Delete!</pre></div>
+		 	Are you sure you want to delete: <a style="font-family:Helvetica; color:white;">{{ qry.username }}'s</a> account completely?<a href="{% url 'delete_a_user' pk=pk %}" style="font-family:Helvetica; color:red; font-size: 12px;">Yes</a>/<a href="{% url 'all_accounts' %}" style="font-family:Helvetica; color:purple; font-size: 12px;">No</a>
+		 </form>
+	</body>
+<html>
+{% endblock %}

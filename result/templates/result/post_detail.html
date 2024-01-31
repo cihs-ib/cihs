@@ -1,0 +1,22 @@
+{% extends "base_generic.html" %}
+ 
+{% block content %}
+    <form class="post">
+        {% if post.published_date %}
+            <div class="date">
+                {{ post.published_date }}
+            </div>
+	{% else %}
+            <a class="btn btn-default" href="{% url 'posts_publishing' pk=post.pk %}">Publish</a>
+        {% endif %}
+        <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+        <a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+        <h6><em style="font-family:Helvetica; color:red; font-size: 10px;">Request:</em> {{ post.subject }}</h6>
+        <hr>
+	<pre>{{ post.text|linebreaksbr }}</pre>
+	<div class="fc">
+             <em class="grd_count"><div style="font-family:Helvetica; color:green; font-size: 11px;"> {{ post.comment|linebreaksbr }} </div></em>
+        </div>
+	<hr>
+    </form>
+{% endblock %}

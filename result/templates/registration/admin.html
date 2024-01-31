@@ -1,0 +1,142 @@
+{% extends "base_generic.html" %}
+{% block content %}
+	<title>{% block title %} logged in {% endblock %}</title>
+    <form class="content" id="admin">
+        <div class="section-inner clearfix">
+        <div id="default">
+        <div class="fc">
+          <div class="capt">Welcome <a href="{% url 'home'  %}" style="font-family:Helvetica; color:blue; font-size: 12px;"><strong style="background-color:white;border:2px solid blue;color:black;border-radius:5px;">{{ request.user.username }}!</strong></a></div>
+        </div>
+	
+        <em style="width:89%;margin-left:59px; font-size:12">Account Details:</em>
+        {% if user.is_authenticated %}
+        {% if request.user.is_superuser == True  and user.is_staff == True %}<em class="grd_count"><div style="font-family:Helvetica; color:red; font-size: 12px;">You are logged-in as Admin</div></em>{% endif %}
+        {% if request.user.is_superuser == False and user.is_staff == True %}<em class="grd_count"><div style="font-family:Helvetica; color:red; font-size: 12px;"> You are logged-in as Staff</div></em>{% endif %}
+        {% if request.user.is_staff == False and user.is_staff == False %}<em class="grd_count"><div style="font-family:Helvetica; color:red; font-size: 12px;"> You are logged-in as Non-Staff</div><em></em></em>{% endif %}
+        {% endif %}
+        <ul style="width:89%;margin-left:59px; font-size:12">
+            <a href="{% url 'pro_detail' request.user.id %}" style="font-family:Helvetica; color:purple; font-size: 12px;">Edit Profile</span></a>
+            <li><em style="font-family:Helvetica; color:red; font-size: 12px;">Email:</em> <em style="font-family:Helvetica; color:white; font-size: 12px;">{{ request.user.email|default:"update your account! " }}</em></li>
+            <li><em style="font-family:Helvetica; color:red; font-size: 12px;">SuperUser:</em> <em style="font-family:Helvetica; color:white; font-size: 12px;">{{ request.user.is_superuser }}</em></li>
+            <li><em style="font-family:Helvetica; color:red; font-size: 12px;">Staff:</em> <em style="font-family:Helvetica; color:white; font-size: 12px;">{{ request.user.is_staff }}</em></li>
+            <li><em style="font-family:Helvetica; color:red; font-size: 12px;">Date Joined:</em> <em style="font-family:Helvetica; color:white; font-size: 12px;">{{ request.user.date_joined }}</em></li>
+    	     <li>You have visited this page on this browser <span id="report"></span> times.</li>
+            <li>Your last visit on this browser was <span id="lastVisitDate"></span></li>
+            <li>You have visited this site <span id="modelVisits">{{ request.user.profile.login_count }}</span> times</li>
+            <li><em style="font-family:Helvetica; color:red; font-size: 12px;">YourLast Login to this site:</em> <em style="font-family:Helvetica; color:white; font-size: 12px;">{{ request.user.last_login }}</em></li>
+        </ul>
+        </div>
+        {% if user.is_superuser %}<a onclick="$('#Activities').toggle()">Details</a>{% endif %}
+        <div id='Activities' hidden>
+        <div class="fc">
+          <div class="capt"><a href="{% url 'home'  %}" style="font-family:Helvetica; color:blue; font-size: 12px;"><strong style="background-color:white;border:2px solid blue;color:black;border-radius:5px;">List of Available Activities</strong></a></div>
+        </div>
+        <ol>
+            <li><div onclick="$('#bsh').toggle()" style="color:white">School Broadsheets</div> 
+			<select value="" id="bsh" style="line-height:100%;border-radius:3px;background-color:blue;color:white;border:1px solid white;width:10%;font-size:11px;" hidden>
+				<option value="">Select</option>
+				<option value="JSS 1">JSS-1</option>
+				<option value="JSS 2">JSS-2</option>
+				<option value="JSS 3">JSS-3</option>
+				<option value="SSS 1">SSS-1</option>
+				<option value="SSS 2">SSS-2</option>
+				<option value="SSS 3">SSS-3</option>
+			</select>
+            </li>
+            <li><div onclick="$('#card').toggle()" style="color:white">School Cards</div> 
+			<select value="" id="card" style="line-height:100%;border-radius:3px;background-color:red;color:white;border:1px solid white;width:10%;font-size:11px;" hidden>
+				<option value="">Select</option>
+				<option value="1">JSS-1</option>
+				<option value="2">JSS-2</option>
+				<option value="3">JSS-3</option>
+				<option value="4">SSS-1</option>
+				<option value="5">SSS-2</option>
+				<option value="6">SSS-3</option>
+			</select>
+            </li>
+            <li><div onclick="$('#msh').toggle()" style="color:white">School Marksheets</div> 
+			<select value="" id="msh" style="line-height:100%;border-radius:3px;background-color:green;color:white;border:1px solid white;width:10%;font-size:11px;" hidden>
+				<option value="">Select</option>
+				<option value="1">JSS-1</option>
+				<option value="2">JSS-2</option>
+				<option value="3">JSS-3</option>
+				<option value="4">SSS-1</option>
+				<option value="5">SSS-2</option>
+				<option value="6">SSS-3</option>
+			</select>
+            </li>
+            <li><div onclick="$('#term').toggle()" style="color:white">School Terms</div> 
+			<select value="" id="term" style="line-height:100%;border-radius:3px;background-color:pink;color:white;border:1px solid white;width:10%;font-size:11px;" hidden>
+				<option value="">Select</option>
+				<option value="1st Term">1st Term</option>
+				<option value="2nd Term">2nd Term</option>
+				<option value="3rd Term">3rd Term</option>
+			</select>
+            </li>
+        </ol>
+        </div>
+        <script>
+            var timesVisited = 0;
+            var lastVisitDate = 'never';
+            if (localStorage.getItem('{{ request.user.username }}')) {
+            var lastVisit = JSON.parse(localStorage.getItem('{{ request.user.username }}'));
+            timesVisited = lastVisit.numVisits;
+            lastVisitDate = lastVisit.date;
+            }
+            document.getElementById('lastVisitDate').innerHTML = lastVisitDate;
+            timesVisited++;
+            document.getElementById('report').innerHTML = timesVisited;
+            var myLastVisit = { }
+            myLastVisit.date = new Date();
+            myLastVisit.numVisits = timesVisited;
+            localStorage.setItem('{{ request.user.username }}', JSON.stringify(myLastVisit));
+            if (timesVisited > 100) {
+                report.style.backgroundColor = 'red';
+                report.style.color = 'white';
+                admin.style.backgroundColor = 'royalblue';
+                modelVisits.style.backgroundColor = 'red';
+                }
+            localStorage.removeItem('current_data')
+            $('#msh').change(function(){
+                var xcl = $(this).val();
+                if (xcl){location.replace(window.location.href.split('admin_page')[0]+'zip_pdf/1/'+""+xcl+'/')}
+                
+            });
+            $('#card').change(function(){
+                var xcl = $(this).val();
+                if (xcl){location.replace(window.location.href.split('admin_page')[0]+'zip_pdf/0/'+""+xcl+'/')}
+                
+            });
+            var ErrorMap = {
+			'0': "Not connected.\nPlease verify your network connection.",
+			'400' : "Server understood the request, but request content was invalid.",
+			'401' : "Unauthorized access.",
+			'403' : "Forbidden resource can't be accessed.",
+			'404': "The requested page not found.",
+			'500' : "Internal server error.",
+			'503' : "Service unavailable.",
+			'parsererror' : "Requested JSON parse failed.",
+			'timeout': "Time out error.",
+			'abort': "Ajax request aborted.",
+					};
+        $('#term').change(function(){
+        var request  = $.ajax({
+          url: "{% url 'responsive_updates' pk=0 uk=1%}",
+          data: {
+                'Term':$(this).val(), 'flow':'currnetTerms'
+                },
+          dataType: 'json',
+          success: function(data) {alert(data.tutors+' accounts upadated')}
+          });
+        request.fail(function(jqXHR, textStatus, data) {
+                        alert(ErrorMap[jqXHR.status]);
+                        });
+    });
+        </script>
+        
+        <div><em style="font-family:Helvetica;font-size:9px;background-color:red;border-radius:5px;color:cornsilk;"><a href="{% url 'log_out' %}" title="Previous"><span class="glyphicon glyphicon-backward" title="Next" style="color:white"></span></a></em><em style="font-family:Helvetica; font-size:9px;margin-left:89%;background-color:red;border-radius:5px;color:cornsilk;"><a href="{% url 'home' %}" title="Next"><span class="glyphicon glyphicon-forward" style="color:white" title="Next"></span></a></em></div>
+        </div>
+    </form>
+
+{% endblock %}
+

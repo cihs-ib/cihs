@@ -1,0 +1,26 @@
+{% extends "base_generic.html" %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title> {% block title %} {{ term }}|{{ qry.Class }}|{{ qry.subject }} {% endblock %} </title>
+	</head>
+	 {% block content %}
+	<body>
+    	<form class="upload" action="{% url 'upload_txt' pk=qry.id %}" method="POST" enctype="multipart/form-data" class="form-horizontal"> 
+				<div class="cap_form"><em color:white;>{{qry.Class}}:{{term}} </em><em style="color:red;"><pre style="line-height: 3px;">uploading.., {{qry.subject}}</em></pre></div>
+      	  {% csrf_token %}
+				<div class="row">
+   				<div class="col-xs-6">
+      				<input type="file" name="files" id="files" required="True" class="form-control">
+   				</div>
+   				<div class="col-xs-6">
+      				<button class="btn btn-primary"> <span class="glyphicon glyphicon-upload" style="margin-right:5px;"></span>Upload</button>
+   				</div>
+				</div>
+				<em style="color:red;">Warning:</em> <em style="color:white;">Ensure correct file path before clicking upload!</em>
+    	 </form>
+    </body>
+	  {% endblock %}
+</html>
+

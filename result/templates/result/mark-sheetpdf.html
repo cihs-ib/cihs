@@ -1,0 +1,355 @@
+<html>
+  {% load static %}
+<head>
+  <title id="title">downloading pdf file</title>
+  <!--Meta Tags-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--WWW Resources-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Serif|Open+Sans:300,400,600,700" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>  
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.4/jspdf.plugin.autotable.min.js"></script>
+    
+  <!--External Resources-->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js'></script>
+  <link rel="stylesheet" href="{% static 'result/css/pdf.css' %}">
+</head>
+<style>
+   
+    
+    .foot {
+    border:2px solid rgb(238, 11, 11);
+    border-radius: 5px;
+    background-color: ivory;
+    color: black;
+    }
+    .title {
+    border:2px solid white;background-color:lightgrey;border-radius:12px;text-align:center;
+    }
+    .ttot, .etot, .agr, .avg, .grd, .pos {
+    border:2px solid darkkhaki;
+    border-radius: 3px;
+    background-color: rgb(238, 181, 117);
+    
+    }
+    .others {
+        border:2px solid rgb(79, 174, 238);
+        border-radius: 3px;
+        background-color: rgb(212, 158, 97);
+    }
+    
+    
+
+</style> 
+<style>
+      html {
+        margin: 0;
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+      }
+
+      html {
+        padding: 0;
+        font-size: 16px;
+      }
+
+      body {
+        padding: 2rem;
+        font-size: 100%;
+      }
+
+      h1 {
+        margin-top: 0;
+      }
+
+      .buttonContainer {
+        margin: 2rem 0;
+      }
+
+      .btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 1rem;
+        font-family: inherit;
+        font-weight: normal;
+        border: none;
+        border-radius: 0.5rem;
+        background: #0f4871;
+        color: #fff;
+        cursor: pointer;
+        position: relative;
+        max-width: 18rem;
+        word-break: break-word;
+        word-wrap: break-word;
+        transition: all 0.5s;
+        margin-right: 1rem;
+      }
+
+      .btn:focus,
+      .btn:hover {
+        outline: none;
+      }
+
+      .btn:focus::before,
+      .btn:hover::before {
+        box-shadow: #0f4871 0 0 0 0.0625rem;
+        content: '';
+        height: calc(100% + 0.25rem);
+        left: 0;
+        margin-left: -0.25rem;
+        margin-top: -0.25rem;
+        pointer-events: none;
+        position: absolute;
+        top: 0;
+        width: calc(100% + 0.25rem);
+        border-radius: inherit;
+        padding: 0.125rem;
+      }
+
+      #styledHeaderLink {
+        margin-top: 2rem;
+      }
+
+      #styledTable {
+        border-collapse: collapse;
+        width: auto;
+      }
+
+      #styledTable caption {
+        text-align: left;
+        margin: 2rem 0 1rem 0;
+        font-weight: bold;
+      }
+
+      #styledTable td,
+      #styledTable th {
+        border: 0.0625rem solid #ddd;
+        padding: 0.75rem;
+      }
+
+      #styledTable tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      #styledTable tr:hover {
+        background-color: #ddd;
+      }
+
+      #styledTable th {
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+        text-align: left;
+        background-color: #0f4871;
+        color: white;
+      }
+
+      #styledTable tfoot {
+        text-align: right;
+      }
+      #lineheiht {line-height:3px;}
+      @media print {
+        * {
+            transition: none !important;
+            -webkit-print-color-adjust:exact;
+                -webkit-transition: none !important;
+                -moz-transition: none !important;
+              }
+        body {
+            color: rgb(240, 14, 14)40, 14, 14)!important;
+            background-color: #dfe39d;
+          }
+          .foot {
+                border:2px solid rgb(238, 11, 11);
+                border-radius: 5px;
+                background-color: ivory!important;
+                color: black;
+                }
+         .others{
+          background-color:#dfe39d!important;
+          color:rgb(240, 11, 11) !important;
+         }  
+         
+         #styledTable tr:nth-child(even) {
+        background-color: #f2f2f2!important;
+        color: white;
+      }
+         
+         
+      }
+
+      @page {
+        margin: 2cm;
+        size: Lanscape; /*set page layout*/ 
+        font-size:0.8rem;
+      }
+      @media only screen and (max-width:650px){
+        #lineheiht {line-height:21px;}
+  }
+  
+</style>
+<body>
+      <div class="container" id="content">
+          <div class="table-wrapper">
+            <table id="styledTable">
+                <thead>
+                  <tr class="others">
+                    <th>
+                      <img src="https://dhnygxib7cbg0.cloudfront.net/pdf/uqhs.jpg" alt="schLogo" height="40" width="40" style="border: 2px solid blue;border-radius:2px;">
+                    </th>
+                    <th colspan="5" class="title"><center>UMMUL QURA HIGH SCHOOL MARKSHEET PORTAL</center> </th>
+                    <th colspan="2"><center></center><em  class="foot">Subject</em>:<em id="subject"> Biology</em></center></th>
+                    <th colspan="3"><center></center><em  class="foot">Class</em>:<em id="class"> SSS 3</em></center></th>
+                    <th colspan="3"><center></center><em  class="foot">Term</em>:<em id="term">1st Term</em></center></th>
+                   
+                    
+                    
+                  </tr>
+                  <tr id="colcell">
+                    <th>RMK</th>
+                    <th id="stdnm"><center>Student Names HHHHHHHHHHHHHHHHHHHHHHHHHH</center></th>
+                    <th><center>Test</center></th>
+                    <th><center>Atd</center></th>
+                    <th><center>Assg</center> </th>
+                    <th><center>Total</center></th>
+                    <th><center>Exam</center></th>
+                    <th>AGR</th>
+                    <th>2nd</th>
+                    <th>1st</th>
+                    <th>ANN</th>
+                    <th>AVR</th>
+                    <th>GRD</th>
+                    <th>POS</th>
+                    
+                  </tr>
+                </thead>
+                <tbody id="lineheiht">
+                  
+                  <tfoot class="others">
+                    <th colspan="5" class="title">
+                     <em  class="foot">Teacher</em>: <em id="teacher">Mall. Busari Abbas Olalekan</em> | <em class="foot">HOD</em>: <em id="hod">Mall. Busari Abbas Olalekan</em>
+                    </th>
+                    <th></th>
+                    <th></th>
+                    <th><button class="btn btn-primary"  onclick="window.print()"><span class="glyphicon glyphicon-print" style="color: white;"></span></button></th>
+                    <th colspan="3"><em  class="foot">AGR</em>: <span id="sumAll">231</span> </th>
+                    <th colspan="3"><em  class="foot">PER (%) </em>:  <span id="percent">23.1</span></th>
+                    
+                  </tfoot>
+                </tbody>
+            </table>
+          </div>
+      </div>
+          </footer>
+
+</body> 
+
+    <script> 
+        function nrows (n, i) {
+            var sn = i + 1;
+			var tr = 
+			    '<tr>'+'<td style="width:40px">'+""+sn +' </td>'+
+                    '<td class="name">'
+                      +n+
+                    '</td>'+
+                    '<td class="others" id='+ "test_"+""+i+'>8,893</td>'+
+                    '<td class="others" id='+ "agn_"+""+i+'>9,842</td>'+
+                    '<td class="others" id='+ "atd_"+""+i+'>2.05</td>'+
+                    '<td class="ttot" id='+ "ttot_"+""+i+' style="background-color:lightblue;color:white;">9,830</td>'+
+                    '<td class="etot" id='+ "exam_"+""+i+' style="width:40px;background-color:lightblue;color:white;">2.03</td>'+
+                    '<td class="agr" id='+ "agr_"+""+i+' style="background-color:lightblue;color:white;">100</td>'+
+                    '<td style="background-color:orange;color:white;" class="others" id='+ "send_"+""+i+'>1.86</td>'+
+                    '<td style="background-color:orange;color:white;" class="others" id='+ "frst_"+""+i+'>13,932</td>'+
+                    '<td style="background-color:gray;color:white;" class="others" id='+ "anu_"+""+i+'>3.09</td>'+
+                    '<td style="background-color:gray;color:white;"class="avg" id='+ "avg_"+""+i+'>16,141</td>'+
+                    '<td class="grd" id='+ "grd_"+""+i+' style="background-color:lightblue;color:white;">2.99</td>'+
+                    '<td class="pos" id='+ "pos_"+""+i+' style="background-color:pink;color:white;">18,807</td>'+
+                '</tr>'
+		
+		return tr};
+		
+		genRow(JSON.parse(localStorage.getItem(localStorage.getItem('subjectContainer'))));
+		function genRow (out){
+					for (var i = 0; i < out.sn; i++){
+                        var mrk = out['id_'+""+i]
+			    $('table tbody').append(nrows(mrk.name, i));
+				$("#test_"+""+i).html(mrk.test);
+				$("#agn_"+""+i).html(mrk.agn);
+				$("#atd_"+""+i).html(mrk.atd);
+				$("#ttot_"+""+i).html(mrk.ttot);
+				$("#agr_"+""+i).html(mrk.agr);
+				$("#grd_"+""+i).html(mrk.grade);
+				$("#pos_"+""+i).html(mrk.pos);
+                $("#exam_"+""+i).html(mrk.exam);
+                $("#send_"+""+i).html(mrk.send);
+				$("#frst_"+""+i).html(mrk.frst);
+				$("#anu_"+""+i).html(mrk.anu);
+                $("#avg_"+""+i).html(mrk.avg);
+
+				}
+			$('#sumAll').html(out.sumAll); 
+            $('#percent').html(out.percent); 
+			};
+        updateTable ();
+        function updateTable (){
+            $('#title').html(localStorage.getItem('term')+'_'+localStorage.getItem('class')+'_'+localStorage.getItem('subject'))	
+            $('#subject').html(localStorage.getItem('subject')); 
+            $('#class').html(localStorage.getItem('class')); 
+            $('#term').html(localStorage.getItem('term')); 
+            $('#teacher').html(localStorage.getItem('displayName')); 
+            $('#hod').html('Mall. Busari Abbas Olalekan');
+            
+        };
+ 
+        
+    </script>
+    <script>
+            function getPDF() {
+      var doc = new jsPDF();
+    
+      // We'll make our own renderer to skip this editor
+      var specialElementHandlers = {
+        '#getPDF': function(element, renderer){
+          return true;
+        },
+        '.controls': function(element, renderer){
+          return true;
+        }
+      };
+
+      // All units are in the set measurement for the document
+      // This can be changed to "pt" (points), "mm" (Default), "cm", "in"
+      doc.fromHTML($('.container').get(0), 15, 15, {
+        'width': 170, 
+        'elementHandlers': specialElementHandlers
+      });
+
+      doc.save('Gen.pdf');
+    }
+      </script>
+      <script>
+        var doc = new jsPDF(); 
+        var specialElementHandlers = { 
+            '#editor': function (element, renderer) { 
+                return true; 
+            } 
+        };
+        $('#submit').click(function () { 
+            doc.fromHTML($('#content').html(), 15, 15, { 
+                'width': 190, 
+                    'elementHandlers': specialElementHandlers 
+            }); 
+            doc.save('sample-page.pdf'); 
+        });
+      </script>
+</html>

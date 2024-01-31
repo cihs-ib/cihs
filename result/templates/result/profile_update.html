@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+{% extends "base_generic.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+    
+    <form method="post" novalidate  enctype="multipart/form-data">
+	<div class="capt" style="color:white;">Staff Details</div>
+    {% csrf_token %}
+    <div class="capt" style="font-family:Helvetica; color:white; font-size: 10px;">Personal Info:</div>
+    <div class="row">
+      <div class="col-xs-3">
+        {{ form.title|as_crispy_field }}
+      </div>
+      <div class="col-xs-3">
+        {{ form.last_name|as_crispy_field }}
+      </div>
+      <div class="col-xs-3">
+        {{ form.first_name|as_crispy_field }}
+      </div>
+      <div class="col-xs-3">
+        {{ form.birth_date|as_crispy_field }}
+      </div>
+    </div>   
+    {{ form.bio|as_crispy_field }}
+    <div class="capt" style="font-family:Helvetica; color:white; font-size: 10px;">Contact Info:</div>
+    <div class="row">
+      <div class="col-xs-3">
+        {{ form.phone|as_crispy_field }}
+      </div>
+      <div class="col-xs-3">
+        {{ form.city|as_crispy_field }}
+      </div>
+      <div class="col-xs-3">
+        {{ form.country|as_crispy_field }}
+      </div>
+      <div class="col-xs-3">
+        {{ form.location|as_crispy_field }}
+      </div>
+    </div>
+    <div class="capt" style="font-family:Helvetica; color:white; font-size: 10px;">Profile Info:</div>
+    <div class="row">
+      <div class="col-xs-3">
+        {{ form.organization|as_crispy_field }}
+      </div>
+      <div class="col-xs-3">
+        {{ form.department|as_crispy_field }}
+      </div>
+      <div class="col-xs-3">
+        {{ form.photo|as_crispy_field }}
+      </div>
+      <div class="col-xs-3">
+        <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-check">Save profile</span></button>
+      </div>
+    </div> 
+    
+  </form>
+	<div><a href="" style="font-family:Helvetica; margin-left:36%; color:green; font-size: 20px;"><span class="glyphicon glyphicon-list-alt"></span></a><a href="{% url 'home' %}" style="font-family:Helvetica; margin-left:0%; color:green; font-size: 20px;"><span class="glyphicon glyphicon-home"></span></a></div>
+{% endblock %}

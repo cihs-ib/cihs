@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+{% extends "base_generic.html" %}
+<html lang="en">
+	<head>
+		<title> 
+      {% block title %} 
+        {{term}}/{{qry.Class}}/{{qry.subject}}
+      {% endblock %}
+    </title>
+	</head>
+	 {% block content %}
+	<body>				
+	    <table>
+        <div class="capt">
+          <a href="{% url 'subject_home' pk=pk cl=3 %}" class="red_white">SUBJECT</a><u class="red_black">{{qry.subject}}</u>
+          <a href="{% url 'subject_home' pk=pk cl=1 %}" class="red_white">CLASS</a><u class="red_black">{{ qry.Class }}</u>
+          <a href="{% url 'subject_home' pk=pk cl=2 %}" class="red_white">TERM</a><u class="red_black">{{ term }}</u>
+          <pre id="waiting" style="line-height: 1px;background-color:white;border:2px solid blue;color:black;border-radius:5px;">
+            {{ qry.updated }}
+          </pre>
+        </div>
+        <script>
+          var dim = [];
+        </script>
+  <thead>
+      <tr>
+        <th>S/N</th>
+        <th>
+          {% if all_page.count != 0 %}
+          <button onclick="$('.gen_2').toggle()" style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;" title="{{qry.males}}">Males
+          </button>
+          {% if user.is_authenticated %}
+            <a href="{% url 'pdf' ty=2 sx=2 pk=0 uk=qry.id %}">
+              <span class="glyphicon glyphicon-save" title="print"></span>
+            </a>
+          {% endif %}
+            <button onclick="$('.gen_1').toggle()" style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;" title="{{qry.females}}">Females
+            </button>
+          {% if user.is_authenticated %}
+            <a href="{% url 'pdf' ty=2 sx=1 pk=0 uk=qry.id %}">
+              <span class="glyphicon glyphicon-save" title="print"></span>
+            </a>
+          {% endif %}
+          {% endif %}
+        </th>
+        <th id='showing'>Student ID</th>
+        <th id="delete" onclick="deletes()" hidden>
+            <button style="line-height:65%;border-radius:5px;background-color:white;color:red;">
+              <span class="glyphicon glyphicon-remove" title="remove a student from the table"></span>
+            </button>
+        </th>
+        <th>Test</th>
+        <th>Clw</th>
+        <th>Prat</th>
+        <th>Total</th>
+        <th>Exam</th>
+          {% if qry.third_term == "3rd Term" %}<th>3rd</th>{% endif %}
+          {% if qry.second_term == "2nd Term" %}
+        <th style="line-height:65%;border:1px solid white;color:black;border-radius:2px;background-color:green" >
+            <button onclick="$('.second, .sagr').toggle()">
+              2nd
+            </button>
+        </th>
+          {% endif %}
+          {% if qry.first_term == "1st Term" %}
+        <th style="line-height:65%;border:1px solid white;color:black;border-radius:2px;background-color:green" >
+            <button onclick="$('.first, .fagr').toggle()">1st</button>
+        </th>{% endif %}             
+        <th>Agr</th>
+        <th>Avg</th>
+        <th>Grd</th>
+        <th>Pos</th> 
+      </tr> 
+  </thead>  
+       {% if all_page %}
+       {% for scr in all_page %}
+      <tr id="toAll_{{ forloop.counter }}" class="{{ scr.grade }}" hidden>
+        <script>
+          dim.unshift("{{ scr.grade }}");
+          $("#toAll_{{ forloop.counter }}").addClass("oneBox")
+          $("#toAll_{{ forloop.counter }}").addClass("gen_{{ scr.student_name.gender }}");
+        </script>
+        <td style="width:1%;">{{ forloop.counter }}</td>
+        <td style="width:40%;cursor:pointer;" onclick="$('#hid_{{ forloop.counter }}').toggle()" id="edith_student_hide_{{ forloop.counter }}">{{ scr.student_name.full_name }}
+            <div id="hid_{{ forloop.counter }}" hidden>
+              <button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;">
+                <a href="{% url 'student_info' pk=scr.student_name.id %}" title="{{ scr.student_id }}" style="color:blue;">
+                  Profile
+                </a>
+              </button><br>
+              <button style="line-height:65%;border:2px solid blue;color:blue;border-radius:5px;" onclick="cards('{{ scr.student_name.full_name }}', '{{ scr.student_name.Class }}', '1st')">
+                1st Term Card
+              </button><br>
+              <button style="line-height:65%;border:2px solid blue;color:blue;border-radius:5px;" onclick="cards('{{ scr.student_name.full_name }}', '{{ scr.student_name.Class }}', '2nd')">
+                2nd Term Card
+              </button><br>
+              <button style="line-height:65%;border:2px solid blue;color:blue;border-radius:5px;" onclick="cards('{{ scr.student_name.full_name }}', '{{ scr.student_name.Class }}', '3rd')">
+                3rd Term Card
+              </button>
+            </div>
+        </td>
+        <td id="edith_student_show_{{ forloop.counter }}" hidden>
+          <input  id="edith_name_show_{{ forloop.counter }}" type="text" value="{{ scr.student_name.full_name }}" style="line-height:65%;border-radius:3px;background-color:white;color:black;width:100%;border:1px solid red;text-align:center;font-size:11px;" disabled>
+        </td>
+        <td style="color:sienna;width:10%;" title="{{ scr.student_name }}"  id="show_ed{{ forloop.counter }}">
+          <button style="line-height:65%;border-radius:3px;background-color:green;color:white;width:100%;border:1px solid white;" onclick="edith('{{ forloop.counter }}', '{{ scr.student_name.full_name }}')" class="show_ed">
+            {{ scr.student_id }}
+          </button>
+            <input  class="deletes" type="checkbox" value="{{ scr.id }},{{ scr.student_name.full_name }}" style="border-radius:3px;background-color:white;color:black;width:100%;border:1px solid red;text-align:center;font-size:11px;" class="delete" hidden>
+        </td>
+        <td id="id_{{ forloop.counter }}" hidden>
+          <input type="text" value="{{ scr.student_name.id }}" id="ide_{{ forloop.counter }}" style="line-height:65%;border-radius:3px;background-color:white;color:black;width:100%;border:1px solid red;text-align:center;font-size:11px;" disabled>
+        </td>
+        <td id="edith_student_id_td{{ forloop.counter }}" hidden>
+          <input  id="edith_name_id_{{ forloop.counter }}" type="text" value="{{ scr.student_name.id }}">
+        </td>
+        <td id="edith_name_td{{ forloop.counter }}" hidden>
+          <input  id="edith_name_{{ forloop.counter }}" type="text" value="{{ scr.student_name }}">
+        </td>
+        <td style="color:sienna;" title="{{ scr.test }}" id='test_{{ forloop.counter }}' class='raw_{{ forloop.counter }}'>
+            {{ scr.test }}
+        </td>
+        <td style="color:black;width:5%;" class='edith_{{ forloop.counter }}' hidden>
+          <input id="edith_test_{{ forloop.counter }}" type="number" min="0" max="20" value="{{ scr.test }}" style="line-height:65%;border-radius:3px;background-color:white;color:black;width:100%;border:1px solid red;text-align:center;font-size:11px;">
+          <script>
+            $("#edith_test_"+""+{{ forloop.counter }}).change(function(){
+              document.getElementById("ide_"+""+{{ forloop.counter }}).value = 'Waiting';
+              document.getElementById("edith_grds_"+""+{{ forloop.counter }}).value = 'null';
+              })
+          </script>
+        </td>
+        <td style="color:sienna;" title="{{ scr.agn }}" id='agn_{{ forloop.counter }}' class='raw_{{ forloop.counter }}'>
+            {{ scr.agn }}
+        </td>
+        <td style="color:black;width:5%;" class='edith_{{ forloop.counter }}' hidden>
+          <input id="edith_agn_{{ forloop.counter }}"  type="number" min="0" max="5" value="{{ scr.agn }}" style="line-height:65%;border-radius:3px;background-color:white;color:black;width:100%;border:1px solid red;text-align:center;font-size:11px;">
+          <script>
+            $("#edith_agn_"+""+{{ forloop.counter }}).change(function(){
+              document.getElementById("ide_"+""+{{ forloop.counter }}).value = 'Waiting';
+              document.getElementById("edith_grds_"+""+{{ forloop.counter }}).value = 'null';
+              })
+          </script>
+        </td>
+        <td style="color:sienna;" title="{{ scr.atd }}" id='atd_{{ forloop.counter }}' class='raw_{{ forloop.counter }}'>
+            {{ scr.atd }}
+        </td>
+        <td style="color:black;width:5%;"  class='edith_{{ forloop.counter }}' hidden>
+          <input id="edith_atd_{{ forloop.counter }}" type="number" min="0" max="5" value="{{ scr.atd }}" style="line-height:65%;border-radius:3px;background-color:white;color:black;width:100%;border:1px solid red;text-align:center;font-size:11px;">
+          <script>
+            $("#edith_atd_"+""+{{ forloop.counter }}).change(function(){
+              document.getElementById("ide_"+""+{{ forloop.counter }}).value = 'Waiting';
+              document.getElementById("edith_grds_"+""+{{ forloop.counter }}).value = 'null';
+              })
+          </script>
+        </td>
+        <td style="color:white;width:5%;background-color:#A2A161;" title="{{ scr.total }}"  id='total_{{ forloop.counter }}'>
+            {{ scr.total }}
+        </td>
+        <td style="color:sienna;" title="{{ scr.exam }}" id='exam_{{ forloop.counter }}' class='raw_{{ forloop.counter }}'>
+            {{ scr.exam }}
+        </td>
+        <td style="color:black;width:5%;" class='edith_{{ forloop.counter }}' hidden>
+          <input  id="edith_exam_{{ forloop.counter }}" type="number" min="0" max="70" value="{{ scr.exam }}" style="line-height:65%;border-radius:3px;background-color:white;color:black;width:100%;border:1px solid red;text-align:center;font-size:11px;">
+          <script>
+            $("#edith_exam_"+""+{{ forloop.counter }}).change(function(){
+              document.getElementById("ide_"+""+{{ forloop.counter }}).value = 'Waiting'; 
+              document.getElementById("edith_grds_"+""+{{ forloop.counter }}).value = 'null';
+              })
+          </script>
+        </td>
+          {% if scr.tutor.third_term == "3rd Term" %}
+        <td style="color:white;width:5%;background-color:#E6C3C3;" id='agr_{{ forloop.counter }}'>{{ scr.agr }}</td>
+          {% endif %}
+          {% if scr.tutor.second_term == "2nd Term" %} 
+        <td style="color:white;width:5%;background-color:#E6C3C3;" id='sagr_{{ forloop.counter }}' class="sagr">{{ scr.sagr }}</td>    {% endif %}
+          {% if scr.tutor.first_term == "1st Term" %}
+        <td style="color:white;width:5%;background-color:#E6C3C3;" id='fagr_{{ forloop.counter }}' class="fagr">{{ scr.fagr }}</td>    {% endif %}
+        <td class="second" style="color:black;width:5%;" hidden>
+          <input id="edith_sagr_{{ forloop.counter }}" type="number" min="0" max="5" value="{{ scr.sagr }}" style="line-height:65%;border-radius:3px;background-color:white;color:black;width:100%;border:1px solid red;text-align:center;font-size:11px;">
+        </td>
+        <td class="first" style="color:black;width:5%;" hidden>
+          <input id="edith_fagr_{{ forloop.counter }}" type="number" min="0" max="5" value="{{ scr.fagr }}" style="line-height:65%;border-radius:3px;background-color:white;color:black;width:100%;border:1px solid red;text-align:center;font-size:11px;">
+        </td>
+        <td style="color:white;width:5%;background-color:#A2A161;" id='aagr_{{ forloop.counter }}'>{{ scr.aagr }}</td>
+        <td style="color:white;width:5%;background-color:#22D8A0;" id="avg_{{ forloop.counter }}">{{ scr.avr }}</td>
+        <td style="color:white;width:5%;background-color:#7AA49A;" id='grd_{{ forloop.counter }}'>{{ scr.grade }}</td>
+        <input  id="edith_grds_{{ forloop.counter }}" type="text" value="{{ scr.grade }}" hidden>
+        <td style="color:white;width:5%;">
+          <button style="line-height:65%;border-radius:3px;background-color:white;color:black;width:100%;border:1px solid white;"  id="posi_{{ forloop.counter }}">
+              {{ scr.posi }}
+          </button>
+          <button style="line-height:105%;border-radius:3px;background-color:white;color:black;width:100%;border:1px solid white;font-size:15px;" onclick='save({{ forloop.counter }})'  id="show_sa{{ forloop.counter }}" hidden>Done</button>
+        </td>
+      </tr>
+       {% endfor %}
+       {% else %}
+       	<pre class="empty">There are no records.</pre>
+       {% endif %}
+       <tr id="toAll" class="{{ scr.grade }}">
+      <tbody id="extral" hidden>
+       	<td style="width:1%;" id="sn"></td>
+        <td>
+          <select name="dropDown" id="edith_name_id_0" style="line-height:65%;border-radius:3px;background-color:white;color:black;width:100%;border:1px solid red;text-align:center;font-size:11px;"> 
+          <option value="student_name">Student_Name</option>
+        {% if classNames %}
+        {% for scr in classNames %}
+          <option name="dropDownOpt" id="edith_name" value="{{ scr.id }}">{{ scr.full_name }}</option>
+        {% endfor %}
+        {% endif %}
+          </select>
+          <script>
+            $("#edith_name_id_0").change(function(){document.getElementById("ide_0").value = 'Waiting';})
+          </script>         
+        </td>
+        <td id="id_0">
+           <input type="text" value="{{ scr.student_name.id }}" id="ide_0" style="line-height:65%;border-radius:3px;background-color:white;color:black;width:100%;border:1px solid red;text-align:center;font-size:11px;" disabled>
+        </td>
+        <td >
+          <input type="number" min="0" max="20" style="line-height:65%;border-radius:3px;background-color:white;color:black;width:100%;border:1px solid red;text-align:center;font-size:11px;" id="edith_test_0" value="0">
+          <script>
+            $("#edith_test_0").click(function(){document.getElementById("ide_0").value = 'Waiting';})
+          </script>
+        </td>
+        <td >
+          <input type="number" min="0" max="5" style="line-height:65%;border-radius:3px;background-color:white;color:black;width:100%;border:1px solid red;text-align:center;font-size:11px;" id="edith_agn_0" value="0">
+          <script>
+            $("#edith_agn_0").click(function(){document.getElementById("ide_0").value = 'Waiting';})
+          </script>
+          </td>
+          <td >
+           <input type="number" min="0" max="5" style="line-height:65%;border-radius:3px;background-color:white;color:black;width:100%;border:1px solid red;text-align:center;font-size:13px;" id="edith_atd_0" value="0">
+          <script>
+            $("#edith_atd_0").click(function(){document.getElementById("ide_0").value = 'Waiting';})
+          </script>
+          </td>
+          <td  id="total_0">40</td>
+          <td>
+            <input type="number" min="0" max="70" style="line-height:65%;border-radius:3px;background-color:white;color:black;width:100%;border:1px solid red;text-align:center;font-size:11px;" id="edith_exam_0" value="0">
+            <script>
+              $("#edith_exam_0").click(function(){document.getElementById("ide_0").value = 'Waiting';})
+            </script>
+          </td>
+            {% if qry.third_term == "3rd Term" %}
+          <td id="agr_0">100</td>
+            {% endif %}
+            {% if qry.second_term == "2nd Term" %}
+          <td id="sagr_0">100</td>
+            {% endif %}
+            {% if qry.first_term == "1st Term" %}
+          <td id="fagr_0">100</td>
+            {% endif %}
+          <td id="aagr_0">300</td>
+          <td id="avg_0">100</td>
+					<td id="grd_0"></td>
+          <td id="posi">
+            <button style="line-height:105%;border-radius:3px;background-color:white;color:black;width:100%;border:1px solid white;font-size:11px;" onclick='save(0)' id="show_sa0">
+              Done
+            </button>
+          </td>
+      </tbody>
+      </tr>
+      <tr class="capt">
+        <td colspan="7" id='tena'>grades Summary 
+          <em id="Junior" hidden> 
+						<button class="grade_no" onclick="showOnly('A')">A:<span  id="A" style="color:orange;"></span></button>
+						<button class="grade_no" onclick="showOnly('C')">C:<span  id="C" style="color:gray;"></span></button>
+						<button class="grade_no" onclick="showOnly('P')">P:<span  id="P" style="color:black;"></span></button>
+						<button class="grade_no" onclick="showOnly('F')">F:<span  id="F" style="color:pink;"></span></button>
+					</em>
+					<em id="Senior" hidden>
+						<button class="grade_no" onclick="showOnly('A1')">A1:<span  id="A1" style="color:orange;"></span></button>
+						<button class="grade_no" onclick="showOnly('B2')">B2:<span  id="B2" style="color:gray;"></span></button>
+						<button class="grade_no" onclick="showOnly('B3')">B3:<span  id="B3"style="color:black;"></span></button>
+						<button class="grade_no" onclick="showOnly('C4')">C4:<span  id="C4" style="color:yellow;"></span></button>
+						<button class="grade_no" onclick="showOnly('C5')">C5:<span  id="C5" style="color:green;"></span></button>
+						<button class="grade_no" onclick="showOnly('C6')">C6:<span  id="C6" style="color:red;"></span></button>
+						<button class="grade_no" onclick="showOnly('D7')">D7:<span  id="D7" style="color:brown;"></span></button>
+						<button class="grade_no" onclick="showOnly('E8')">E8:<span  id="E8" style="color:blue;"></span></button>
+						<button class="grade_no" onclick="showOnly('F9')">F9:<span  id="F9" style="color:pink;"></span></button>
+					</em>
+        <td>
+              <button style="line-height:65%;border-radius:5px;background-color:green;" onclick="extral()">
+                <span class="glyphicon glyphicon-plus" title="add a student's score"></span>
+              </button>
+          
+        </td>
+        <td>
+              <button style="line-height:65%;border-radius:5px;background-color:red;" onclick="$('#delete, .deletes, #showing, .show_ed').toggle()">
+                <span class="glyphicon glyphicon-remove" title="remove a student from the table"></span>
+              </button>
+        </td>
+        <td>
+          {% if request.user.is_superuser %}
+          <button style="line-height:65%;border-radius:3px;background-color:rgb(241, 240, 238);color:white;border:1px solid white;width:100%;">
+            <a href="{% url 'pdf' ty=4 sx=pk pk=pk uk=11 %}"> 
+              <span class="glyphicon glyphicon-file" title="click to generate card for this class" ></span>
+            </a>
+          </button>
+          {% else %}
+          <strong>AGR:</strong>
+          {% endif %}
+        </td>
+        <td style="color:white;">
+          <input type='text'  value='{{ subject_scores }}' disabled style="line-height:65%;border-radius:3px;background-color:white;font-weight:bold;color:red;border:1px solid white;width:100%;">
+        </td>
+
+        <td colspan="2" style="color:white;width:5%;">
+          <input type='text'  value='{{ subject_pert }}%' disabled style="line-height:65%;border-radius:3px;background-color:white;font-weight:bold;color:red;border:1px solid white;width:100%;">
+        </td>
+      </tr>
+      <tr class="capt">
+        <td class="capt" style="color:white; width: 200px;" colspan="2"><button style="border-radius:3px;background-color:white;color:black;border:1px solid red;">Edit Scores</button> 
+            <a href="{% url 'offline' pk=pk %}" title='Click for details'>
+              <button style="line-height:65%;border-radius:3px;background-color:green;color:white;border:1px solid white;">
+                <span class="glyphicon glyphicon-align-left" title="Click to edit all"></span>
+              </button>
+            </a>
+            <button onclick="activate()" style="line-height:65%;border-radius:3px;background-color:green;color:white;border:1px solid white;">
+                <span class="glyphicon glyphicon-align-right" title="Click to edith all"></span>
+            </button>
+            <button id="saveBut" onclick="saveOnce()" style="line-height:65%;border-radius:3px;background-color:rgb(241, 252, 241);color:white;border:1px solid white;" hidden>
+                <span class="glyphicon glyphicon-floppy-saved" title="Click to save all"></span>
+            </button>
+        </td>
+        <td colspan="7" id='tenb'>
+            <a href="{% url 'tutor_update' pk=pk %}" title='Click to edit class details'>
+              <button style="line-height:65%;border-radius:3px;background-color:rgb(240, 243, 240);color:rgb(238, 24, 24);border:1px solid white;" >
+                {{ qry.teacher_name }}
+              </button>
+            </a> |{% if user.is_authenticated %}
+            <a href="" style="color:white;" title='Click to upload exam questions'> 
+              <button style="line-height:65%;border-radius:3px;background-color:rgb(237, 247, 237);color:rgb(212, 29, 29);border:1px solid white;">
+                Upload Questions 
+              </button>
+            </a>
+          {% endif %}
+        </td>
+        <td>{% if user.is_authenticated %}
+          <button style="line-height:65%;border-radius:3px;background-color:rgb(246, 252, 246);color:rgb(228, 24, 24);border:1px solid white;width:100%;">
+            <a href="{% url 'pdf' ty=2 sx=0 pk=0 uk=qry.id %}"> 
+              <span class="glyphicon glyphicon-print" title="click to download pdf file" ></span>
+            </a>
+          </button>
+          {% endif %}
+        </td>
+        <td>
+          <button onclick="share()" style="line-height:65%;border-radius:3px;background-color:rgb(236, 243, 236);color:rgb(231, 23, 23);border:1px solid white;width:100%;"> 
+            <span class="glyphicon glyphicon-share-alt" title="click to share on whatsapp"></span> 
+          </button> 
+        </td>
+        <td>
+          <button style="line-height:65%;border-radius:3px;background-color:rgb(237, 243, 237);color:white;border:1px solid white;width:100%;">
+            <a href="{% url 'name_down' pk=6 fm=1 ps=0 %}">
+              <span class="glyphicon glyphicon-export" title="click to download csv file"></span>
+            </a>
+         </button>
+        </td>
+        <td>
+          <button id='clicked' onclick="synchr('{{ qry.subject }}', '{{ qry.Class }}')" style="line-height:65%;border-radius:3px;background-color:white;color:rgb(235, 12, 12);border:1px solid white;width:100%;">
+            <span class="glyphicon glyphicon-refresh" title="click to update record"></span>
+          </button>
+        </td>
+      </tr>  
+      <tfoot>
+      <tr>
+        <th colspan="13" id='fifteen' style="line-height:68%;">
+            {% if all_page.has_other_pages %}
+              <em class="pagination" >
+                {% if all_page.has_previous %}
+                  <li style="width:5%;line-height:65%;">
+                    <a href="?page={{ users.previous_page_number }}" style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;">&laquo;</a>
+                  </li>
+                {% else %}
+                  <li class="disabled" style="width:5%;line-height:65%;">
+                    <span style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;">&laquo;</span>
+                  </li>
+                {% endif %}
+                {% for i in all_page.paginator.page_range %}
+                  {% if all_page.number == i %}
+                    <li class="active" style="width:5%;line-height:65%;">
+                      <span style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;font-weight:bold;font-size:11px;line-height:65%;">{{ i }} <span class="sr-only">(current)</span></span>
+                    </li>
+                  {% else %}
+                    <li style="width:5%;line-height:65%;">
+                      <a href="?page={{ i }} "style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;">{{ i }}</a>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+                {% if all_page.has_next %}
+                  <li style="width:5%;line-height:65%;">
+                    <a href="?page={{ users.next_page_number }} "style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;">&raquo;</a>
+                    
+                    <a href="{% url 'subject_view_all' pk=pk md=2 %}" style="color:green;">
+                      <span class="glyphicon glyphicon-list-alt" title='all'></span>
+                      </a>         
+                  </li>
+                {% else %}
+                  <li class="disabled" style="width:5%;line-height:65%;">
+                    <span style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;">&raquo;</span>
+                  </li>
+                {% endif %}
+              </em>
+            {% endif %}
+            
+          <div>
+          <div style="color:white;">EXAMINATION QUESTIONS</div> <br>
+            <button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;" onclick="pastquestions('{{ qry.subject }}', '{{ qry.Class }}', 1)">1ST TERM</button>
+            <button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;" onclick="pastquestions('{{ qry.subject }}', '{{ qry.Class }}', 2)">2ND TERM</button>
+          </a>
+          <button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;" onclick="pastquestions('{{ qry.subject }}', '{{ qry.Class }}', 3)">3RD TERM</button>
+          </a> 
+            <br> 
+            <div style="color:white;">OLD</div> <br>
+            <button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;" onclick="pastquestions('all', 'old', 1)">1</button>
+          <button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;" onclick="pastquestions('all', 'old', 2)">2</button>
+          </a>
+          <button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;" onclick="pastquestions('all', 'old', 3)">3</button>
+        </div>
+          
+        </th>
+      </tr>
+      </tfoot>  
+  </table>
+  <script>
+    colset();
+    function extral(){
+      $('#extral').toggle();
+      document.getElementById("ide_0").value = 'Waiting';
+              };
+    $("#sn").html(dim.length);//alert(""+"{{ qry.Class }}".split(' ')[0]);
+    $('#edith_name_id_0').change(function(){
+        $('#total_0').html(0);$('#aagr_0').html(0);$('#avg_0').html(0);$('#agr_0').html(0);$('#fagr_0').html(0);$('#sagr_0').html(0);
+        document.getElementById('edith_atd_0').value = 0;
+        document.getElementById("edith_test_0").value = 0;
+        document.getElementById('edith_agn_0').value = 0;
+        document.getElementById('edith_exam_0').value = 0;
+             });
+    $(".oneBox").show();
+    dim.unshift("{{ scr.grade }}");
+    $("#toAll").addClass("oneBox")
+    $("#toAll").addClass("gen_{{ scr.student_name.gender }}");
+
+    function cards(nam, cls, trm){
+            var name = nam.split(' ')[0]+'_'+nam.split(' ')[1];
+            var ls = {'JSS 1':'1', 'JSS 2':2, 'JSS 3':3, 'SSS 1':4, 'SSS 2':5, 'SSS 3':6}
+            var next = window.location.href.replace(window.location.href.split('result')[1], '/static/result/pdf/cards/'+ls[cls]+'/'+trm+'/'+name+'.pdf')
+                window.open(next, '_blank');
+              };
+    if ("{{ qry.Class }}".split(' ')[0] == 'JSS'){
+		      $("#Senior").hide();$("#Junior").show()}
+    else{$("#Senior").show();$("#Junior").hide()};
+    function showOnly(x){$("."+x).hide();$(".oneBox, .newBox").toggle();};
+	  function countGrade(dim){
+		      var grades = dim.reduce(function(prev, cur){prev[cur] = (prev[cur] || 0) + 1; return prev;},{});
+		      $("#A").html(grades.A);$("#C").html(grades.C);$("#P").html(grades.P);$("#F").html(grades.F);
+		      $("#F9").html(grades.F9);$("#E8").html(grades.E8);$("#D7").html(grades.D7);$("#C6").html(grades.C6);$("#C5").html(grades.C5);$("#C4").html(grades.C4);$("#B3").html(grades.B3);$("#B2").html(grades.B2);$("#A1").html(grades.A1);
+							};
+    countGrade(dim);
+    function share()
+      {
+        var link = window.location.href;
+        window.open('whatsapp://send?text=' + link)
+      };
+    function colset(){
+        
+	      if ("{{ qry.second_term }}" == '2nd Term'){
+                  document.getElementById("tena").colSpan = "8";
+                  document.getElementById("tenb").colSpan = '8';
+                  document.getElementById("fifteen").colSpan = '14';}
+              if ("{{ qry.third_term }}" == '3rd Term'){
+                  document.getElementById("tena").colSpan = "9";
+                  document.getElementById("tenb").colSpan = '9';
+                  document.getElementById("fifteen").colSpan = '15';}
+                }
+	       
+        
+    function edith(i, name){
+            document.getElementById("ide_"+""+i).value = 'Waiting';
+            $(".raw_"+""+i).toggle(); 
+            $(".edith_"+""+i).toggle();
+            $("#id_"+""+i).toggle();
+            $("#show_ed"+""+i).toggle();
+            $("#posi_"+""+i).toggle();
+            $("#show_sa"+""+i).toggle();
+            if (name){
+            $("#edith_student_show_"+""+i).show();
+            $("#edith_student_hide_"+""+i).hide();
+            document.getElementById("edith_student_name_show_"+""+i).value = name;
+                      }};
+
+    var ErrorMap = {
+            '0': "Not connected.\nPlease verify your network connection.",
+            '400' : "Server understood the request, but request content was invalid.",
+            '401' : "Unauthorized access.",
+            '403' : "Forbidden resource can't be accessed.",
+            '404': "The requested page not found.",
+            '500' : "Internal server error.",
+            '503' : "Service unavailable.",
+            'parsererror' : "Requested JSON parse failed.",
+            'timeout': "Time out error.",
+            'abort': "Ajax request aborted.",
+                };
+
+    DictVal = {}; 
+    function ditcVal(i){
+            DictVal.id = $("#edith_name_id_"+""+i).val()
+            DictVal.test = Number($("#edith_test_"+""+i).val());
+            DictVal.agn = Number($("#edith_agn_"+""+i).val());
+            DictVal.atd = Number($("#edith_atd_"+""+i).val());
+            DictVal.exam = Number($("#edith_exam_"+""+i).val());
+            DictVal.grade = Number($("#edith_grds_"+""+i).val());
+            if ($("#edith_fagr_"+""+i).val()){DictVal.fagr = Number($("#edith_fagr_"+""+i).val())}else{DictVal.fagr = 0};
+            if ($("#edith_sagr_"+""+i).val()){DictVal.sagr = Number($("#edith_sagr_"+""+i).val())}else{DictVal.sagr = 0};
+                    };
+    function save(i){
+            $("#grd").html('Waiting');
+            ditcVal(i)
+            $("#show_sa"+""+i).css('background-color', 'gray');
+            $("#show_sa"+""+i).css('color', 'white');
+            $("#total_"+""+i).html(eval([DictVal.test, DictVal.atd, DictVal.agn].join('+')));
+            if ('{{request.user.is_superuser}}' == 'True' || '{{ request.user.is_staff }}' == 'True'){
+                var grader  = $.ajax({
+                                url: "{% url 'responsive_updates' pk=0 uk=pk %}",
+                                data: {
+                                    'flow':'mygrade',
+                                    'scores':eval([DictVal.test, DictVal.atd, DictVal.agn, DictVal.exam].join('+')),
+                                    'sn':i
+                                    },
+                              dataType: 'json',
+                              });
+                    grader.done(function(data){
+                        $("#grd_"+data.sn).html(data.grade); 
+                        var array = JSON.stringify([[DictVal.id, "AMINU ISMAIL", DictVal.test, DictVal.agn, DictVal.atd, eval([DictVal.test, DictVal.agn, DictVal.atd].join('+')), DictVal.exam, eval([DictVal.test, DictVal.atd, DictVal.agn, DictVal.exam].join('+')), data.grade, 'th', DictVal.fagr, DictVal.sagr]]);
+                        var request = $.ajax({
+                                      type:'POST',
+                                      data:{'content':array},
+                                      url: "{% url 'responsive_updates' pk=0 uk=pk %}",
+                                      dataType: 'json',
+                                      
+                                          });
+                            request.done(function(data) {
+                                        document.getElementById("ide_"+""+i).value = 'Saved';
+                                        $("#fagr_"+""+i).html(data.fagr);
+                                        $("#sagr_"+""+i).html(data.sagr);
+                                        $("#agr_"+""+i).html(data.agr);
+                                        $("#aagr_"+""+i).html(data.aagr);
+                                        $("#avg_"+""+i).html(data.avg)
+                                  });
+                                  
+                            request.fail(function(jqXHR, textStatus) {
+                                    alert(ErrorMap[jqXHR.status])
+                                  });
+                                    });
+                    grader.fail(function(jqXHR, textStatus) {
+                              if (jqXHR.status == '404'){
+                                                var next = window.location.href.split('/')[0]+'/result/logins/'};
+                                                location.replace(next)
+                                                  
+                                                 
+                                                   });
+                                                    }
+                              else{
+                                          var next = window.location.href.split('/')[0]+"/result/logins/";
+                                          location.replace(next);
+                                        };	  
+                  
+                                };
+    function progress_bar(i) {
+                  var elem = document.getElementById("status_bar_animate");
+                                    elem.style.width = i + '%';
+                                    };
+    var chn = [];
+    function status(step, dest, next){
+              chn.push(step);
+              var pro = (Array.from(new Set(chn)).length / dest)*100;
+              var elem = document.getElementById("status_bar_animate");
+              elem.value = ""+""+Array.from(new Set(chn)).length+" of "+""+dest;
+              progress_bar(pro)
+              if (Array.from(new Set(chn)).length == dest){
+                      if (next == 'main'){
+                        location.replace(window.location.href);
+                        };
+                      if (next == 'accounts'){
+                        var next = window.location.href.split('/')[0]+'/result/all_users/';  
+                        location.replace(next);
+                          }
+                      else{
+                        var next = window.location.href.split('/')[0]+'/result/'+next+'/1/';  
+                        location.replace(next);
+                        }}
+                                    };                       
+    var subj = [['----', 'ACC', 'AGR', 'ARB', 'BST', 'BIO', 'BUS', 'CTR', 'CHE', 'CIV', 'COM', 'ECO', 'ELE', 'ENG', 'FUR', 'GRM', 'GEO', 'GOV', 'HIS', 'ICT', 'IRS', 'LIT', 'MAT', 'NAV', 'PHY', 'PRV', 'YOR'], ['', 'JSS 1', 'JSS 2', 'JSS 3', 'SSS 1', 'SSS 2', 'SSS 3']]
+    function synchr(s, c){
+                  $('#status_bar_container').show();
+                  $("#clicked").css('background-color', 'white');
+                  $("#clicked").css('color', 'green');
+              var request  = $.ajax({
+                    url: "http://uqhs.herokuapp.com/result/synchronizing/0/"+""+subj[0].indexOf(s)+"/"+""+subj[1].indexOf(c)+"/",
+                    data: {
+                          'subject':1
+                          },
+                    dataType: 'json',
+                    });
+                  request.done(function(data) { 
+                        if (window.location.href.split(':')[1] == '//127.0.0.1')
+                            {status(1, 2, 'main');
+                                var array = JSON.stringify(data.response);
+                                var sub_request = $.ajax({
+                                      type:'POST',
+                                      data:{'content':array},
+                                      url:"{% url 'synch' last=2 subject=0 Class=0 %}",
+                                      dataType: 'json',
+                                      success: function(data) {
+                                      status(2, 2, data.id);
+                                      }			
+                                        });
+                                    sub_request.fail(function(jqXHR, textStatus){
+                                      alert(ErrorMap[jqXHR.status]);
+                                      $('#status_bar_container').hide()
+                                      });
+                          
+                          }});  
+                  request.fail(function(jqXHR, textStatus, data) {
+                        alert(ErrorMap[jqXHR.status]);
+                        $('#status_bar_container').hide()
+                        });};  
+    function deletes(){
+                var jdata = {'end':0};
+                var names = [];
+                var deletes = $('.deletes');
+                  for (var i = 0; i < deletes.length; i++){
+                      var itr = ""+(names.length);
+                      var ind = deletes[i];
+                                if (ind.checked){
+                                  var split = ind.value.split(',');
+                                    jdata['id_'+itr] = split[0];
+                                    names.push(itr+' : '+split[1]);
+                                }
+                            };
+                            jdata.end = names.length 
+                            var conf = confirm("Do you want to remove the following student(s)? "+names);
+                            if (conf == true){
+                              if ('{{request.user.is_superuser}}' == 'True' || '{{ request.user.is_staff }}' == 'True'){
+                              var request = $.ajax({
+                                        url:"{% url 'deletes' %}",
+                                        data:jdata,
+                                        dataType: 'json',
+                                        success: function(data) {
+                                        var next = window.location.href.split('/')[0]+'/result/'+""+"{{ qry.id }}"+"/1/";  
+                                        location.replace(next);}			
+                                          });             
+                                  request.fail(function(jqXHR, textStatus){
+                                        alert(ErrorMap[jqXHR.status])
+                                        });}
+                            else{
+                                    var next = window.location.href.split('/')[0]+"/result/logins/";
+                                    location.replace(next);
+                                  };
+                                                  }
+                                  };
+    
+    function activate(){
+            for (var i = 1; i < $(".oneBox, .newBox").length;  i++){
+                edith(i, '');
+               
+            };
+             $("#saveBut").toggle()
+              
+              };
+    reload()
+    function reload(){
+                var callBack = [];
+                var rel = JSON.parse(localStorage.getItem("{{qry.subject}}"+'_'+"{{qry.Class}}".split(' ')[1]+'_'+"{{term}}"[0]));
+								if (rel){
+                  $('#waiting').html("Wait while updating the previous work.")
+                for (var i = 1; i < $(".oneBox, .newBox").length; i++){
+								var itr = ""+i;
+								callBack.push([rel['id_'+itr]['serial_no'], rel['id_'+itr]['name'], rel['id_'+itr]['test'], rel['id_'+itr]['agn'], rel['id_'+itr]['atd'], eval([rel['id_'+itr]['test'], rel['id_'+itr]['agn'], rel['id_'+itr]['atd']].join('+')), rel['id_'+itr]['exam'], eval([rel['id_'+itr]['test'], rel['id_'+itr]['agn'], rel['id_'+itr]['atd'], rel['id_'+itr]['exam']].join('+')), rel['id_'+itr]['grade'], rel['id_'+itr]['posi'], rel['id_'+itr]['fagr'], rel['id_'+itr]['sagr']])
+								};
+                saveOnce(callBack)
+                }
+                }
+    
+    function saveOnce(callBack = []){
+							var array = [];
+              $("#saveBut").hide();
+              if (callBack.length == 0){
+                for (var i = 1; i < $(".oneBox, .newBox").length;  i++){
+                  var itr = ""+i;ditcVal(i)
+                  var list = [DictVal.id, "AMINU ISMAIL", DictVal.test, DictVal.agn, DictVal.atd, eval([DictVal.test, DictVal.agn, DictVal.atd].join('+')), DictVal.exam, eval([DictVal.test, DictVal.atd, DictVal.agn, DictVal.exam].join('+')), $("#edith_grds_"+itr).val(), 'th', DictVal.fagr, DictVal.sagr];
+                  array.push(list)
+                                  };
+                  var content = array;
+                  saveState("{{qry.subject}}"+'_'+"{{qry.Class}}".split(' ')[1]+'_'+"{{term}}"[0])
+                          }
+              else{
+                    var cofm = confirm('Your previous work was NOT saved, click OK to save permanently or cancel to discard it.') 
+                    if (cofm == true){
+                      var content = callBack
+                      }
+                    else{
+                        $('#waiting').html("{{ qry.updated }}");
+                        localStorage.removeItem("{{qry.subject}}"+'_'+"{{qry.Class}}".split(' ')[1]+'_'+"{{term}}"[0])
+                        
+                    }
+                    };
+                
+							if (content){
+              $('#waiting').html("Wait while saving your work.");
+                var request = $.ajax({
+                        type:'POST',
+                        data:{'content':JSON.stringify(content)},
+                        url:"{% url 'responsive_updates' pk=0 uk=pk %}",
+                        dataType: 'json',
+                        success: function(data) {
+                            }
+                          });
+                    request.done(function(data){
+                        localStorage.removeItem("{{qry.subject}}"+'_'+"{{qry.Class}}".split(' ')[1]+'_'+"{{term}}"[0])
+                        var next = window.location.href.split('/')[0]+'/result/'+""+"{{ qry.id }}"+"/1/";
+                        location.replace(next);
+
+                    });
+								    request.fail(function(jqXHR, textStatus, data) {
+                        alert(ErrorMap[jqXHR.status])
+                          })
+              }
+                          };
+                          
+  function saveState(cls){
+              dom = {};sum = x => eval(x.join("+"));
+							dom.len = $(".oneBox, .newBox").length;dom.Subject = cls.split('_')[0];
+              for (var i = 1; i < $(".oneBox, .newBox").length+1;  i++){
+                itr = ""+i;
+								dom['id_'+itr] = {
+									'name':$("#name_"+itr).val(), 
+									'student_id':$("#student_id_"+itr).val(),
+									'serial_no':$("#edith_name_id_"+itr).val(),
+									'test':Number($("#edith_test_"+itr).val()), 
+									'agn':Number($("#edith_agn_"+itr).val()), 
+									'atd':Number($("#edith_atd_"+itr).val()), 
+									'exam':Number($("#edith_exam_"+itr).val()), 
+									'posi':'th',
+									'grade':$("#edith_grds_"+itr).val(),
+									'total':sum([Number($("#edith_test_"+itr).val()), Number($("#edith_agn_"+itr).val()), Number($("#edith_atd_"+itr).val())]), 
+                  'agr': sum([Number($("#edith_test_"+itr).val()), Number($("#edith_agn_"+itr).val()), Number($("#edith_atd_"+itr).val()), Number($("#edith_exam_"+itr).val())]),
+                  'fagr':Number($("#edith_fagr_"+itr).val()), 
+									'sagr':Number($("#edith_sagr_"+itr).val()), 
+									'aagr':0, 
+									'avr':0,
+									'sn':i};};
+									localStorage.setItem(cls, JSON.stringify(dom));
+                            };
+
+    function pastquestions(y, z, x){
+                var argt = {'JSS 1':'1', 'JSS 2':'2', 'JSS 3':'3', 'SSS 1':'4', 'SSS 2':'5', 'SSS 3':'6'}
+                var next = "https://dhnygxib7cbg0.cloudfront.net/pdf/pastquestions/"+y+'_'+argt[z]+'_'+x+'.pdf';
+                window.open(next, '_blank');
+          }
+  </script>    
+  </body>
+	{% endblock %}
+</html>

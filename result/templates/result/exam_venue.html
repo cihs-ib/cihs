@@ -1,0 +1,437 @@
+{% extends "base_generic.html" %}
+<html lang="en">
+	<head>
+    
+		<title> {% block title %}Examination Venus{% endblock %}</title>
+	</head>
+	 {% block content %}
+   <style>
+      label {
+          overflow: hidden;
+          background-color: rgb(28, 211, 98);
+          padding: 20px 10px;
+          width: 83%;
+          border-radius: 5px;
+          margin-left: -53px;
+          }
+          @media (max-width: 900px) 
+		{
+  			label {
+    				width: 100%;margin-left: 0px;
+			}}
+    </style>
+	<body>
+  	
+  <label method="post" action="" style="box-shadow: 0px 0px 45px 0px rgba(0, 0, 0, 0.9);">
+      <div class="capt"><strong>EXAMINATION VENUE ARRANGEMENT</strong></div>
+      {% csrf_token %}
+      <br>
+      <div><pre style="width:35%;line-height:3px;">REGISTERED STUDENTS: {{ students }}</pre></div>
+      
+      <table class="info_tab_marg" style="margin-left:6.5%;width:93%;border-radius:5px;border:1px solid gray;">
+      <thead><th colspan='6'>JSS CADER</th><th colspan='6'>SSS CADER</th></thead>
+      <th>-1-M</th>
+      <th>-1-F</th>
+      <th>-2-M</th>
+      <th>-2-F</th>
+      <th>-3-M</th>
+      <th>-3-F</th>
+      <th>-1-M</th>
+      <th>-1-F</th>
+      <th>-2-M</th>
+      <th>-2-F</th>
+      <th>-3-M</th>
+      <th>-3-F</th>
+      <tr>
+        <td style="color:white;font-size:12px;">{{ one.count }}</td>
+        <td style="color:white;font-size:12px;">{{ two.count }}</td>
+        <td style="color:white;font-size:12px;">{{ three.count }}</td>
+        <td style="color:white;font-size:12px;">{{ four.count }}</td>
+        <td style="color:white;font-size:12px;">{{ five.count }}</td>
+        <td style="color:white;font-size:12px;">{{ six.count }}</td>
+        <td style="color:white;font-size:12px;">{{ seven.count }}</td>
+        <td style="color:white;font-size:12px;">{{ eight.count }}</td>
+        <td style="color:white;font-size:12px;">{{ nine.count }}</td>
+        <td style="color:white;font-size:12px;">{{ ten.count }}</td>
+        <td style="color:white;font-size:12px;">{{ eleven.count }}</td>
+        <td style="color:white;font-size:12px;">{{ tewlve.count }}</td>    
+      </tr>
+      </table>     
+    <ol>  
+    <li><button style="border:2px solid white;color:white;border-radius:5px;background-color:#9b0787;width:100%;text-align:center;line-height:15%;" onclick="$('#tone').show()"><input type="checkbox" value='one' name='one' id='one'>JSS 1 LIST OF REGISTERED STUDENT | MALES </button></li>      
+    <table class="info_tab_marg" style="width:100%;border-radius:5px;border:1px solid gray;" id='tone' hidden> 
+    <tbody>
+           <thead>
+     		<th>SN</th><th>Student Name</th><th>Admission No. </th><th>Year</th><th>Age</th><th>Status</th><th>Tick</th>
+     	</thead>
+      {% for scr in one %}
+      <tr id="tr_one_{{ forloop.counter }}">
+        <td style="color:white;font-size:12px;">{{ forloop.counter }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.full_name }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.uid }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.club_two }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.age }}</td>
+        <td style="color:white;font-size:12px;"  id="td_one_{{ forloop.counter }}">{{ scr.orders }}</td>
+        <td style="color:white;font-size:12px;"><input type="checkbox" value="{{ scr.id }}" name='one_{{ forloop.counter }}' class='one' id='one_{{ forloop.counter }}' onclick="counts('one_{{ forloop.counter }}')"></td>        
+      </tr>
+      {% endfor %}
+      <tfoot><th colspan="7" onclick="$('#tone').hide()"><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;">Hide</button><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;" name='done'>Done: <em id='done'></em>
+      </button></th></tfoot>
+      </tbody>
+      </table>  
+       <li><button style="border:2px solid white;color:white;border-radius:5px;background-color:#9b0787;width:100%;text-align:center;line-height:15%;" onclick="$('#ttwo').show()"><input type="checkbox" value='two' name='two' id='two'>JSS 1 LIST OF REGISTERED STUDENT | FEMALES </button></li>
+      <table class="info_tab_marg" style="width:100%;border-radius:5px;border:1px solid gray;" id='ttwo' hidden>    
+    <tbody>
+           <thead>
+     		<th>SN</th><th>Student Name</th><th>Admission No. </th><th>Year</th><th>Age</th><th>Status</th><th>Tick</th>
+     	</thead>
+      {% for scr in two %}
+      <tr id="tr_two_{{ forloop.counter }}">
+        <td style="color:white;font-size:12px;">{{ forloop.counter }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.full_name }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.uid }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.club_two }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.age }}</td>
+        <td style="color:white;font-size:12px;"  id="td_two_{{ forloop.counter }}">{{ scr.orders }}</td>
+        <td style="color:white;font-size:12px;"><input type="checkbox" value="{{ scr.id }}" name='two_{{ forloop.counter }}' class='two' id='two_{{ forloop.counter }}' onclick="counts('two_{{ forloop.counter }}')"></td>        
+      </tr>
+      {% endfor %}
+      <tfoot><th colspan="7" onclick="$('#ttwo').hide()"><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;">Hide</button><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;" name='done'>Done:<em id='dtwo'></em>
+      </button></th></tfoot>
+      </tbody>
+      </table>    
+    <li><button style="border:2px solid white;color:white;border-radius:5px;background-color:#9b0787;width:100%;text-align:center;line-height:15%;" onclick="$('#tthree').show()"> <input type="checkbox" value='three' name='three' id='three'>JSS 2 LIST OF REGISTERED STUDENT | MALES</button> </li> 
+	 <table class="info_tab_marg" style="width:100%;border-radius:5px;border:1px solid gray;" id='tthree' hidden>
+    <tbody>
+           <thead>
+     		<th>SN</th><th>Student Name</th><th>Admission No. </th><th>Year</th><th>Age</th><th>Status</th><th>Tick</th>
+     	</thead>
+      {% for scr in three %}
+      <tr id="tr_three_{{ forloop.counter }}">
+        <td style="color:white;font-size:12px;">{{ forloop.counter }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.full_name }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.uid }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.club_two }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.age }}</td>
+        <td style="color:white;font-size:12px;"  id="td_three_{{ forloop.counter }}">{{ scr.orders }}</td>
+        <td style="color:white;font-size:12px;"><input type="checkbox" value="{{ scr.id }}" name='three_{{ forloop.counter }}' class='three' id='three_{{ forloop.counter }}' onclick="counts('three_{{ forloop.counter }}')"></td>        
+      </tr>
+      {% endfor %}
+      <tfoot><th colspan="7" onclick="$('#tthree').hide()"><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;">Hide</button><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;" name='done'>Done: <em id='dthree'></em>
+      </button></th></tfoot>
+      </tbody>
+      </table>     
+    <li><button style="border:2px solid white;color:white;border-radius:5px;background-color:#9b0787;width:100%;text-align:center;line-height:15%;"  onclick="$('#tfour').show()"> <input type="checkbox" value='four' name='four' id='four'>JSS 2 LIST OF REGISTERED STUDENT | FEMALES</button></li>
+	 <table class="info_tab_marg" style="width:100%;border-radius:5px;border:1px solid gray;" id='tfour' hidden>
+    <tbody>
+           <thead>
+     		<th>SN</th><th>Student Name</th><th>Admission No. </th><th>Year</th><th>Age</th><th>Status</th><th>Tick</th>
+     	</thead>
+      {% for scr in four %}
+      <tr id="tr_four_{{ forloop.counter }}">
+        <td style="color:white;font-size:12px;">{{ forloop.counter }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.full_name }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.uid }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.club_two }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.age }}</td>
+        <td style="color:white;font-size:12px;"  id="td_four_{{ forloop.counter }}">{{ scr.orders }}</td>
+        <td style="color:white;font-size:12px;"><input type="checkbox" value='{{ scr.id }}' name='four_{{ forloop.counter }}' class='four' id='four_{{ forloop.counter }}' onclick="counts('four_{{ forloop.counter }}')"></td>        
+      </tr>
+      {% endfor %}
+      <tfoot><th colspan="7" onclick="$('#tfour').hide()"><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;">Hide</button><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;" name='done'>Done: <em id='dfour'></em>
+      </button></th></tfoot>
+      </tbody>
+      </table>      
+    <li><button style="border:2px solid white;color:white;border-radius:5px;background-color:#9b0787;width:100%;text-align:center;line-height:15%;" onclick="$('#tfive').show()"> <input type="checkbox" value='five' name='five' id='five'>JSS 3 LIST OF REGISTERED STUDENT | MALES</button></li>
+	 <table class="info_tab_marg" style="width:100%;border-radius:5px;border:1px solid gray;" id='tfive' hidden>
+    <tbody>
+           <thead>
+     		<th>SN</th><th>Student Name</th><th>Admission No. </th><th>Year</th><th>Age</th><th>Status</th><th>Tick</th>
+     	</thead>
+      {% for scr in five %}
+      <tr id="tr_five_{{ forloop.counter }}">
+        <td style="color:white;font-size:12px;">{{ forloop.counter }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.full_name }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.uid }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.club_two }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.age }}</td>
+        <td style="color:white;font-size:12px;"  id="td_five_{{ forloop.counter }}">{{ scr.orders }}</td>
+        <td style="color:white;font-size:12px;"><input type="checkbox" value='{{ scr.id }}' name='five_{{ forloop.counter }}' class='five' id='five_{{ forloop.counter }}' onclick="counts('five_{{ forloop.counter }}')"></td>        
+      </tr>
+      {% endfor %}
+      <tfoot><th colspan="7" onclick="$('#tfive').hide()"><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;">Hide</button><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;" name='done'>Done: <em id='dfive'></em>
+      </button></th></tfoot>
+      </tbody>
+      </table>    
+    <li><button style="border:2px solid white;color:white;border-radius:5px;background-color:#9b0787;width:100%;text-align:center;line-height:15%;" onclick="$('#tsix').show()"> <input type="checkbox" value='six' name='six' id='six'>JSS 3 LIST OF REGISTERED STUDENT | FEMALES</button></li>
+	 <table class="info_tab_marg" style="width:100%;border-radius:5px;border:1px solid gray;" id='tsix' hidden>
+    <tbody>
+           <thead>
+     		<th>SN</th><th>Student Name</th><th>Admission No. </th><th>Year</th><th>Age</th><th>Status</th><th>Tick</th>
+     	</thead>
+      {% for scr in six %}
+      <tr id="tr_six_{{ forloop.counter }}">
+        <td style="color:white;font-size:12px;">{{ forloop.counter }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.full_name }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.uid }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.club_two }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.age }}</td>
+        <td style="color:white;font-size:12px;"  id="td_six_{{ forloop.counter }}">{{ scr.orders }}</td>
+        <td style="color:white;font-size:12px;"><input type="checkbox" value='{{ scr.id }}' name='six_{{ forloop.counter }}' class='six' id='six_{{ forloop.counter }}' onclick="counts('six_{{ forloop.counter }}')"></td>        
+      </tr>
+      {% endfor %}
+      <tfoot><th colspan="7" onclick="$('#tsix').hide()"><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;">Hide</button><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;" name='done'>Done: <em id='dsix'></em>
+      </button></th></tfoot>
+      </tbody>
+      </table>   
+    <li><button style="border:2px solid white;color:white;border-radius:5px;background-color:#9b0787;width:100%;text-align:center;line-height:15%;" onclick="$('#tseven').show()"> <input type="checkbox" value='seven' name='seven' id='seven'>SSS 1 LIST OF REGISTERED STUDENT | MALES</button></li>
+	 <table class="info_tab_marg" style="width:100%;border-radius:5px;border:1px solid gray;" id='tseven' hidden>
+    <tbody>
+           <thead>
+     		<th>SN</th><th>Student Name</th><th>Admission No. </th><th>Year</th><th>Age</th><th>Status</th><th>Tick</th>
+     	</thead>
+      {% for scr in seven %}
+      <tr id="tr_seven_{{ forloop.counter }}">
+        <td style="color:white;font-size:12px;">{{ forloop.counter }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.full_name }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.uid }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.club_two }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.age }}</td>
+        <td style="color:white;font-size:12px;"  id="td_seven_{{ forloop.counter }}">{{ scr.orders }}</td>
+        <td style="color:white;font-size:12px;"><input type="checkbox" value="{{ scr.id }}" name='seven_{{ forloop.counter }}' class='seven' id='seven_{{ forloop.counter }}' onclick="counts('seven_{{ forloop.counter }}')"></td>        
+      </tr>
+      {% endfor %}
+      <tfoot><th colspan="7" onclick="$('#tseven').hide()"><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;">Hide</button><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;" name='done'>Done: <em id='dseven'></em>
+      </button></th></tfoot>
+      </tbody>
+      </table>  
+    <li><button style="border:2px solid white;color:white;border-radius:5px;background-color:#9b0787;width:100%;text-align:center;line-height:15%;" onclick="$('#teight').show()"><input type="checkbox" value='eight' name='eight' id='eight'>SSS 1 LIST OF REGISTERED STUDENT | FEMALES </button></li> 
+	 <table class="info_tab_marg" style="width:100%;border-radius:5px;border:1px solid gray;" id='teight' hidden>
+    <tbody>
+           <thead>
+     		<th>SN</th><th>Student Name</th><th>Admission No. </th><th>Year</th><th>Age</th><th>Status</th><th>Tick</th>
+     	</thead>
+      {% for scr in eight %}
+      <tr id="tr_eight_{{ forloop.counter }}">
+        <td style="color:white;font-size:12px;">{{ forloop.counter }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.full_name }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.uid }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.club_two }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.age }}</td>
+        <td style="color:white;font-size:12px;"  id="td_eight_{{ forloop.counter }}">{{ scr.orders }}</td>
+        <td style="color:white;font-size:12px;"><input type="checkbox" value="{{ scr.id }}" name='eight_{{ forloop.counter }}' class='eight' id='eight_{{ forloop.counter }}' onclick="counts('eight_{{ forloop.counter }}')"></td>        
+      </tr>
+      {% endfor %}
+      <tfoot><th colspan="7" onclick="$('#teight').hide()"><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;">Hide</button><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;" name='done'>Done: <em id='deight'></em>
+      </button></th></tfoot>
+      </tbody>
+      </table>  
+
+    <li><button style="border:2px solid white;color:white;border-radius:5px;background-color:#9b0787;width:100%;text-align:center;line-height:15%;" onclick="$('#tnine').show()"><input type="checkbox" value='nine' name='nine' id='nine' >SSS 2 LIST OF REGISTERED STUDENT | MALES </button></li> 
+	 <table class="info_tab_marg" style="width:100%;border-radius:5px;border:1px solid gray;" id='tnine' hidden>
+    <tbody>
+           <thead>
+     		<th>SN</th><th>Student Name</th><th>Admission No. </th><th>Year</th><th>Age</th><th>Status</th><th>Tick</th>
+     	</thead>
+      {% for scr in nine %}
+      <tr id="tr_nine_{{ forloop.counter }}">
+        <td style="color:white;font-size:12px;">{{ forloop.counter }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.full_name }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.uid }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.club_two }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.age }}</td>
+        <td style="color:white;font-size:12px;"  id="td_nine_{{ forloop.counter }}">{{ scr.orders }}</td>
+        <td style="color:white;font-size:12px;"><input type="checkbox" value="{{ scr.id }}" name='nine_{{ forloop.counter }}' class='nine' id='nine_{{ forloop.counter }}' onclick="counts('nine_{{ forloop.counter }}')"></td>        
+      </tr>
+      {% endfor %}
+      <tfoot><th colspan="7" onclick="$('#tnine').hide()"><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;">Hide</button><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;" name='done'>Done: <em id='dnine'></em>
+      </button></th></tfoot>
+      </tbody>
+      </table> 
+
+    <li><button style="border:2px solid white;color:white;border-radius:5px;background-color:#9b0787;width:100%;text-align:center;line-height:15%;" onclick="$('#tten').show()"><input type="checkbox" value='ten' name='ten' id='ten' >SSS 2 LIST OF REGISTERED STUDENT | FEMALES </button></li> 
+	 <table class="info_tab_marg" style="width:100%;border-radius:5px;border:1px solid gray;" id='tten' hidden>
+    <tbody>
+           <thead>
+     		<th>SN</th><th>Student Name</th><th>Admission No. </th><th>Year</th><th>Age</th><th>Status</th><th>Tick</th>
+     	</thead>
+      {% for scr in ten %}
+      <tr id="tr_ten_{{ forloop.counter }}">
+        <td style="color:white;font-size:12px;">{{ forloop.counter }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.full_name }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.uid }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.club_two }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.age }}</td>
+        <td style="color:white;font-size:12px;"  id="td_ten_{{ forloop.counter }}">{{ scr.orders }}</td>
+        <td style="color:white;font-size:12px;"><input type="checkbox" value="{{ scr.id }}" name='ten_{{ forloop.counter }}' class='ten' id='ten_{{ forloop.counter }}' onclick="counts('ten_{{ forloop.counter }}')"></td>        
+      </tr>
+      {% endfor %}
+      <tfoot><th colspan="7" onclick="$('#tten').hide()"><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;">Hide</button><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;" name='done'>Done: <em id='dten'></em>
+      </button></th></tfoot>
+      </tbody>
+      </table> 
+
+    <li><button style="border:2px solid white;color:white;border-radius:5px;background-color:#9b0787;width:100%;text-align:center;line-height:15%;" onclick="$('#televen').show()"><input type="checkbox" value='eleven' name='eleven' id='eleven' >SSS 3 LIST OF REGISTERED STUDENT | MALES </button></li> 
+      <table class="info_tab_marg" style="width:100%;border-radius:5px;border:1px solid gray;" id='televen' hidden>
+    <tbody>
+           <thead>
+     		<th>SN</th><th>Student Name</th><th>Admission No. </th><th>Year</th><th>Age</th><th>Status</th><th>Tick</th>
+     	</thead>
+      {% for scr in eleven %}
+      <tr id="tr_eleven_{{ forloop.counter }}">
+        <td style="color:white;font-size:12px;">{{ forloop.counter }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.full_name }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.uid }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.club_two }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.age }}</td>
+        <td style="color:white;font-size:12px;"  id="td_eleven_{{ forloop.counter }}">{{ scr.orders }}</td>
+        <td style="color:white;font-size:12px;"><input type="checkbox" value="{{ scr.id }}" name='eleven_{{ forloop.counter }}' class='eleven' id='eleven_{{ forloop.counter }}' onclick="counts('eleven_{{ forloop.counter }}')"></td>        
+      </tr>
+      {% endfor %}
+      <tfoot><th colspan="7" onclick="$('#televen').hide()"><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;">Hide</button><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;" name='done'>Done: <em id='deleven'></em>
+      </button></th></tfoot>
+      </tbody>
+      </table>      
+    <li><button style="border:2px solid white;color:white;border-radius:5px;background-color:#9b0787;width:100%;text-align:center;line-height:15%;" onclick="$('#ttewlve').show()"><input type="checkbox" value='tewlve' name='tewlve' id='tewlve'>SSS 3 LIST OF REGISTERED STUDENT | FEMALES </button></li>
+      <table class="info_tab_marg" style="width:100%;border-radius:5px;border:1px solid gray;" id='ttewlve' hidden>
+    <tbody>
+           <thead>
+     		<th>SN</th><th>Student Name</th><th>Admission No. </th><th>Year</th><th>Age</th><th>Status</th><th>Tick</th>
+     	</thead>
+      {% for scr in tewlve %}
+      <tr id="tr_tewlve_{{ forloop.counter }}">
+        <td style="color:white;font-size:12px;">{{ forloop.counter }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.full_name }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.uid }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.club_two }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.age }}</td>
+        <td style="color:white;font-size:12px;"  id="td_tewlve_{{ forloop.counter }}">{{ scr.orders }}</td>
+        <td style="color:white;font-size:12px;"><input type="checkbox" value="{{ scr.id }}" name='tewlve_{{ forloop.counter }}' class='tewlve' id='tewlve_{{ forloop.counter }}' onclick="counts('tewlve_{{ forloop.counter }}')"></td>        
+      </tr>
+      {% endfor %}
+      <tfoot><th colspan="7" onclick="$('#ttewlve').hide()"><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;">Hide</button><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;" name='done'>Done: <em id='dtewlve'></em>
+      </button></th></tfoot>
+      </tbody>
+      </table> 
+      </ol>   
+      <br> 
+      
+    <script>
+    var dim, count, count_new, counter;
+    counter = {counts:0};
+	  function states(number) { 
+		dim = counter[number];
+		count = counter.counts;
+		 if (dim){
+    		 counter[number] = dim + 1; 
+    	}
+    	else{
+    		counter[number] = 1;
+    		
+    	};
+         counter.counts = count + 1;
+    	
+    		count_new = ""+counter.counts+'/'+""+counter[number];
+    		return count_new
+   	 
+    	};
+    $("#one, #two, #three, #four, #five, #six, #seven, #eight, #nine, #ten, #eleven, #tewlve").change(function(){
+        if ($(this).prop('checked')){
+          counter.counts = counter.counts + $("."+$(this).val()).length;
+          counter[$(this).val()] = $("."+$(this).val()).length;
+          $("#d"+$(this).val()).html(""+counter.counts+'/'+""+counter[$(this).val()]);
+          }
+          else{
+          counter.counts = counter.counts - $("."+$(this).val()).length;
+          counter[$(this).val()] = 0;
+          $("#d"+$(this).val()).html(""+counter.counts+'/'+""+counter[$(this).val()]);
+          $('#t'+$(this).val()).hide()
+          }
+          for (var i = 1; i < $("."+$(this).val()).length+1; i++){
+              var one = $("."+$(this).val());
+              var nik = one[i-1];
+          if ($(this).prop('checked')){
+              nik.checked = true;
+             $("#tr_"+$(this).val()+"_"+""+i).addClass("aside")
+            }
+          else{nik.checked = false;
+          $("#tr_"+$(this).val()+"_"+""+i).removeClass("aside")}
+              }
+    });
+    function counts(x){
+          var number = x.split('_')[0];
+      if ($("#"+x).prop('checked')){
+          var rtd = states(number);
+          $("#d"+number).html(rtd);
+          $("#td_"+x).html(rtd);
+          $("#tr_"+x).addClass("aside")
+          }
+          else{
+          counter[number] = counter[number] - 1;
+          counter.counts = counter.counts - 1;
+          $("#tr_"+x).removeClass("aside");
+          $("#td_"+x).html(""+counter.counts+'/'+""+counter[number]);
+          $("#d"+number).html(""+counter.counts+'/'+""+counter[number]);
+          }
+    };
+    
+    $("button[name='done']").click(function(){
+            var list = [];var cuz = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "tewlve"];
+            var array = [];
+            for (var i = 0; i < 12; i++){
+                var one = $('.'+cuz[i]);
+                for (var r = 1; r < one.length+1; r++){
+                    var ind = one[r-1];
+                    if (ind.checked){
+                        array.push($("#"+cuz[i]+"_"+""+r).val())
+                        ind.checked = false;
+                    }
+                }; 
+            }; 
+            $(".aside").hide();
+            classes(array, array.length)
+    });
+		var data = {};
+		function classes(array, n){
+            data = {};
+            data.Class = prompt("Enter Venues|JSS1A");
+            data.size = n;
+			      for (var r = 0; r < n; r++){
+              var shf = array.shift();
+              data[""+r] = shf;
+            };
+            data.saved = 'saved';
+				    var request = $.ajax({
+                    	url:"{% url 'pdf' ty=6 sx=0 pk=0 uk=1 %}",
+                    	data: data,
+                    	dataType: 'json',
+               		 });
+            request.done(function(data){
+                  counter = {counts:0};
+                  var next = '/static/result/pdf/shortlistedVenues/'+data.status+".pdf";
+        				  window.open(next, '_blank');
+           			  });     
+            request.fail(function(xhr, orders, error) {
+            		var errors = {'0':'Client connectivity', '500':'Internal Server' };
+            		var errorMessage = errors[xhr.orders] + ': ' + xhr.ordersText
+            		alert('Error - ' + errorMessage);
+            			})
+					};
+		
+      function redirect(to) {
+		var oldurl = document.referrer;
+		var htt = oldurl.split('/')[2];
+		var next = 'http://'+htt+to+'/';
+		location.replace(next)
+		};
+      $("#Subject").change(function(){
+          var sub_code = ["ACC", "AGR", "ARB", "BIO", "BST", "BUS", "CHE", "CIV", "COM", "CTR", "ECO", "ELE", "ENG", "FUR", "GEO", "GOV", "GRM", "HIS", "ICT", "IRS", "LIT", "MAT", "NAV", "PHY", "PRV", "YOR"]
+          redirect("/result/student_exam_page/"+""+sub_code.indexOf($(this).val())+'/'+""+"{{ info.id}}")
+      })
+    
+      </script>
+  </label>
+	
+</body>
+	{% endblock %}
+</html>

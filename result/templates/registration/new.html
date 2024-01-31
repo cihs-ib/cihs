@@ -1,0 +1,19 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Nov  7 06:03:01 2018
+
+@author: AdeolaOlalekan
+"""
+
+<!DOCTYPE html>
+{% extends "base_generic.html" %}
+{% block content %}
+    <div class="fc">
+            <em class="capt">Signup Status</em>
+    </div>
+    <form method="post"class="post-form" enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
+      {{ status.as_p }}
+      {{ form.as_p }}
+      <button type="submit" class="save btn btn-default">Continue</button>
+    </form>
+{% endblock %}

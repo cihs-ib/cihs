@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+{% extends "base_generic.html" %}
+<html>
+    <head>
+		 <title> {% block title %} file error return {% endblock %} </title>
+    </head>
+    {% block content %}
+    <body>
+    	<div class="fc">
+      		<div class="capt" style="font-size:11px;"><a href="{% url 'admin_page' %}" style="font-family:Helvetica; color:palegoldenrod; font-size: 10px;">Warning:</a></strong> Error! <em style="font-family:Helvetica; color:white; font-size: 10px;">file is</em> {{ input }}</div>
+    	</div>
+    </body>
+    {% endblock %}
+</html>

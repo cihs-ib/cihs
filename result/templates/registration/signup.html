@@ -1,0 +1,40 @@
+{% extends "base_generic.html" %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+<title>{% block title %} Sign_up {% endblock %}</title>
+    {% if form.errors %}
+        {{ form.errors }}
+    {% endif %}
+    <form method="post" action="{% url 'signup' %}">
+    	{% csrf_token %}
+    	<div class="container text-center">
+			<div class='signup' style="width:45%;margin-left: 0px; font-size:12">
+<form method="post" action="{% url 'signup' %}">
+	<div class="capt">Sign-Up Form</div>
+	{% csrf_token %}
+	{{form.non_field_errors}}
+	<div class="row">
+		<div class="col-xs-6">
+		  {{ form.username|as_crispy_field }}
+		</div>
+		<div class="col-xs-6">
+		  {{ form.email|as_crispy_field }}
+		</div>
+	</div> 
+	<div class="row">
+		<div class="col-xs-6" id="password1">
+			{{ form.password1|as_crispy_field }}
+		</div>
+		<div class="col-xs-6" id="password1">
+			{{ form.password2|as_crispy_field }}
+		</div>
+	</div>
+	
+	<button class="btn btn-primary"> <span class="glyphicon glyphicon-log-in" style="margin-right:5px;"></span>Sign Up</button>
+</form>
+</div>
+{% endblock %}
+
+
+

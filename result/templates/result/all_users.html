@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+{% extends "base_generic.html" %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %} user accounts {% endblock %}</title>
+    </head>
+    {% block content %}
+    <body>
+        <table>
+    		<div class="capt"><span style="font-size:13px;text-align:center;border:2px solid white;border-radius:5px;background-color:brown;color:white;font-weight:bold;"> UQHS STAFF ACCOUNTS </span></div>
+                <thead>
+                    <tr><th>sn</th><th>User Name</th><th>Last Name</th><th>First Name</th><th>Admin Status</th><th>Account Status</th><th>Department</th><th>Staff Status</th></tr>      
+                </thead>
+                <tbody>
+                    {% if qry %}
+                    {% for sub in qry %}
+                        <tr><td>{{ forloop.counter }}</td><td>{{ sub.username }}</td><td>{{ sub.profile.last_name }}</td><td>{{ sub.profile.first_name }}</td><td>{{sub.is_superuser}}</td><td>{{sub.profile.email_confirmed}}</td><td>{{sub.profile.department}}</td><td>{% if request.user.is_superuser == True %}<a href="{% url 'user_update' pk=sub.profile.id %}">{{ sub.is_staff }}</a>{% else %} <button onclick="logMeIn('{{ sub.username }}')" style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;">Login</button> {% endif %}</td></tr>
+                    {% endfor %}
+                    {% else %}
+                        <pre style="width:70%;text-align: center;">There are no records in your account yet.</pre>
+                    {% endif %}   
+                    <tfoot>
+                        <tr><th colspan="8">
+                        {% if all_page.has_other_pages %}
+              <em class="pagination" >
+                {% if all_page.has_previous %}
+                  <li style="width:5%;line-height:65%;">
+                    <a href="?page={{ users.previous_page_number }}" style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;">&laquo;</a>
+                  </li>
+                {% else %}
+                  <li class="disabled" style="width:5%;line-height:65%;">
+                    <span style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;">&laquo;</span>
+                  </li>
+                {% endif %}
+                {% for i in all_page.paginator.page_range %}
+                  {% if all_page.number == i %}
+                    <li class="active" style="width:5%;line-height:65%;">
+                      <span style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;font-weight:bold;font-size:11px;line-height:65%;">{{ i }} <span class="sr-only">(current)</span></span>
+                    </li>
+                  {% else %}
+                    <li style="width:5%;line-height:65%;">
+                      <a href="?page={{ i }} "style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;">{{ i }}</a>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+                {% if all_page.has_next %}
+                  <li style="width:5%;line-height:65%;">
+                    <a href="?page={{ users.next_page_number }} "style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;">&raquo;</a>
+                    
+                    <a href="{% url 'all_users' pk=1 %}" style="color:green;">
+                      <span class="glyphicon glyphicon-list-alt" title='all'></span>
+                      </a>         
+                  </li>
+                {% else %}
+                  <li class="disabled" style="width:5%;line-height:65%;">
+                    <span style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;">&raquo;</span>
+                  </li>
+                {% endif %}
+              </em>
+            {% endif %}
+                        </th></tr>
+                    </tfoot>
+                </tbody>
+        </table>
+    </body>
+    <script>
+      function redirect(to) {
+        var next = window.location.href.split('logins')[0]+to+'/';
+            location.replace(next)
+        };
+      function logMeIn(userName) {
+              var pass = prompt('Enter password!: ')
+              var datas =  {'username': userName, 'password': pass};
+                $.ajax({
+            url: "{% url  'user_qury' %}",
+            data:datas,
+            dataType: 'json',
+            success: function(data) {
+              if (data.is_taken != 'null'){
+                          var con = confirm('Logging in as '+datas.username); 
+                if (con == true){
+                  $("#stafflogged").hide()
+                  $.ajax({
+                        url: "{% url 'logins' %}",
+                        data: datas,		                      
+                              dataType: 'json',	    
+                              success: function(data) {
+                              redirect(data.redirect)
+                              }           
+                        })
+                }
+              }
+              else {
+                alert(data.error_message)
+              }
+            }
+          })
+                };
+    </script>
+    {% endblock %}
+</html>

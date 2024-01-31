@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>scenodary</title>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css'>
+    <link rel='stylesheet' href='https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.css'>
+    <link rel='stylesheet' href='http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css'>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lobster'>
+    <link rel="shortcut icon" type="image/png" src="https://dhnygxib7cbg0.cloudfront.net/pdf/uqhs.jpg">
+        <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>  
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+        <link rel=”stylesheet” href=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css>
+        <link rel=”stylesheet” href=https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css>
+        <script src=https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js></script>
+    <link rel="stylesheet" href="{% static 'result/css/secondary.css' %}">
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js'></script>
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 pl-4">
+                <i id="slide-toggle" class="ion-navicon-round fz-2 c-pointer"></i>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-3 col-sm-4 hide" id="menu-slider">
+                <ul>
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li>
+                        <div class="dropdown">
+                            <button class="dropbtn">Admission</button>
+                            
+                            </div>
+                    </li>
+                    <li><a href="{% url 'offline' pk=0 %}">Academic</a></li>
+                    <li><a href="{% url 'transfers' md=30 %}">Clube Activities</a></li>
+                    <li><a href="{% url 'pdf' ty=6 sx=0 pk=0 %}">Examination</a></li>
+                    <li><a href="{% url 'pdf' ty=5 sx=0 pk=0 %}">Template</a></li>
+                    <li><a href="{% url 'pro_detail' request.user.id %}">Account</a></li>
+                    <center><span class="glyphicon glyphicon-log-out"  style="cursor:pointer;color:red" id="out"> log-out here!</span></center>
+                </ul>
+            </div>
+            <div class="col-md-9 col-sm-8 overlay c-pointer"></div>
+        </div>
+    </div>
+
+    <div id="main-warapper">
+        <div class="container-fluid bg-light">
+            <div class="row">
+                <div class="container-fluid">
+                    <div class="row justify-content-center align-items-center h-100">
+                        <div class="col-md-12" id="image-header">
+                            <div class="layer"></div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="text-center">
+                                <h1 data-aos="zoom-in" data-aos-duration="600" class="text-white text-uppercase lobster" id="logo">UQHS</h1>
+                            
+                                <h3 data-aos="fade-up" data-aos-duration="900" class="text-white text-uppercase mb-4 ls-5" id="logged-in">Are you a new member?</h3>
+
+                               <em id="to-in"><button data-aos="fade-up" data-aos-duration="1000" class="btn btn-danger text-uppercase"><a href="{% url 'logins' %}">Register</a></button><img src="https://dhnygxib7cbg0.cloudfront.net/pdf/uqhs.jpg" alt="schLogo" height="40" width="40" style="border: 2px solid rgb(243, 243, 247);border-radius:2px;"><button data-aos="fade-up" data-aos-duration="1000" class="btn btn-outline-light text-uppercase"> <a href="{% url 'logins' %}">Login</a></button></em>
+                               <em id="staff" hidden><button data-aos="fade-up" data-aos-duration="1000" class="btn btn-danger text-uppercase"><em id="member">Register</em></button><img src="https://dhnygxib7cbg0.cloudfront.net/pdf/uqhs.jpg" alt="schLogo" height="40" width="40" style="border: 2px solid rgb(243, 243, 247);border-radius:2px;"><button data-aos="fade-up" data-aos-duration="1000" class="btn btn-outline-light text-uppercase"><a href="{% url 'logins' %}">out</a></button><script src="//cdn.jsdelivr.net/npm/eruda"></script> <script>eruda.init();</script></em>
+                                <script>
+                                    var displayName = localStorage.getItem('displayName');
+                                    if (displayName){
+                                        $('#logged-in').html('You are welcome back '+' '+ displayName+'!'); 
+                                        $('#member').html('staff member');
+                                        $('#to-in').hide();
+                                        $('#staff').show();
+                                        
+                                    };
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container text-secondary raleway">
+                    <div class="row pt-5 mt-5" data-aos="fade-down" data-aos-duration="1000">
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <i class="ion-ios-clock-outline fz-4"></i>
+                                </div>
+                                <div class="col-md-10">
+                                    <h5 class="text-primary">On Time Service.</h5>
+                                    <p>Transforming distribution and marketing with key capabilities in customer insight and analytics.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <i class="ion-ios-person-outline fz-4"></i>
+                                </div>
+                                <div class="col-md-10">
+                                    <h5 class="text-primary">A Team Of Professionals.</h5>
+                                    <p>Transforming distribution and marketing with key capabilities in customer insight and analytics.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <i class="ion-ios-pulse fz-4"></i>
+                                </div>
+                                <div class="col-md-10">
+                                    <h5 class="text-primary">Analyze Your Business.</h5>
+                                    <p>Transforming distribution and marketing with key capabilities in customer insight and analytics.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row pt-5 pb-5 mb-5" data-aos="fade-up" data-aos-duration="1000">
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <i class="ion-ios-people-outline fz-4"></i>
+                                </div>
+                                <div class="col-md-10">
+                                    <h5 class="text-primary">Strong Connection.</h5>
+                                    <p>Transforming distribution and marketing with key capabilities in customer insight and analytics.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <i class="ion-ios-ionic-outline fz-4"></i>
+                                </div>
+                                <div class="col-md-10">
+                                    <h5 class="text-primary">Advanced Technology.</h5>
+                                    <p>Transforming distribution and marketing with key capabilities in customer insight and analytics.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <i class="ion-ios-gear-outline fz-4"></i>
+                                </div>
+                                <div class="col-md-10">
+                                    <h5 class="text-primary">National Bank Authorized.</h5>
+                                    <p>Transforming distribution and marketing with key capabilities in customer insight and analytics.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid" data-aos="fade-up" data-aos-duration="600">
+            <div class="row row-eq-height align-items-center">
+                <div class="col-md-6 p-5 raleway">
+                    <h2 class="text-uppercase">Read The Story Behind </h2>
+                    <h2 class="text-uppercase">Our Success</h2>
+                </div>
+                <div class="col-md-6 text-secondary p-5 raleway">
+                    <p><span class="text-primary">We provide buy-side, sell-side and market infrastructure firms</span>
+                        <span>with a full-service offering, including systems integration and technology consulting services, to assist in delivering high performance trading and settlement.</span></p>
+
+                    <p>More than 25 years of experience working in the industry has enabled us to build our services and solutions in strategy, consulting, digital, technology and operations that help our clients with their trading projects around the world. Capabilities we leverage.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid bg-light">
+            <div class="container">
+                <div class="row pb-5">
+                    <h2 data-aos="zoom-in" data-aos-duration="600" class="mb-0 mt-5 w-100 text-center text-uppercase raleway">Our School at Glance</h2>
+                    <small data-aos="zoom-in" data-aos-duration="600" class="w-100 ls-4 text-secondary raleway text-center text-uppercase pb-5">school that promote professionalism with core value</small>
+                    <div class="col-md-4 col-sm-12 col-xs-12" data-aos="fade-in" data-aos-duration="1200">
+                        <div class="form-group">
+                            <img class="img-fluid" src="https://dhnygxib7cbg0.cloudfront.net/pdf/hall.jpg" alt="Person1">
+                            <div class="p-4 bg-white">
+                                <h5 class="m-0">Jeanette Kingston</h5>
+                                <small class="raleway text-uppercase text-secondary">Vice President</small>
+
+                                <p class="m-0 mt-3">+1-334-3452-345</p>
+                                <a href="#">Johnsm@financitytheme.com</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12 col-xs-12" data-aos="fade-in" data-aos-duration="1200">
+                        <div class="form-group">
+                            <img class="img-fluid" src="https://dhnygxib7cbg0.cloudfront.net/pdf/pri.jpg" alt="Person2">
+                            <div class="p-4 bg-white">
+                                <h5 class="m-0">John Smithy</h5>
+                                <small class="raleway text-uppercase text-secondary">Chief Financial Officer</small>
+
+                                <p class="m-0 mt-3">+1-334-3452-345</p>
+                                <a href="#">Johnsm@financitytheme.com</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12 col-xs-12" data-aos="fade-in" data-aos-duration="1200">
+                        <div class="form-group">
+                            <img class="img-fluid" src="https://dhnygxib7cbg0.cloudfront.net/pdf/hall2.jpg" alt="Person3">
+                            <div class="p-4 bg-white">
+                                <h5 class="m-0">Linda Kloe</h5>
+                                <small class="raleway text-uppercase text-secondary">Senior Engineer</small>
+
+                                <p class="m-0 mt-3">+1-334-3452-345</p>
+                                <a href="#">Johnsm@financitytheme.com</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid" id="contact-us">
+            <div class="row justify-content-center align-items-center flex-column">
+                <h2 data-aos="zoom-in" data-aos-duration="600" class="pt-5 text-white raleway">Wanna Talk To Us?</h2>
+                <p data-aos="zoom-in" data-aos-duration="1000" class="text-white">Please feel free to contact us. We’re super happy to talk to you. Feel free to ask anything.</p>
+
+                <button data-aos="zoom-in" data-aos-duration="1400" class="btn btn-danger text-uppercase">Contact us</button>
+                <div class="layer"></div>
+            </div>
+        </div>
+
+        <footer>
+            <h2 data-aos="fade-up" data-aos-duration="600" class="pt-5 text-white text-center text-uppercase lobster fz-5 pb-5">
+                UQHS
+            </h2>
+
+            <div class="container-fluid p-4 text-white" id="copyright">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="float-left">
+                            Copyright 2023, All Right Reserved, UQHS
+                        </div>
+                        <div class="float-right">
+                            <i class="ion-social-facebook p-2"></i>
+                            <i class="ion-social-googleplus p-2"></i>
+                            <i class="ion-social-twitter p-2"></i>
+                            <i class="ion-social-github p-2"></i>
+                            <i class="ion-social-instagram p-2"></i>
+                            <i class="ion-social-youtube p-2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js'></script>
+<script src='https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.js'></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script> 
+<script  src="{% static 'result/js/secondary.js' %}"></script>
+<script  src="{% static 'result/js/log-in.js' %}"></script>
+</body>
+</html>

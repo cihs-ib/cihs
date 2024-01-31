@@ -1,0 +1,16 @@
+<!doctype html>
+{% extends "base_generic.html" %}
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>{% block title %} deleting {{ qry.student_name }} {% endblock %}</title>
+	</head>
+	{% block content %}
+	<body>
+		<form>
+			<div class="cap_form">Action:<pre>Delete!</pre></div>
+			Are you sure you want to delete: <em style="font-family:Helvetica; color:white;"><div class="capt">{{ qry.student_name }}'s </div></em>score completely ? <a href="{% url 'delete' pk=pk %}" style="font-family:Helvetica; color:red; font-size: 12px;">Yes</a>/<a href="{% url "subject_view" pk=qry.tutor.id md=1 %}" style="font-family:Helvetica; color:purple; font-size: 12px;">No</a>
+		</form>
+	</body>
+	{% endblock %}
+</html>

@@ -1,0 +1,28 @@
+{% extends "base_generic.html" %}
+ <title>
+	 {% block title %} log_in {% endblock %}
+</title>
+{% block content %}
+
+<form id="login_type" hidden>
+		<div class="capt"><strong>SELECT LOGIN TYPE</strong></div>
+		<input type="radio" name="login" value=2" id="staff_login"> Staff</input><br> 
+		<input type="radio" name="login" value="1" id="student_login"> Student</input>
+		<button name="submit">Next</button>
+</form>
+
+<form >
+		<div class="capt"><strong>STUDENT LOGIN</strong></div>
+		<label for="">Student Name</label>
+		<input type="username" name="username" value="Surname first" id="student_name"></input>
+		<label for="">Student Id</label> 
+		<input type="password" name="password" value="1" id="student_id"></input>
+		<button class="btn btn-primary" style="margin-left:42%;"> <span class="glyphicon glyphicon-log-in" style="margin-right:5px;"></span>Login</button><br>
+		<span style="font-size:10px;color:gray;opacity:0.9;margin-left:27%;">*Every registered Student logs in with full name and Id</span>
+</form>
+<script>
+	$("button[name='submit']").click(function()){
+	var login_type = $("input:radio[name='login']");
+	alert(login_type)};
+</script>
+{% endblock %}

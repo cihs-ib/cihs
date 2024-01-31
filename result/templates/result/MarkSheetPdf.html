@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<script type="text/javascript" src="{{ STATIC_URL }}/static/jquery-3.4.1.js">
+    //background-image: url("/app/Users/UQHS/AppData/Local/Programs/Python/Python310/uqh/result/static/result/uqhs.jpg");/Users/UQHS/AppData/Local/Programs/Python/Python310/uqh/result/static/result/uqhs.jpg</script>
+    <title>{% block title %}{{ qry.subject }}:{{ qry.Class }}:{{ term }}{% endblock %}</title>
+    <style>
+            @page {
+				background-image: url("/Users/USER/AppData/Local/Programs/Python/cihs/citadel/result/static/result/cihs.jpg");
+                opacity:0.3;
+                size: A4;
+                margin-top:1.5cm;
+                margin-left:1cm;
+                margin-right:1cm;
+                margin-bottom:1.5cm;
+                @frame footer {
+                    -pdf-frame-content: footerContent;
+                    bottom: 0.5cm;
+                    margin-left: 1cm;
+                    margin-right: 1cm;
+                    height: 1cm;
+                }
+            }
+
+            @page lastPage {
+                 -pdf-frame-content: summContent;
+                 bottom: 2.5cm;
+                 margin-left: 1cm;
+                 margin-right: 1cm;
+                 height: 4cm;
+            }
+			table, th, td {
+			border: 1px solid #b3bcbe;
+			border-radius: 5px;
+			font-family: Baskerville Old Face;
+			text-align: center;
+			font-size: 12px;
+			line-height:6px;
+            }
+
+            .forTd {
+                 width:6%;
+                 color:white;
+            }
+		
+			.table {border-collapse: collapse;
+				margin-left:1%;
+				width: 98%;
+				}
+
+			th, td {padding: 2px;}
+
+			table {
+			border-spacing: 1px;
+			}
+
+			.em, tfoot {background-color: #aeda11;}
+
+			tbody {background-color: #20B2AA;}
+			tr:nth-child(even) {background-color:#0ea70e;}
+			.capt{
+				margin-left: 1%;
+				border-radius: 5px;
+				background-color:#7c84df;
+				text-align: center;
+				color: white;
+				font-size:13px;
+				width: 100%;
+				}
+		
+				.red_black {
+				color:white;
+				border-radius:4px;
+				background-color:#7c84df;
+				border:2px solid white;
+				
+				}
+
+				.red_white {
+				color:white;
+				border-radius:4px;
+				background-color:#7c84df;
+				border:2px solid white;
+				
+				}
+                .thh{
+                    background-color:#f8dace;
+					width:2%;
+                }
+                img{
+					border: 2px solid rgba(247, 238, 238, 0.918);
+					border-radius:3px;
+        			padding: 2px;
+    }
+			
+		</style>
+</head>
+<body style="background-color:#ddd;text-align:center;">
+    <div class="capt">
+				<table>
+					<td style="width:10%;"><img src="/Users/USER/AppData/Local/Programs/Python/cihs/citadel/result/static/result/cihs.jpg" height="80"  width="80" alt=""/></td><td id="header" style="background-color:rgba(238, 238, 29, 0.699);border:2px solid rgb(167, 224, 10);line-height:10px;"><strong style="font-size:28px;color: green;">CITADEL ISLAMIC HIGH SCHOOL</strong></td>
+					<td>
+						<div id="header" style="background-color:#36830a;border:2px solid rgb(170, 233, 22);line-height:10px;">
+							<Address>
+							<State class="br">Akomeji Oganke, thy-will, Bus-Stop Akanran Road, Ibadan.</State><br>
+							<i>Contact</i>:08110650468, 08102262538, 08054426623<br>
+							<i>E-mail</i>: cihs@gmail.com, cihs@yahoo.com<br>
+							</Address>
+							<strong style="font-size:18px;">EXAMINATION MARK SHEET</strong><br>
+							<aside><strong>SUBJECT:</strong><u>{{ qry.subject }}</u></aside><aside> <strong>CLASS:</strong><u>{{ qry.Class }}</u> </aside><aside><strong>TERM:</strong><u>{{ term }}</u></aside>
+						</div>
+					</td>
+					<td style="width:10%;"><img src="/Users/USER/AppData/Local/Programs/Python/cihs/citadel/result/static/result/oyologo.jpg" height="80"  width="80" alt=""/></td>
+				</table>		
+	</div>
+    <table class="table">
+			<tr style="background:#7c84df;">
+				<th style="background-color:#f8dace;width:5%;">S/N</th>
+				<th style="background-color:#f8dace;width:40%;">
+				<button onclick="$('.gen_2').toggle()" style="line-height:10px;border:2px solid blue;color:black;border-radius:5px;"><a href="">{{ qry.males }}</a></button>
+				<em href="">
+					Males
+				</em>
+							|
+				<button onclick="$('.gen_1').toggle()" style="line-height:10px;border:2px solid blue;color:black;border-radius:5px;"><a href="">{{ qry.females }}</a></button>
+				<em href="">
+				Females	
+				</em>
+				</th>
+				<th style="background-color:#f8dace;width:5%;">Admision No.</th>
+			    <th style="background-color:#f8dace;width:10%;">Test</th>
+				<th style="background-color:#f8dace;width:10%;">Asgn</th>
+				<th style="background-color:#f8dace;width:10%;">Atd</th>
+				<th style="background-color:#f8dace;width:10%;">Total</th>
+				<th style="background-color:#f8dace;width:10%;">Exam</th>
+                <th style="background-color:#f8dace;width:10%;">3rd</th>
+                <th style="background-color:#f8dace;width:10%;">2nd</th>
+				<th style="background-color:#f8dace;width:10%;">1st</th>
+				<th style="background-color:#f8dace;width:10%;">Agr</th>
+				<th style="background-color:#f8dace;width:10%;">Avr</th>
+				<th style="background-color:#f8dace;width:10%;">Grade</th>
+				<th style="background-color:#f8dace;width:10%;">Pos</th>
+                        {% if subjects %} 
+                        {% for scr in subjects %}
+            <tbody>
+                <td style="font:VeraIt;font-size:9px;background-color:#e7ebc6;">{{ forloop.counter }}</td>
+                <td style="font:VeraIt;font-size:12px;background-color:#c6ebe8;">{{scr.student_name.full_name}}</td>
+                <td style="color:black;width:15%;background-color:rgb(181, 206, 130);">{{scr.student_name.uid}}</td>
+                <td style="color:black;width:5%;background-color:#9ad9c4;">{{scr.test}}</td>
+                <td style="color:black;width:5%;background-color:#9ad9c4;">{{scr.agn}}</td>
+                <td style="color:black;width:5%;background-color:#9ad9c4;">{{scr.atd}}</td>
+                <td style="color:black;width:5%;background-color:rgb(187, 181, 181);">{{scr.total}}</td>
+                <td style="color:black;width:5%;background-color:#9ad9c4;">{{scr.exam}}</td>
+                <td style="color:black;width:5%;background-color:rgb(187, 181, 181);">{% if qry.third_term == '3rd Term' %}{{scr.agr}}{% else %}0{% endif %}</td>
+                <td style="color:black;width:5%;background-color:rgb(187, 181, 181);">{{scr.sagr}}</td>
+				<td style="color:black;width:5%;background-color:rgb(187, 181, 181);">{{scr.fagr}}</td>
+				<td id="annual_{{ forloop.counter }}" style="color:black;width:5%;background-color:#eef0da;">{{scr.aagr}}</td>
+				<td id="avg_{{ forloop.counter }}" style="color:black;width:5%;background-color:#eef0da;">{{scr.avr}}</td>
+                <td style="color:black;width:5%;background-color:#eacdcc;">{{scr.grade}}</td>
+                <td style="width:7%;background-color:#a4c9d2;">{{scr.posi}}</td>
+            </tbody>
+            {% endfor %}
+            {% else %}
+            <pre class="empty">There are no records.</pre>
+            {% endif %}
+        
+        </tr>    
+        <tr>    
+        <th style="background-color:#f8dace;">-</th>        
+        <td  style="background-color:#f8dace;" colspan="4">Result Summary</td>
+		<td  style="background-color:#f8dace;"colspan="2"><strong>AGR:</strong></td>
+		<td  style="background-color:#f8dace;"colspan="3">{{sum}}</td>
+		<td  style="background-color:#f8dace;"colspan="2"><strong>PER:</strong></td>
+        <td  style="background-color:#f8dace;"colspan="3">{{avg}}%</td>
+        </tr> 
+		<tr>
+			<th style="background-color:#b7eeb0;color:rgb(10, 9, 9);">-</th>
+			<th style="background-color:#b7eeb0;color:rgb(10, 9, 9);font-size:10px;" colspan='1'>
+				<pre><strong>TEACHER:</strong>{{qry.teacher_name}}</pre><pre><strong>SIGN:</strong>________________</pre><pre><strong>DATE:</strong>________________</pre>
+			</th> 
+			<th style="background-color:#b7eeb0;color:rgb(10, 9, 9);font-size:10px;" colspan='5'>
+				<pre><strong>No OF STUDENT EXAMINED:</strong>{{ subjects.count }}</pre><pre><strong>TOTAL SCORES:</strong>{{sum}}</pre><pre><strong>AVERAGE:</strong>{{avg}}%</pre>
+			</th>
+			<th style="background-color:#b7eeb0;color:rgb(10, 9, 9);font-size:10px;" colspan='8'>
+				<pre><strong>APPROVED BY:</strong>{{myHod.profile.title}} {{myHod.profile.last_name}} {{myHod.profile.first_name}}</pre><pre><strong>SIGN:</strong>________________</pre><pre><strong>DATE:</strong>________________</pre>
+				
+			</th>   
+        </tr> 
+        <th  style="background-color:#b7eeb0;color:rgb(10, 9, 9);"colspan="15" id="foot">{{ grade_conuts }}</th>
+		
+		
+		
+	</table>
+    
+    <div id="footerContent">
+            {%block page_foot%}
+			www.https://cihs.com/result/render/pdf/{{qry.id}}/2/0/:
+            {{qry.subject}}/{{qry.Class}}/{{term}}/generated <on:->{{ today }}</on:->
+			<br> 
+			By:-{{ request.user.profile.last_name }} {{ request.user.profile.first_name }}
+            [Page <pdf:pagenumber>]
+            {%endblock%}
+    </div>
+</body>
+</html>

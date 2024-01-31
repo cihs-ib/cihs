@@ -1,0 +1,84 @@
+{% extends "base_generic.html" %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title> {% block title %} {{ request.user.username }} {% endblock %} </title>
+	</head>
+	 {% block content %}
+	<body>
+    	<form class="upload" action="{% url 'setup_questions' %}" method="POST" enctype="multipart/form-data" class="form-horizontal"> 
+				<div class="cap_form"><em color:white;>Account: {{ request.user.username }} </em><em style="color:red;"><pre style="line-height: 3px;">uploading.., Exam Questions </em></pre></div>
+      	  {% csrf_token %}
+			<div class="row">
+   				<div class="col-xs-4">
+				    <strong style="margin-left:43px;color:white;">Subject</strong><br>
+					<select name="Subject" id="Subject" required="True" style="margin-left:43px;width:49%;border-radius:5px;text-align:center;border: 1px solid rgba(247, 238, 238, 0.918);background-color: purple;color: beige;">
+						<option value=""></option>
+						<option value="ACC">Account</option>
+						<option value="AGR">Agric. Sc</option>
+						<option value="ARB">Arabic</option>
+						<option value="BIO">Biology</option>
+						<option value="BST">Basic Sc. and Technology</option>
+						<option value="BUS">Business Studies</option>
+						<option value="CHE">Chemistry</option>
+						<option value="CIV">Civic Education</option>
+						<option value="COM">Commerce</option>
+						<option value="CTR">Catring Services</option>
+						<option value="ECO">Economics</option>
+						<option value="ELE">Electrical</option>
+						<option value="ENG">English Language</option>
+						<option value="FUR">Further Mathematics</option>
+						<option value="GEO">Geography</option>
+						<option value="GOV">Government</option>
+						<option value="GRM">Germent Maiking</option>
+						<option value="HIS">History</option>
+						<option value="ICT">Information Technology</option>
+						<option value="IRS">Islamic Religion Studies</option>
+						<option value="LIT">Literature</option>
+						<option value="MAT">Mathematics</option>
+						<option value="NAV">Regional and National Value</option>
+						<option value="PHY">Physics</option>
+						<option value="PRV">Pre-Vocational Studies</option>
+						<option value="YOR">Yoruba Language</option>
+					</select>
+   				</div>
+   				<div class="col-xs-4">
+				    <strong style="margin-left:43px;color:white;">Class</strong><br>
+					<select name="Class" id="Class" required="True" style="margin-left:43px;width:49%;border-radius:5px;text-align:center;border: 1px solid rgba(247, 238, 238, 0.918);background-color: purple;color: beige;">
+						<option value=""></option>
+						<option value="JSS 1">JSS 1</option>
+						<option value="JSS 2">JSS 2</option>
+						<option value="JSS 3">JSS 3</option>
+						<option value="SSS 1">SSS 1</option>
+						<option value="SSS 2">SSS 2</option>
+						<option value="SSS 3">SSS 3</option>
+					</select>
+   				</div>
+				<div class="col-xs-4">
+					<strong style="margin-left:43px;color:white;">Term</strong><br>
+      				<select name="Term" id="Term" required="True" style="margin-left:43px;width:49%;border-radius:5px;text-align:center;border: 1px solid rgba(247, 238, 238, 0.918);background-color: purple;color: beige;">
+						<option value=""></option>
+						<option value="1st Term">First Term</option>
+						<option value="2nd Term">Second Term</option>
+						<option value="3rd Term">Third Term</option>  
+					</select>
+   				</div>
+			</div>
+			<div class="row">
+   				<div class="col-xs-6">
+				    <br>
+      				<input type="file" name="files" id="files" required="True" style="margin-left:93px;width:89%;border-radius:5px;text-align:center;border: 1px solid rgba(247, 238, 238, 0.918);background-color: purple;color: beige;">
+   				</div><br>
+   				<div class="col-xs-6">
+      				<button name="upload" style="margin-left:83px;width:30%;border-radius:5px;text-align:center;border: 1px solid rgba(247, 238, 238, 0.918);background-color: gray;color: beige;"> <span class="glyphicon glyphicon-upload"></span>Upload</button>
+   				</div>
+			</div>
+				<span style="font-size:10px;color:gray;opacity:0.9;margin-left:27%;">*Ensure correct file path before clicking upload!</span>
+				
+    	 </form>
+
+    </body>
+	  {% endblock %}
+</html>
+

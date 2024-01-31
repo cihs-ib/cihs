@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% extends "base_generic.html" %}
+{% block content %}
+  <html>
+    <head>
+        <title>{% block title %}Welcome Page icon {% endblock %}</title>
+    </head>
+    <div class="capt">User's Guides</div>
+    <form class="fcs">
+          <p class="flex"><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;">Step 1:</button>  Use Notepad or any other text editor to prepare a file containing student names, test scores, attendance scores, asignment scores and exam scores e.g (TUNDE OLUMO, 20, 10, 10, 60) in a new line for each students. Then save it with a file name e.g my_file.txt. When there are two gender classes, just separate the class A from class B by leaving an empty line. Click <a href="{% url 'samples_disp' %}">here </a>to display sample, or <a href="{% url 'samples_down' %}">download</a> the sample.</p>
+          <div id='cont' hidden>
+          <p class="flex"><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;">Step 2:</button> Login <span class="glyphicon glyphicon-log-in"></span> or Sing-up (new users) <span class="glyphicon glyphicon-user"></span> into your account. Click on the 1st term fileupload on the menue bar for new terms. Fill in the <em style="color:red;">subject</em> and <em style="color:red;">class;</em> If your subject not listed, create it and refresh the page to reflect newly created subject.), finally, submit the form. 
+          <p class="flex"><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;">Step 3:</button> Then, choose your prepared txt file. Provide correct file name here for attachement. Upload it by simply click <a href="" class="#">upload!</a>. You will be redirected to your <a href="{% url 'home' %}" >DASHBOARD</a>. On your dashboard, <i><u>two</u></i> update links are available for loading 2nd and 3rd term scores.</p>
+          <p class="flex"><u>Note</u>: On the DASHBORAD, you can navigate to various uploaded files through the blue links. With this, class subject can be corrected all at once or by review each student records.</p>
+          <p class="flex"><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;">Step 4:</button>On the successful completion of the steps above, locate the download links <span class="glyphicon glyphicon-save"></span>. Or delete the entire class with <span class="glyphicon glyphicon-remove"></span></p> 
+          <p class="flex"><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;">Step 5:</button> Annual is generated once third term results were successfully uploaded. After download of third term result, the annual result can be generated from the same page by clicking the annual.</p>
+          <p class="flex"><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;">Step 6:</button> Transfer class subject by clicking <a href="{% url 'transfers' md=30 %}" title="Move a class subject to another teacher"><span class="glyphicon glyphicon-transfer"></a> button.</p>
+          </div><div onclick="$('#cont').toggle()" style="color:red;">....read more</div>
+          <p class="flex">Nams by classes: Click here to download <a href="{% url 'name_down' pk=0 fm=3 ps=0 %}">JSS 1</a>, <a href="{% url 'name_down' pk=1 fm=3 ps=0 %}">JSS 2</a>, <a href="{% url 'name_down' pk=2 fm=3 ps=0 %}">JSS 3</a>, <a href="{% url 'name_down' pk=3 fm=3 ps=0 %}">SSS 1</a>, <a href="{% url 'name_down' pk=4 fm=3 ps=0 %}">SSS 2</a> or <a href="{% url 'name_down' pk=5 fm=3 ps=0 %}">SSS 3</a>.</p>
+          <p class="flex">Nams by Depatmental Subjects: Click here to download {<a href="{% url 'name_down' pk=3 fm=3 ps=9 %}">BIO</a>, <a href="{% url 'name_down' pk=0 fm=3 ps=10 %}">ECO</a>}, {<a href="{% url 'name_down' pk=0 fm=3 ps=1 %}">CHE</a>, <a href="{% url 'name_down' pk=0 fm=3 ps=2 %}">ACC</a>, <a href="{% url 'name_down' pk=0 fm=3 ps=3 %}">ARB</a>}, {<a href="{% url 'name_down' pk=0 fm=3 ps=4 %}">GOV</a>, <a href="{% url 'name_down' pk=0 fm=3 ps=5 %}">ICT</a>}, {<a href="{% url 'name_down' pk=0 fm=3 ps=2 %}">PHY</a>, <a href="{% url 'name_down' pk=0 fm=3 ps=2 %}">LIT</a>, <a href="{% url 'name_down' pk=0 fm=3 ps=2 %}">COM</a>} or {<a href="{% url 'name_down' pk=0 fm=3 ps=2 %}">GEO</a>, <a href="{% url 'name_down' pk=0 fm=3 ps=2 %}">AGR</a>, <a href="{% url 'name_down' pk=0 fm=3 ps=2 %}">YOR</a>}.</p>
+          <p class="flex">Nams by Entreprenurship Subjects: Click here to download {<a href="{% url 'name_down' pk=0 fm=3 ps=2 %}">ELE</a>, <a href="{% url 'name_down' pk=0 fm=3 ps=2 %}">CTR</a> or <a href="{% url 'name_down' pk=0 fm=3 ps=2 %}">GRM</a>}.</p>
+          <p class="flex">For more information: Contact Admin on <em style="font-family:Helvetica; color:purple; font-size: 10px;"><a aria-label="Chat on WhatsApp" href="https://wa.me/2348079768763"><i class="fa fa-whatsapp" style="font-size:36px;"></i></a></em>.</p>               
+      </form>
+</html>
+
+
+{% endblock %}
+ 
+

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+{% extends "base_generic.html" %}
+<html>
+    {% block content %}
+    <head>
+
+    </head>
+    <body>
+		<div class="capt" style="font-size:10"><a href="{% url 'InputTypeError' %}" style="font-family:Helvetica; color:purple; font-size: 13px;">{{subject}}: InputTypeError</a></strong><pre> Student's record on serial number {{ int }} contains invalid input, {{ invalid }}</pre>  edit the text file and <a href="{% url 'home' %}">Click Next.</a></div>
+    </body>
+	<div><a href="{% url 'InputTypeError' %}" style="font-family:Helvetica; margin-left:36%; color:green; font-size: 20px;"><span class="glyphicon glyphicon-info-sign"></span></a><a href="{% url 'home' %}" style="font-family:Helvetica; margin-left:0%; color:green; font-size: 20px;"><span class="glyphicon glyphicon-home"></span></a></div>
+    {% endblock %}
+</html>

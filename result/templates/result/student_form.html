@@ -1,0 +1,162 @@
+{% extends "base_generic.html" %}
+{% load static %}
+<html lang="en">
+	<head>
+    
+		<title> {% block title %} {{ info.full_name }}{% endblock %}</title>
+	</head>
+	 {% block content %}
+   <style>
+      label {
+          overflow: hidden;
+          background-color: dodgerblue;
+          padding: 20px 10px;
+          width: 83%;
+          border-radius: 5px;
+          margin-left: -53px;
+          }
+          @media (max-width: 900px) 
+		{
+  			label {
+    				width: 100%;margin-left: 0px;
+			}}
+    </style>
+	<body>
+  	
+  <label method="post" action="" style="box-shadow: 0px 0px 45px 0px rgba(0, 0, 0, 0.9);">
+      <div class="capt"><u style="margin-left:0%;background-color:gray;border:1px solid white;border-radius:3px;">Name:  </u> <strong style="width:30%;border:1px solid gray;border-radius:3px;">{{ info.full_name }} </strong><u style="margin-left:0%;background-color:gray;border:1px solid white;border-radius:3px;"> Last Updated: </u><i style="width:30%;border:1px solid gray;border-radius:3px;"> {{ info.updated }}</i></div>
+      {% csrf_token %}
+      <br>
+      <div><pre style="width:45%;line-height:3px;text-align:center;">STUDENT CARD DETAIL|<em onclick="card('1st')">1st</em>|<em onclick="card('2nd')">2nd</em>|<em onclick="card('3rd')">3rd</em></pre></div>
+      
+      <table class="info_tab_marg" style="width:100%;border-radius:5px;border:1px solid gray;">
+      <th>Admission No.</th><th>Class</th><th>Age</th><th>Sex</th><th colspan='3'>Annual Summary</th>
+      <tr>
+        <td style="width:10%;line-height:1%;border:1px solid gray;border-radius:3px;color:black;font-size:12px;"><pre style="line-height:10%"><strong>{{ info.uid }} </strong></pre></td>
+        <td style="color:white;font-size:12px;">{{ info.Class }}</td>
+        <td style="color:white;font-size:12px;">{{ info.age }}</td>
+        <td style="color:white;font-size:12px;">{{ info.sex }}</td>
+        <td style="color:white;font-size:12px;">{{ info.annual_scores }}</td>
+        <td style="color:white;font-size:12px;">{{ info.annual_avr }}</td>
+        <td style="color:white;font-size:12px;">{{ info.posi }}</td>
+      </tr>
+      </table>
+      
+        {% for scr in detail %}
+      <div class="row" style="margin-left:1%;">
+        <div class="col-xs-2" >
+        <u> Males: </u> <pre style="line-height:5px;width:50%;">{{ scr.tutor.males }}</pre>
+        </div>
+        <div class="col-xs-2">
+          <u>Females:</u> <pre style="line-height:5px;width:50%;">{{ scr.tutor.females }}</pre>
+        </div>
+        <div class="col-xs-2">
+          <u>Both:</u> <pre style="line-height:5px;width:50%;">{{ scr.tutor.males |add:scr.tutor.females }}</pre>
+        </div>
+        <div class="col-xs-3">
+          <u>Term:</u> <pre style="line-height:5px;width:50%;text-align:center;" id="term_{{forloop.counter}}">{{ scr.tutor.term }}</pre>
+          <script>
+            var second = "{{ scr.tutor.second_term }}"; var third = "{{ scr.tutor.third_term }}";
+            if (second[0] == '2' && third[0] == '1'){$("#term_{{forloop.counter}}").html(second.split(' ')[0])}
+            else{$("#term_{{forloop.counter}}").html(third.split(' ')[0])}
+          </script>
+        </div>
+        <div class="col-xs-3">
+          <u>Status: </u>
+          <select value="{{ scr.tutor.status }}" id="status_{{forloop.counter}}" style="width:100%;background-color:blue;color:white;font-size:12px;border-radius:5px;">
+            <option value="{{ scr.tutor.status }}">{{ scr.tutor.status }}</option>
+            <option value="active">Active</option>
+            <option value="delete">Delete</option>
+          </select> 
+          <script>
+            $("#status_{{forloop.counter}}").change(function(){
+                var response = confirm('Click Ok to confirm deleting this record!');
+                if (response == true){
+                    var request = $.ajax({
+                    url:"{% url 'student_home_page' pk=info.id %}",
+                    data: {pk:"{{ scr.id }}"},
+                    dataType: 'json',
+                });
+                 request.done(function(data){
+                 alert(data.status)
+             });     
+                   request.fail(function(xhr, status, error) {
+            var errors = {'0':'Client connectivity', '500':'Internal Server' };
+            var errorMessage = errors[xhr.status] + ': ' + xhr.statusText
+            alert('Error - ' + errorMessage);
+            })
+                                }
+                        })
+          </script>
+        </div>
+        
+      </div>
+      
+    <table class="info_tab_marg" style="width:100%;border-radius:5px;border:1px solid gray;">
+      <th rowspan="2"  style="width:10%"><pre style="width:100%;line-height:3px;">{{ forloop.counter }}|SUBJECT DETAIL: {{ scr.tutor.subject }}</pre></th><th colspan="3">Test</th><th>Exam</th><th>Agr</th><th>Grade</th><th>Pos</th>
+      <tr>
+        
+        <td style="color:white;font-size:12px;">{{ scr.test }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.atd }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.agn }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.exam }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.agr }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.grade }}</td>
+        <td style="color:white;font-size:12px;">{{ scr.posi }}</td>
+      </tr>
+      </table>
+      {% endfor %}
+      <br> 
+      <button style="margin-left:40%;background-color:crimson;color:black;font-size:12px;border-radius:5px;width:20%;" id='home'>
+      <select value="" id="Subject" style="width:100%">
+				<option value="">Seclect Exam Subject</option>
+				<option value="ACC">Account</option>
+				<option value="AGR">Agric. Sc</option>
+				<option value="ARB">Arabic</option>
+				<option value="BIO">Biology</option>
+                <option value="BST">Basic Science & Technology</option>
+				<option value="BUS">Business Studies</option>
+				<option value="CHE">Chemistry</option>
+				<option value="CIV">Civic Education</option>
+				<option value="COM">Commerce</option>
+				<option value="CTR">Catring Services</option>
+				<option value="DPN"> Data Processing </option>
+				<option value="ECO">Economics</option>
+				<option value="ELE">Electrical</option>
+				<option value="ENG">English Language</option>
+				<option value="FUR">Further Mathematics</option>
+				<option value="GEO">Geography</option>
+				<option value="GOV">Government</option>
+				<option value="GRM">Germent Maiking</option>
+				<option value="HIS">History</option>
+				<option value="ICT">Information Technology</option>
+				<option value="IRS">Islamic Religion Studies</option>
+				<option value="LIT">Literature</option>
+				<option value="MAT">Mathematics</option>
+				<option value="NAV">Regional and National Value</option>
+				<option value="PHY">Physics</option>
+				<option value="PRV">Pre-Vocational Studies</option>
+				<option value="YOR">Yoruba Language</option>
+			</select>
+      </button>
+      
+      <script>
+      function card(x){ 
+         var argt = {'JSS 1':'1', 'JSS 2':'2', 'JSS 3':'3', 'SSS 1':'4', 'SSS 2':'5', 'SSS 3':'6'}
+        var next = window.location.href.split('/')[0]+"/static/result/pdf/cards/"+argt["{{ info.Class }}"]+"/"+x+'/'+"{{ info.id }}"+".pdf";
+        window.open(next, '_blank');}
+      $("#Subject").change(function(){
+          var sub_code = ["ACC", "AGR", "ARB", "BIO", "BST", "BUS", "CHE", "CIV", "COM", "CTR", "ECO", "ELE", "ENG", "FUR", "GEO", "GOV", "GRM", "HIS", "ICT", "IRS", "LIT", "MAT", "NAV", "PHY", "PRV", "YOR"]
+          var next = window.location.href.split('/')[0]+"/result/student_exam_page/"+""+sub_code.indexOf($(this).val())+'/'+""+"{{ info.id}}"+'/';
+          window.open(next, '_blank');
+      })
+      </script>
+  </label>
+	
+</body>
+	{% endblock %}
+</html>
+
+
+
+

@@ -1,0 +1,285 @@
+    {% extends "base_generic.html" %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>{% block title %}LESSON TEMPLATE{% endblock %}</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.2.0/knockout-min.js"></script> <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js"></script>
+
+           <style>
+      label {
+          overflow: hidden;
+          background-color: dodgerblue;
+          padding: 20px 10px;
+          width: 83%;
+          border-radius: 5px;
+          margin-left: -53px;
+          }
+     #capt{
+         margin-left:-7%;width:30%;
+     }
+          @media (max-width: 900px) 
+		{
+  			label {
+    				width: 100%;margin-left: 0px;
+            }
+            #capt{
+            margin-left:0%;width:30%;
+     }
+            }
+    </style>
+    </head>
+    {% block content %}
+    <label style="margin-left:-8%;">
+   <div class='capt' style="margin-left:0%;width:40%;"><strong>General Information</strong></div>    
+        <div style="border:3px solid #79471D;border-radius:5px;width:83%;">
+       <table style="margin-left:0%;width:100%;">
+        <tr>
+            <th style='width:5%;text-align:left;font-size:14px;'>Subject/Course</th>
+            <td>
+            <select value="" id="Subject" name="Subject" class="temp">
+				<option value="">Subject</option>
+				<option value="ACC">Account</option>
+				<option value="AGR">Agric. Sc</option>
+				<option value="ARB">Arabic</option>
+				<option value="BIO">Biology</option>
+				<option value="BST1">Basic Science</option>
+				<option value="BST2">Basic Technology</option>
+				<option value="BUS">Business Studies</option>
+				<option value="CHE">Chemistry</option>
+				<option value="CIV">Civic Education</option>
+				<option value="COM">Commerce</option>
+				<option value="CTR">Catring Services</option>
+				<option value="ECO">Economics</option>
+				<option value="ELE">Electrical</option>
+				<option value="ENG">English Language</option>
+				<option value="FUR">Further Mathematics</option>
+				<option value="GEO">Geography</option>
+				<option value="GOV">Government</option>
+				<option value="GRM">Germent Maiking</option>
+				<option value="HIS">History</option>
+				<option value="ICT">Information Technology</option>
+				<option value="IRS">Islamic Religion Studies</option>
+				<option value="LIT">Literature</option>
+				<option value="MAT">Mathematics</option>
+				<option value="NAV">Regional and National Value</option>
+				<option value="PHY">Physics</option>
+				<option value="PRV">Pre-Vocational Studies</option>
+				<option value="YOR">Yoruba Language</option>
+			</select> 
+            </td>
+            <th style='width:7%;text-align:left;font-size:14px;'>Level/Class</th>
+            <td>
+            <select value="" id="Class"  class="temp">
+				<option value="">Class</option>
+				<option value="JSS 1">JSS 1</option>
+				<option value="JSS 2">JSS 2</option>
+				<option value="JSS 3">JSS 3</option>
+				<option value="SSS 1">SSS 1</option>
+				<option value="SSS 2">SSS 2</option>
+				<option value="SSS 3">SSS 3</option>
+			</select>
+            </td>
+        </tr>
+        <tr>
+            <th style='width:7%;text-align:left;font-size:14px;'>Topic</th>
+            <td><input type="text" class="temp" id="topic" value="{{ STOP }}"></td>
+            <th style='width:5%;text-align:left;font-size:14px;'>Sub-topic</th>
+            <td><input type="text" value="{{ SUB }}" class="temp" id="sub_topic" name="sub_topic"></td>
+        </tr>
+        <tr>
+            <th style='width:7%;text-align:left;font-size:14px;'>Lesson Title/Agenda</th>
+            <td><input type="text" class="temp" id="agenda" name="agenda" value="{{ AGD }}"></td>
+            <th style='width:5%;text-align:left;font-size:14px;'>Lesson Duration</th>
+            <td><input type="text" class="temp" id="duration" name="duration" value="{{ DUR }}"></td>
+        </tr>         
+        </table>
+          </div>
+        <div class='capt' style="margin-left:0%;width:40%;"><strong>Learning Goal</strong></div>
+       <div style="border:3px solid #79471D;border-radius:5px;width:83%;">
+       <table style="margin-left:0%;width:100%;">
+        <tr>
+            <th style='width:20%;text-align:center;font-size:14px;'>Curriculum Objectives</th>
+            <td id="Cur_obj">
+            <textarea name="Cur_obj" id="cur_obj" cols="120" rows="10" class="form_control" value="{{ CUR }}"></textarea></td>
+        </tr>
+        <tr>
+            <th style='width:20%;text-align:center;font-size:14px;'>Lesson Objectives</th>
+            <td id="Les_obj">
+            <textarea name="Les_obj" id="les_obj" cols="120" rows="10" class="form_control" value=""></textarea></td>
+        </tr>    
+        </table>
+         </div>
+         <div class='capt' style="margin-left:0%;width:40%;"><strong>Starting Situation</strong></div>       
+            <div style="border:3px solid #79471D;border-radius:5px;width:83%;">
+        <table style="margin-left:0%;width:100%;">
+            <tr>
+            <td id="Start">
+            <textarea name="Start" id="start" cols="150" rows="10" class="form_control" value="{{ STR }}"></textarea></td>
+        </tr>       
+        </table>
+          </div>
+         <div class='capt' style="margin-left:0%;width:40%;"><strong>Consulted resources</strong></div>
+             <div style="border:3px solid #79471D;border-radius:5px;width:83%;">
+        <table style="margin-left:0%;width:100%;">     
+        <tr>
+            <th style='text-align:center;font-size:14px;'>Resources on your own level</th>
+            <td id="Res_own">
+            <textarea name="Res_own" id="res_own" cols="110" rows="5" class="form_control" value="{{ RESO }}"></textarea></td>
+        </tr>
+        <tr>
+            <th style='text-align:center;font-size:14px;'>Resources on your student level</th>
+            <td id="Res_stu">
+            <textarea name="Res_stu" id="res_stu" cols="110" rows="5" class="form_control" value="{{ RESS }}"></textarea></td>
+        </tr>       
+        </table>
+         </div>
+         <div class='capt' style="margin-left:0%;width:40%;"><strong>Lesson preparation</strong></div>
+            <div style="border:3px solid #79471D;border-radius:5px;width:83%;">
+        <table style="margin-left:0%;width:100%;">       
+        <tr>
+            <td id="les_Prep">
+            <textarea name="les_Prep" id="les_prep" cols="150" rows="10" class="form_control" value="{{ LPRE }}"></textarea></td>
+        </tr>
+      
+        </table>
+          </div>
+           <div class='capt' style="margin-left:0%;width:40%;"><strong>Borad scheme</strong></div>    
+            <div style="border:3px solid #79471D;border-radius:5px;width:83%;">
+        <table style="margin-left:0%;width:100%;">
+              <tr>
+            <td id="Board">
+            <textarea name="Board" id="board" cols="150" rows="10" class="form_control" value="{{ BOR }}"></textarea></td>
+        </tr>   
+        </table>
+        </div>
+        <div class='capt' style="margin-left:0%;width:40%;"><strong>Homework/Assignment</strong></div>
+        <div style="border:3px solid #79471D;border-radius:5px;width:83%;">
+       <table style="margin-left:0%;width:100%;">              
+        <tr>
+            <td id="Agn">
+            <textarea name="Agn" id="agn" cols="150" rows="10" class="form_control" value="{{ AGN }}"></textarea>
+             </td>
+        </tr>     
+        </table>
+        </div>
+       <div class='capt' style="margin-left:0%;width:40%;"><strong>Teacher reflection on this lesson</strong></div>
+            <div style="border:3px solid #79471D;border-radius:5px;width:83%;">
+        <table style="margin-left:0%;width:100%;">                
+        <tr>
+            <th style='text-align:left;font-size:14px;'>Question</th>
+            <th colspan="3" style='text-align:left;font-size:14px;'>Reflection</th>
+        </tr>
+        <tr>
+            <th style='text-align:center;font-size:14px;'>Why was the lesson successfull or not successful?</th>
+            <td colspan="3"  id="Ques1">
+            <textarea name="Ques1" id="ques1" cols="110" rows="5" class="form_control" value="{{ QES1 }}"></textarea></td>
+        </tr>
+        <tr>
+            <th style='text-align:center;font-size:14px;'>How did the student behave and why was this?</th>
+            <td colspan="3" id="Ques2">
+            <textarea name="Ques2" id="ques2" cols="110" rows="5" class="form_control" value="{{ QES2 }}"></textarea></td>
+        </tr>
+        <tr>
+            <th style='text-align:center;font-size:14px;'>What will I do different in the future?</th>
+            <td colspan="3" id="Ques3">
+            <textarea name="Ques3" id="ques3" cols="110" rows="5" class="form_control" value="{{ QES3 }}"></textarea></td>
+        </tr>
+        <tr>
+        <th><button style="width:100%;background-color:crimson;color:white;border-radius:5px;" id='print'><a href=""><span class="glyphicon glyphicon-print" style="margin-right:5px;"></span></a></button></th>
+        <th><button onclick="reload()" style="width:100%;background-color:crimson;color:white;border-radius:5px;cursor: pointer;" id='pre'><span class="glyphicon glyphicon-check" style="margin-right:5px;">Preview</span></button></th><th><button type='submit' name="submit" style="width:100%;background-color:crimson;color:white;border-radius:5px;cursor: pointer;" onclick='saved()'><span class="glyphicon glyphicon-check" style="margin-right:5px;">Save</span></button></th>      
+        </tr>      
+        </table>
+           </div>
+        <script>
+        function saved(){
+         var quest = {
+             question1:$("#ques1").val(), 
+             question2:$("#ques2").val(), 
+             question3:$("#ques3").val(), 
+             assignment:$("#agn").val(), 
+             board:$("#board").val(), 
+             preparation:$("#les_prep").val(), 
+             student_resources:$("#res_stu").val(), 
+             teacher_resources:$("#res_own").val(), 
+             start:$("#start").val(), 
+             lesson_objective:$("#les_obj").val(), 
+             curriculum_objective:$("#cur_obj").val(),
+             lesson_duration:$("#duration").val(), 
+             class:$("#Class").val(), 
+             agenda:$("#agenda").val(), 
+             sub_topic:$("#sub_topic").val(), 
+             topic:$("#topic").val(), 
+             subject:$("#Subject").val(),
+             saved:'saved',
+             };
+           var con = confirm('Are you sure to save the changes?');
+                if (con == true) {
+                            localStorage.setItem("{{ request.user.username }}"+"_lesson_template", JSON.stringify(quest));
+                            var request  = $.ajax({
+                            url: "{% url 'pdf' ty=5 sx=0 pk=2 uk=1 %}",
+                            data: quest,
+                            dataType: 'json',
+                            });
+                            request.done(function(data) {
+                                var next = window.location.href.split('/')[0]+'/static/result/pdf/lesson_templates/'+"{{request.user.username}}"+".pdf";
+        				        window.open(next, '_blank');
+                            });
+                            request.fail(function( jqXHR, textStatus) {
+                                alert(textStatus)
+                            });
+              }
+            };
+            reload();
+            function reload(){
+            var quest = JSON.parse(localStorage.getItem("{{ request.user.username }}"+"_lesson_template"));
+            if (quest == null) {
+            var quest = {
+             question1:"A teacher who is prepared is well on his/her way to a successful instructional experience. ... is worthless if interesting delivery procedures, along with good classroom management techniques, are not in evidence.", 
+             question2:"A teacher who is prepared is well on his/her way to a successful instructional experience. ... is worthless if interesting delivery procedures, along with good classroom management techniques, are not in evidence.", 
+             question3:"A teacher who is prepared is well on his/her way to a successful instructional experience. ... is worthless if interesting delivery procedures, along with good classroom management techniques, are not in evidence.", 
+             assignment:"It may be used to consolidate classwork, but also for preparation for the next lesson. Homework may be used to shift repetitive, mechanical, time- consuming tasks out of the classroom. Homework bridges the gap ...", 
+             board:"Carefully designed lesson plans are essential to clear, organized, and engaging lessons. They include the following elements: A link to past learning that draws students into new learning. All eight lesson phases, including time for practice with the teacher, with peers, and independently.", 
+             preparation:"Lesson Preparation is an important component to the SIOP Model, and involved teacher planning a lesson that will include all 8 components. Writing lessons in detail is strongly recommended using any type of lesson plan template.  The more a teacher becomes familiar with the SIOP components, the less detailed the lesson plans will become (Echevarria, Vogt, & Short, 2008).", 
+             student_resources:"Resources include video and audio, interactive programs, images, documents, lesson plans, and student activities correlated to state standards", 
+             teacher_resources:"Resources include video and audio, interactive programs, images, documents, lesson plans, and student activities correlated to state standards", 
+             start:'Five Ways to Start Your Lessons Start with a Video/naratives. Everyone loves a good video, especially kids. ...Start with an Object. Another way to get your students wondering about a topic is to show them objects related to the content. ...Start with a Question. ...Start with Movement. ...Start with a Mistake.', 
+             lesson_objective:'Learning objectives should be brief, clear, specific statements of what learners will be able to do at the end of a lesson as a result of the activities, teaching and learning that has taken place. ... They help you and your students evaluate progress and encourage them to take responsibility for their learning.Resources include video and audio, interactive programs, images, documents, lesson plans, and student activities correlated to state standards', 
+             curriculum_objective:'Objectives are statements that describe the end-points or desired outcomes of the curriculum, a unit, a lesson plan, or learning activity. They specify and describe curriculum outcomes in more specific terms than goals or aims do.',
+             lesson_duration:"35 minutes / period.", 
+             class:'JSS 2', 
+             agenda:'Lesson Agenda', 
+             sub_topic:"Templates", 
+             topic:"Lesson Template.", 
+             subject:"AGR", 
+             
+             };    };   
+            document.getElementById("ques1").value = quest.question1;
+            document.getElementById("ques2").value = quest.question2;
+            document.getElementById("ques3").value = quest.question3;
+            document.getElementById("agn").value = quest.assignment;
+            document.getElementById("board").value = quest.board;
+            document.getElementById("les_prep").value = quest.preparation;
+            document.getElementById("res_stu").value = quest.student_resources;
+            document.getElementById("res_own").value = quest.teacher_resources;
+            document.getElementById("start").value = quest.start;
+            document.getElementById("les_obj").value = quest.lesson_objective;
+            document.getElementById("cur_obj").value = quest.curriculum_objective;
+            document.getElementById("duration").value = quest.lesson_duration;
+            document.getElementById("Class").value = quest.class;
+            document.getElementById("agenda").value = quest.agenda;
+            document.getElementById("sub_topic").value = quest.sub_topic;
+            document.getElementById("topic").value = quest.topic;
+            document.getElementById("Subject").value = quest.subject;
+            }   
+               
+        </script>
+        <a href="{% url 'home' %}" title="Home Page" style="color:white;font-weight:bold;">Main Page</a>
+    </label>
+    {% endblock %}

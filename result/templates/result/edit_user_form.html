@@ -1,0 +1,61 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<html lang="en">
+	<head>
+		<title> {% block title %}Personal Information {% endblock %}</title>
+	</head>
+    <body>
+        <div class="capt"><a href="{% url 'password' %}"><strong style="color:white;"><span class="glyphicon glyphicon-wrench">settings</span></strong></a></div>
+          <form action="" method="post">
+          {% csrf_token %}
+            <div class="capt" style="line-height:65%;border-radius:3px;background-color:white;font-weight:bold;color:red;border:1px solid white;width:100%;">You are editing <strong>{{ form.user }} 's profile.</strong></div>
+            <div class="capt" style="font-family:Helvetica; color:white; font-size: 10px;width:30%;">Personal Info:</div>
+            <div class="row">
+              <div class="col-xs-2">
+                {{ form.title }}
+              </div>
+              <div class="col-xs-3">
+                {{ form.last_name }}
+              </div>
+              <div class="col-xs-4">
+                {{ form.first_name }}
+              </div>
+              <div class="col-xs-3">
+                {{ form.birth_date }}
+              </div>
+            </div>   
+            {{ form.bio }}
+            <div class="capt" style="font-family:Helvetica; color:white; font-size: 10px;width:30%;">Contact Info:</div>
+            <div class="row">
+              <div class="col-xs-3">
+                {{ form.phone }}
+              </div>
+              <div class="col-xs-3">
+                {{ form.city }}
+              </div>
+              <div class="col-xs-3">
+                {{ form.country }}
+              </div>
+              <div class="col-xs-3">
+                {{ form.location }}
+              </div>
+            </div>
+            <div class="capt" style="font-family:Helvetica; color:white; font-size: 10px;width:30%;">Profile Info:</div>
+            <div class="row">
+              <div class="col-xs-4">
+                {{ form.department }}
+              </div>
+              <div class="col-xs-4">
+                {{ form.organization }}
+              </div>
+              <div class="col-xs-4">
+                  {{ form.class_in }}
+              </div> 
+            </div> 
+            <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-check">Save</span></button>
+          </form>
+        </body>
+{% endblock %}
+
+
+    

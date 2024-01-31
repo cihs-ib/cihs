@@ -1,0 +1,485 @@
+{% load static %}
+<!doctype html>
+<html>
+    <head>
+    <meta charset="utf-8">
+        <title>{% block title %}{{ a.student_name }}{% endblock %}</title>
+        <style type="text/css">
+        @page {
+				background-images: url("/Users/USER/AppData/Local/Programs/Python/cihs/citadel/result/static/result/cihs.jpg");
+                opacity:0.08;
+                size: A4;
+                margin-top:1.5cm;
+                margin-left:1cm;
+                margin-right:1cm;
+                margin-bottom:1.5cm;
+                @frame footer {
+                    -pdf-frame-content: footerContent;
+                    bottom: 0.5cm;
+                    margin-left: 1cm;
+                    margin-right: 1cm;
+                    height: 1cm;
+                    
+                }
+            }
+
+            table, th, td {
+            border-radius: 89%;
+            font-family: Baskerville Old Face;
+            text-align: center;
+            font-size: 10px;
+            padding: auto;
+            border: 1px solid #b3bcbe;
+            }
+            table {
+                border-collapse: collapse;
+                margin-left: 89%;
+                width: 89%;
+                }
+
+            th, td {
+                    padding: -0px;
+                    vertical-align: bottom;
+                    text-align: center;
+                    
+                      }
+
+            table {
+            border-spacing:100%;
+            }
+            
+                
+            .capt{
+                border-radius: 1px;
+                background-color: red;
+                text-align: center;
+                color: white;
+                width: 1%;
+                line-height: 10px;
+                font-weight:bold;
+                
+                }
+            
+        </style>
+    </head>
+        <table style="background-color: #f7f8f7;">
+                <td style="width:10%;"><img src="/Users/USER/AppData/Local/Programs/Python/cihs/citadel/result/static/result/cihs.jpg" height="80"  width="80" alt=""/></td><td id="header" style="background-color:rgba(238, 238, 29, 0.699);border:2px solid rgb(167, 224, 10);line-height:10px;"><strong style="font-size:28px;color: green;">CITADEL ISLAMIC HIGH SCHOOL</strong></td>
+                <td>
+                    <div id="header" style="width:100%;background-color:#36830a;border:2px solid rgb(170, 233, 22);line-height:10px;color: aliceblue;">
+                        <Address>
+                        <State class="br">Akomeji Oganke, thy-will, Bus-Stop Akanran Road, Ibadan.</State><br>
+                        <i>Contact</i>:08110650468, 08102262538, 08054426623<br>
+                        <i>E-mail</i>: cihs@gmail.com, cihs@yahoo.com<br>
+                        </Address>
+                        <em style="font-size:16px;background-color:black;color:white;text-align:center;font-weight:bold;">REPORT CARD</em>  
+                        <em style="margin-left:40%;background-color:white;color:black;border-radius:1px;width:12%;text-align:center;border: 5px solid black;border-radius: 10px;">
+                {{ term }}
+            </em> <br>
+                        <aside><strong>SESSION:</strong><u>{{ request.user.profile.session }}</u></aside><aside> <strong>ACADEMIC YEAR</strong>
+                    </div>
+                </td>
+                <td style="width:10%;"><img src="/Users/USER/AppData/Local/Programs/Python/cihs/citadel/result/static/result/oyologo.jpg" height="80"  width="80" alt=""/></td>
+        </table><br>
+        <strong><u>Sudent Profile</u></strong>
+        <table style="border: 1px solid white;">
+            <tr>
+                <th><u>Name:</u></th>
+                <th colspan="4">{{ info.full_name }}</th>
+                <th colspan="2"><u>Admission NO.: </u></th>
+                <th colspan="3">{{ info.uid }}</th>
+            </tr>
+            <tr>
+                <td><u>Date Of Birth:</u></td>
+                <td colspan="3">{{info.birth_date}}</td>
+                <td><u> Sex: </u></td>
+                <td>{{info.sex}}</td>
+                <td><u> Department: </u></td>
+                <td colspan="3">{{info.dept}}</td>
+            </tr>
+            <tr>
+                <td><u>Avr Scores:</u></td>
+                <td>{{info.total_scores}}</td>
+                <td><u> Grade: </u></td>
+                <td>{{info.grade}}</td>
+                <td><u> No in Class: </u></td>
+                <td>{{info.no}}</td>
+                <td colspan="2"><u> Position in Class: </u></td>
+                <td colspan="2">{{info.posi}}</td>
+            </tr>
+            
+        </table><br>
+        <strong><u>Attendance (Regularity & Punctuality)</u></strong>
+        <table>
+            <tr>
+                <th></th>
+                <th>School</th>
+                <th>Sport & Athletics</th>
+                <th>Other Organized Activities</th>
+            </tr>
+            <tr>
+                <td>No. of times School opened/Activities</td>
+                <td>{{info.no_open}}</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td >No. of times Present</td>
+                <td>{{info.no_present}}</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>No. of times Punctual</td>
+                <td>{{info.no_absent}}</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table><br>
+        <strong><u>CONDUCT:Special Report During the Term</u></strong>
+        <table>
+            <tr>
+                <th>GREEN FOR EXEMPLARY CONDUCT</th>
+                <th>RED for Bad Conduct</th>
+                <th>Comment</th>
+            </tr>
+            <tr>
+                <td>Deed</td>
+                <td>Number</td>
+                <td>{{info.comment}}</td>
+            </tr>
+        </table><br>
+        <strong><u>Physical Development, Health & Cleanliness</u></strong>
+        <table>
+            <tr>
+                <th colspan="2">HEIGHT</th>
+                <th colspan="2">WEIGHT</th>
+                <th>NO. of Days Absent</th>
+                <th rowspan="3">Purpose of Absence {{info.purpose}} </th>
+            </tr>
+            <tr>
+                <td>Beginning of term</td>
+                <td>End of term</td>
+                <td>Beginning of term</td>
+                <td>End of term</td>
+                <td>{{info.no_of_day_abs}}</td>
+            </tr>
+            <tr>
+                <td>{{info.H_begin}}m</td>
+                <td>{{info.H_end}}m</td>
+                <td>{{info.W_begin}}kg</td>
+                <td>{{info.W_end}}kg</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="6">Please tick cleanlines rating as Good_____
+                    {% if info.good != 'None' %}
+                        <em>✔</em>
+                    {% endif %} Fair _____
+                    {% if info.fair != 'None' %}
+                        <em >✔</em>
+                    {% endif %} Poor _____
+                    {% if info.poor != 'None' %}
+                        <em >✔</em>
+                    {% endif %} Remark: {{info.remarkss}}
+                </td>
+            </tr>
+        </table><br>
+        <strong><u> Subject Performances</u></strong>
+        <table>
+        <tr>
+            <thead>
+                <td>
+                        <a href="{% url 'student_info' pk=a.student_name.id %}">{{ a.tutor.Class }}:{{ term }}</a>               
+               </td>
+                <td>Obt. Mark</td>
+                <td style='font-weight:bold;'>{{ a.tutor.subject }}</td>
+                <td style='font-weight:bold;'>{{ b.tutor.subject }}</td>
+                <td style='font-weight:bold;'>{{ c.tutor.subject }}</td>
+                <td style='font-weight:bold;'>{{ d.tutor.subject }}</td>
+                <td style='font-weight:bold;'>{{ e.tutor.subject }}</td>
+                <td style='font-weight:bold;'>{{ f.tutor.subject }}</td>
+                <td style='font-weight:bold;'>{{ g.tutor.subject }}</td>
+                <td style='font-weight:bold;'>{{ h.tutor.subject }}</td>
+                <td style='font-weight:bold;'>{{ i.tutor.subject }}</td>
+                <td style='font-weight:bold;'>{{ j.tutor.subject }}</td>
+             
+            </thead>
+        </tr>
+        <tr>
+            <th style="font-family:Helvetica; color:blue;width:20%;">Grades</th>
+            <td style="font-family:Helvetica; color:red;" ></td>
+            <td style='font-size:12px;'>{{ a.grade }}</td>
+            <td style='font-size:12px;'>{{ b.grade }}</td>
+            <td style='font-size:12px;'>{{ c.grade }}</td>
+            <td style='font-size:12px;'>{{ d.grade }}</td>
+            <td style='font-size:12px;'>{{ e.grade }}</td>
+            <td style='font-size:12px;'>{{ f.grade }}</td>
+            <td style='font-size:12px;'>{{ g.grade }}</td>
+            <td style='font-size:12px;'>{{ h.grade }}</td>
+            <td style='font-size:12px;'>{{ i.grade }}</td>
+            <td style='font-size:12px;'>{{ j.grade }}</td>
+         </tr>
+        <tr>
+            <th style="font-family:Helvetica; color:blue;">Cont. Asst Test [CA]</th>
+            <td style="font-family:Helvetica; color:red;font-weight:bold;">30</td>
+            <td style='font-size:12px;'>{{ a.total }}</td>
+            <td style='font-size:12px;'>{{ b.total }}</td>
+            <td style='font-size:12px;'>{{ c.total }}</td>
+            <td style='font-size:12px;'>{{ d.total }}</td>
+            <td style='font-size:12px;'>{{ e.total }}</td>
+            <td style='font-size:12px;'>{{ f.total }}</td>
+            <td style='font-size:12px;'>{{ g.total }}</td>
+            <td style='font-size:12px;'>{{ h.total }}</td>
+            <td style='font-size:12px;'>{{ i.total }}</td>
+            <td style='font-size:12px;'>{{ j.total }}</td>
+           
+        </tr>
+        <tr>
+            <th style="font-family:Helvetica; color:blue;width15%;">Exam Score</th>
+            <td style="font-family:Helvetica; color:red;font-weight:bold;" >70</td>
+            <td style='font-size:12px;'>{{ a.exam }}</td>
+            <td style='font-size:12px;'>{{ b.exam }}</td>
+            <td style='font-size:12px;'>{{ c.exam }}</td>
+            <td style='font-size:12px;'>{{ d.exam }}</td>
+            <td style='font-size:12px;'>{{ e.exam }}</td>
+            <td style='font-size:12px;'>{{ f.exam }}</td>
+            <td style='font-size:12px;'>{{ g.exam }}</td>
+            <td style='font-size:12px;'>{{ h.exam }}</td>
+            <td style='font-size:12px;'>{{ i.exam }}</td>
+            <td style='font-size:12px;'>{{ j.exam }}</td>
+            
+        </tr>
+        {% if term == "3rd Term" %}<tr>
+            <th style="font-family:Helvetica; color:blue;">3rd term Scores</th>
+            <td style="font-family:Helvetica; color:red; font-weight:bold;">100</td>
+            <td style='font-size:12px;'>{{ a.agr }}</td>
+            <td style='font-size:12px;'>{{ b.agr }}</td>
+            <td style='font-size:12px;'>{{ c.agr }}</td>
+            <td style='font-size:12px;'>{{ d.agr }}</td>
+            <td style='font-size:12px;'>{{ e.agr }}</td>
+            <td style='font-size:12px;'>{{ f.agr }}</td>
+            <td style='font-size:12px;'>{{ g.agr }}</td>
+            <td style='font-size:12px;'>{{ h.agr }}</td>
+            <td style='font-size:12px;'>{{ i.agr }}</td>
+            <td style='font-size:12px;'>{{ j.agr }}</td>
+         
+        </tr>{% endif %}
+        {% if term == "2nd Term"  or term == "3rd Term" %}<tr id='second'>
+            <th style="font-family:Helvetica; color:blue;">2nd term Scores</th>
+            <td style="font-family:Helvetica; color:red;" >100</td>
+            <td style='font-size:12px;'>{{ a.sagr }}</td>
+            <td style='font-size:12px;'>{{ b.sagr }}</td>
+            <td style='font-size:12px;'>{{ c.sagr }}</td>
+            <td style='font-size:12px;'>{{ d.sagr }}</td>
+            <td style='font-size:12px;'>{{ e.sagr }}</td>
+            <td style='font-size:12px;'>{{ f.sagr }}</td>
+            <td style='font-size:12px;'>{{ g.sagr }}</td>
+            <td style='font-size:12px;'>{{ h.sagr }}</td>
+            <td style='font-size:12px;'>{{ i.sagr }}</td>
+            <td style='font-size:12px;'>{{ j.sagr }}</td>
+           
+        </tr> {% endif %}
+        {% if term == "3rd Term" or term == "1st Term" %}<tr id='first'>
+            <th style="font-family:Helvetica; color:blue;">1st term Scores</th>
+            <td style="font-family:Helvetica; color:red;" >100</td>
+            <td style='font-size:12px;'>{{ a.fagr }}</td>
+            <td style='font-size:12px;'>{{ b.fagr }}</td>
+             <td style='font-size:12px;'>{{ c.fagr }}</td>
+            <td style='font-size:12px;'>{{ d.fagr }}</td>
+            <td style='font-size:12px;'>{{ e.fagr }}</td>
+            <td style='font-size:12px;'>{{ f.fagr }}</td>
+            <td style='font-size:12px;'>{{ g.fagr }}</td>
+            <td style='font-size:12px;'>{{ h.fagr }}</td>
+            <td style='font-size:12px;'>{{ i.fagr }}</td>
+            <td style='font-size:12px;'>{{ j.fagr }}</td>
+         
+        </tr>{% endif %}
+       {% if term == "3rd Term" %} <tr class='third'>
+            <th style="font-family:Helvetica; color:blue;">Annual Scores</th>
+            <td style="font-family:Helvetica; color:red;font-weight:bold;" >300</td>
+            <td style='font-size:12px;'>{{ a.aagr }}</td>
+            <td style='font-size:12px;'>{{ b.aagr }}</td>
+            <td style='font-size:12px;'>{{ c.aagr }}</td>
+            <td style='font-size:12px;'>{{ d.aagr }}</td>
+            <td style='font-size:12px;'>{{ e.aagr }}</td>
+            <td style='font-size:12px;'>{{ f.aagr }}</td>
+            <td style='font-size:12px;'>{{ g.aagr }}</td>
+            <td style='font-size:12px;'>{{ h.aagr }}</td>
+            <td style='font-size:12px;'>{{ i.aagr }}</td>
+            <td style='font-size:12px;'>{{ j.aagr }}</td>
+          
+        </tr>
+        <tr class='third'>
+            <th style="font-family:Helvetica; color:blue;width15%;">Annual % average</th>
+            <td style="font-family:Helvetica; color:red;font-weight:bold;" >100</td>
+            <td style='font-size:12px;'>{{ a.avr }}</td>
+            <td style='font-size:12px;'>{{ b.avr }}</td>
+            <td style='font-size:12px;'>{{ c.avr }}</td>
+            <td style='font-size:12px;'>{{ d.avr }}</td>
+            <td style='font-size:12px;'>{{ e.avr }}</td>
+            <td style='font-size:12px;'>{{ f.avr }}</td>
+            <td style='font-size:12px;'>{{ g.avr }}</td>
+            <td style='font-size:12px;'>{{ h.avr }}</td>
+            <td style='font-size:12px;'>{{ i.avr }}</td>
+            <td style='font-size:12px;'>{{ j.avr }}</td>
+            
+       {% endif %} </tr>
+        <tr>
+            <th style="font-family:Helvetica; color:blue;">No in Class</th>
+            <td style="font-family:Helvetica; color:red;" ></td>
+            <td>{% if a != None %}{{ a.tutor.males |add:a.tutor.females }}{% endif %}</td>
+            <td>{% if b != None %}{{ b.tutor.males |add:b.tutor.females }}{% endif %}</td>
+            <td>{% if c != None %}{{ c.tutor.males |add:c.tutor.females }}{% endif %}</td>
+            <td>{% if d != None %}{{ d.tutor.males |add:d.tutor.females }}{% endif %}</td>
+            <td>{% if e != None %}{{ e.tutor.males |add:e.tutor.females }}{% endif %}</td>
+            <td>{% if f != None %}{{ f.tutor.males |add:f.tutor.females }}{% endif %}</td>
+            <td>{% if g != None %}{{ g.tutor.males |add:g.tutor.females }}{% endif %}</td>
+            <td>{% if h != None %}{{ h.tutor.males |add:h.tutor.females }}{% endif %}</td>
+            <td>{% if i != None %}{{ i.tutor.males |add:i.tutor.females }}{% endif %}</td>
+            <td>{% if j != None %}{{ j.tutor.males |add:j.tutor.females }}{% endif %}</td>
+          
+        </tr>
+        <tr>    								
+            <th style="font-family:Helvetica; color:blue;">Position</th>
+            <td style="font-family:Helvetica; color:red;" ></td>
+            <td style='font-size:12px;'>{{ a.posi }}</td>
+            <td style='font-size:12px;'>{{ b.posi }}</td>
+            <td style='font-size:12px;'>{{ c.posi }}</td>
+            <td style='font-size:12px;'>{{ d.posi }}</td>
+             <td style='font-size:12px;'>{{ e.posi }}</td>
+             <td style='font-size:12px;'>{{ f.posi }}</td>
+             <td style='font-size:12px;'>{{ g.posi }}</td>
+             <td style='font-size:12px;'>{{ h.posi }}</td>
+             <td style='font-size:12px;'>{{ i.posi }}</td>
+             <td style='font-size:12px;'>{{ j.posi }}</td>
+         
+        </tr>
+     
+        <tr>
+            <th style="font-family:Helvetica; color:blue;">Teacher's sign</th>
+            <td style="font-family:Helvetica; color:red;" ></td>
+            <td title="{{ a.tutor.teacher_name }}">
+                {{ a.tutor.model_summary }}
+            </td>
+            <td title="{{ b.tutor.teacher_name }}"> 
+                {{ b.tutor.model_summary }}
+            </td>
+            <td title="{{ c.tutor.teacher_name }}">
+                {{ c.tutor.model_summary }}
+            </td>
+            <td title="{{ d.tutor.teacher_name }}">
+                {{ d.tutor.model_summary }}
+            </td>
+            <td title="{{ e.tutor.teacher_name }}"> 
+                {{ e.tutor.model_summary }}
+            </td>
+            <td title="{{ f.tutor.teacher_name }}">
+                {{ f.tutor.model_summary }}
+            </td>
+            <td title="{{ g.tutor.teacher_name }}">
+                {{ g.tutor.model_summary }}
+            </td>
+            <td title="{{ h.tutor.teacher_name }}">
+                {{ h.tutor.model_summary }}
+            </td>
+            <td title="{{ i.tutor.teacher_name }}">
+                {{ i.tutor.model_summary }}
+            </td>
+            <td title="{{ j.tutor.teacher_name }}">
+                {{ j.tutor.model_summary }}
+            </td>
+            
+        </tr>    
+        </table><br>  
+              <strong><u>Sport Activities</u></strong>
+        <table>
+        <tr>      
+                <th>Events</th>
+                <th>Indoor Games</th>
+                <th>Ball Games</th>
+                <th>Combative Game</th>
+                <th>Tracts</th>
+                <th>Jumps</th>
+                <th>Throw</th>
+                <th>Swim</th>
+                <th>Weight Lifting</th>
+            </tr>
+            <tr>
+                <td>{% if info.event == 'event' %}
+                    <em >✔</em>{% endif %}
+                </td>
+                <td>{% if info.indoor == 'indoor' %}
+                    <em >✔</em>{% endif %}
+                </td>
+                <td>{% if info.ball == 'ball' %}
+                    <em >✔</em>{% endif %}
+                </td>
+                <td>{% if info.combat == 'combat' %}
+                    <em >✔</em>{% endif %}
+                </td>
+                <td>{% if info.track == 'track' %}
+                    <em >✔</em>{% endif %}
+                </td>
+                <td>{% if info.jump == 'jump' %}
+                    <em >✔</em>{% endif %}
+                </td>
+                <td>{% if info.throw == 'throw' %}
+                    <em >✔</em>{% endif %}
+                </td>
+                <td>{% if info.swim == 'swim' %}
+                    <em >✔</em>{% endif %}
+                </td>
+                <td>{% if info.lift == 'lift' %}
+                    <em >✔</em>{% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>Coment:</td>
+                <td colspan="8" style="margin-left:0px;">{{info.sport_comment}}</td>
+            </tr>
+        </table>   <br>
+            <strong><u>Clubs and Socitie</u></strong>
+        <table>
+            <tr>
+                <th>Clubs/Societies</th>
+                <th>Office Held</th>
+                <th>Significant Contribution</th>
+                <th>Signature</th>
+            </tr>
+            <tr>
+                <td>{{info.club_one}}</td>
+                <td>{{info.office_one}}</td>
+                <td>{{info.contrib_one}}</td>
+            </tr>
+            <tr>
+                <td>{{info.club_two}}</td>
+                <td>{{info.office_two}}</td>
+                <td>{{info.contrib_two}}</td>
+            </tr>
+        </table><br>
+        <strong><u>General Commets</u></strong>
+        <table>
+            <tr>
+                <th style="font-family:Helvetica; color:blue;width:20%">Master's Remark </th>
+                <th colspan='2'><i>{{ info.master_comment }}</i></th> 
+            </tr>
+            <tr>
+                <th style="font-family:Helvetica; color:blue;">Principal's Remark </th>
+                <th><i>{{ info.principal_comment }}</i></th><th style='width:20%;'><em style='font-size:12px'>Signature and Date:</em>________________</th><img src="/app/result/static/result/iiro.jpg" height="30"  width="30"/> <em style="font-size:300%;line-height:2px;color:white;"> <em style="color:#20B2AA;">---------</em>MASTER AND PRINCIPAL REMARKS</em><img src="/app/result/static/result/uqhs.jpg" height="30"  width="30" /> 
+            </tr>
+            <tr>
+                <td style="font-family:Helvetica; color:blue;">Next term begins on </td>
+                <td colspan='2'><i>{{ info.resumption }}</i></td>
+            </tr>
+        </table>
+        <div id="footerContent"  style="text-align: center;">
+            {%block page_foot%}
+			www.https://cihs.com/result/render/pdf/{{qry.id}}/2/0/:
+            {{qry.subject}}/{{qry.Class}}/{{term}}/generated <on:->{{ today }}</on:->
+			<br> 
+			By:-{{ request.user.profile.last_name }} {{ request.user.profile.first_name }}
+            [Page <pdf:pagenumber>]
+            {%endblock%}
+    </div>
+
+</html>

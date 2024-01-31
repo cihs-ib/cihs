@@ -1,0 +1,13 @@
+{% extends "base_generic.html" %}
+ 
+
+
+{% block content %}   
+    {% for post in posts %}       
+        <form class="post">
+              <em class="date"><em style="font-family:Helvetica; color:red; font-size: 10px;">created:</em> {{ post.created_date|date:'d-m-Y' }}</em>
+              <a href="{% url 'post_detail' pk=post.pk %}" style="font-family:Helvetica; color:white; font-size: 10px;"><em style="font-family:Helvetica; color:red; font-size: 10px;">Username:</em>{{ post.Account_Username }} <em style="font-family:Helvetica; color:red; font-size: 10px;">Title:</em>{{ post.subject }}</a>
+              <pre style="font-family:Helvetica; color:red; font-size: 10px;">{{ post.text|truncatechars:200 }}</pre>
+        </form>
+    {% endfor %}
+{% endblock %}

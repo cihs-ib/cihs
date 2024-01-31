@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+{% extends "base_generic.html" %}
+<html lang="en">
+	<head>
+         <title> {% block title %} {{ name }}"s subjects {% endblock %} </title>
+         
+    </head>
+    <script>
+        var passward = [];
+        if (localStorage.passward) {
+			passward = localStorage.passward;
+            passward.push(passward)
+					}
+    </script>
+	{% block content %}
+	<body>
+        <div id="see_result" style="margin-left:0;overflow:hidden;padding:20px 10px;width:100%;border-radius:5px;background-color:rgb(168, 218, 32);" hidden>
+                <div class="capt"><a href="" style="color:white;"><strong>{{ name }}--:<span id="student_id"></span></strong></a><a href="" style="color:white;margin-left:35%;" title="Refresh"><span class="glyphicon glyphicon-refresh"></span></a></div>
+          
+          {% if query %}
+          {% for scr in query %} 
+          
+          <ul type="">
+                <li><div style="width:5%;border-radius:5px;text-align:center;border: 1px solid rgba(247, 238, 238, 0.918);">{{ forloop.counter }}</div>
+                    <span style="margin-left:2%"><button style="width:9%;border-radius:5px;text-align:center;border: 1px solid rgba(247, 238, 238, 0.918);background-color: purple;color:beige;">{{ scr.first.tutor.subject }}</button></span>       
+                    <a href="{% url 'student_subject_detail_one_subject' pk=0 %}"><button class="result_list" style="margin-left:7%;">1st</button></a>
+                    <a href="{% url 'student_subject_detail_one_subject' pk=0 %}"><button class="result_list" style="margin-left:3%;">2nd</button></a>        
+                    <a href="{% url 'student_subject_detail_one_subject' pk=0 %}"><button class="result_list" style="margin-left:3%;">3rd</button></a>        
+                    <a href="{% url 'quest_filter' tm='0' cl=scr.first.id sj=scr.first.tutor.subject.name %}"><button class="result_list" style="margin-left:3%;" >Que1</button></a>  
+                    <a href="{% url 'quest_filter' tm='1' cl=scr.first.id sj=scr.first.tutor.subject.name %}"><button class="result_list" style="margin-left:3%;">Que2</button></a>
+                    <a href="{% url 'quest_filter' tm='2' cl=scr.first.id sj=scr.first.tutor.subject.name %}"><button class="result_list" style="margin-left:3%;">Que3</button></a>
+                    
+              </ul></li>
+         
+          {% endfor %}
+          {% else %}
+              <pre style="width:70%;">There are no records.</pre>
+          {% endif %}
+          <label for=""><a href="{% url 'student_login' %}" style="background-color:blue;border-radius:5px;color:cornsilk">Back</a></label>
+            </div>
+     
+        
+        <form id="take_type">
+                <div class="capt"><strong>TAKE ACTION</strong></div>
+                <div>
+                    <div><input type="checkbox" name="take_check" value="exam" class="checks"> Examination</input>
+                    <ol type="1">
+                        <li><input type="radio" name="take" value="art" id="staff_login"> Art</input></li>
+                        <li><input type="radio" name="take" value="coms" id="staff_login"> Commercial</input></li>
+                        <li><input type="radio" name="take" value="scs" id="staff_login"> Science</input></li>
+                        <li><input type="radio" name="take" value="juni" id="staff_login"> Junior</input></li>
+                    </ol>
+                    </div>
+                    <input type="radio" name="take" value="result" id="student_login">Results</input>
+                    
+                </div>
+        </form>
+
+        <div style="margin-left:0;width:100%;border-radius:5px;padding:20px 10px;" id="take_science" hidden>
+                <div class="capt"><strong>SCIENCE-SUBJECTS FOR : {{ name }}</strong></div>                                                                
+                <button class="subject_list" name ="submit"  id="bio" value="bio"><strong>BIO</strong></button>
+                <button class="subject_list" name ="submit"  id="che" value="che"><strong>CHE</strong></button>
+                <button class="subject_list" name ="submit"  id="civ" value="civ"><strong>CIV</strong></button>
+                <button class="subject_list" name ="submit"  id="eng" value="eng"><strong>ENG</strong></button>
+                <button class="subject_list" name ="submit"  id="ent" value="ent"><strong>ENT</strong></button>
+                <button class="subject_list" name ="submit"  id="geo" value="geo"><strong>GEO</strong></button>
+                <button class="subject_list" name ="submit"  id="ict" value="ict"><strong>ICT</strong></button>
+                <button class="subject_list" name ="submit"  id="irs" value="irs"><strong>IRS</strong></button>
+                <button class="subject_list" name ="submit"  id="mat" value="mat"><strong>MAT</strong></button>
+                <button class="subject_list" name ="submit"  id="phy" value="phy"><strong>PHY</strong></button>
+                <button class="subject_list" name ="submit"  id="new1" value="new1"><strong>NEW</strong></button>
+                <button class="subject_list" name ="submit"  id="new" value="new"><strong>NEW</strong></button>
+                <label for=""><a href="{% url 'student_login' %}" style="background-color:blue;border-radius:5px;color:cornsilk">Back</a></label>
+                
+        </div>
+
+        <div style="margin-left:0;width:100%;border-radius:5px;padding:20px 10px;" id="take_comercial" hidden>
+                <div class="capt"><strong>COMMERCIAL-SUBJECTS FOR : {{ name }}</strong></div>                                                               
+                <button class="subject_list" name ="submit"  id="acc" value="acc"><strong>ACC</strong></button>
+                <button class="subject_list" name ="submit"  id="agr" value="agr"><strong>AGR</strong></button>
+                <button class="subject_list" name ="submit"  id="civ" value="civ"><strong>CIV</strong></button>
+                <button class="subject_list" name ="submit"  id="geo" value="geo"><strong>GEO</strong></button>
+                <button class="subject_list" name ="submit"  id="eng" value="eng"><strong>ENG</strong></button>
+                <button class="subject_list" name ="submit"  id="ent" value="ent"><strong>ENT</strong></button>
+                <button class="subject_list" name ="submit"  id="gov" value="gov"><strong>GOV</strong></button>
+                <button class="subject_list" name ="submit"  id="irs" value="irs"><strong>IRS</strong></button>
+                <button class="subject_list" name ="submit"  id="com" value="com"><strong>COM</strong></button>
+                <button class="subject_list" name ="submit"  id="mat" value="mat"><strong>MAT</strong></button>
+                <button class="subject_list" name ="submit"  id="new1" value="new1"><strong>NEW</strong></button>
+                <button class="subject_list" name ="submit"  id="new" value="new"><strong>NEW</strong></button>
+                <label for=""><a href="{% url 'student_login' %}" style="background-color:blue;border-radius:5px;color:cornsilk">Back</a></label>
+        </div>
+
+        <div style="margin-left:0width:100%;border-radius:5px;padding:20px 10px;" id="take_art" hidden>
+                <div class="capt"><strong>ART-SUBJECTS FOR : {{ name.student_name }}</strong></div>                                                                                                                                                                                             
+                <button class="subject_list" name ="submit"  id="arb" value="arb"><strong>ARB</strong></button>
+                <button class="subject_list" name ="submit"  id="civ" value="civ"><strong>CIV</strong></button>
+                <button class="subject_list" name ="submit"  id="lit" value="lit"><strong>LIT</strong></button>
+                <button class="subject_list" name ="submit"  id="eco" value="eco"><strong>ECO</strong></button>
+                <button class="subject_list" name ="submit"  id="eng" value="eng"><strong>ENG</strong></button>
+                <button class="subject_list" name ="submit"  id="ent" value="ent"><strong>ENT</strong></button>
+                <button class="subject_list" name ="submit"  id="gov" value="gov"><strong>GOV</strong></button>
+                <button class="subject_list" name ="submit"  id="irs" value="irs"><strong>IRS</strong></button>
+                <button class="subject_list" name ="submit"  id="mat" value="mat"><strong>MAT</strong></button>
+                <button class="subject_list" name ="submit"  id="yor" value="yor"><strong>YOR</strong></button>
+                <button class="subject_list" name ="submit"  id="new" value="new"><strong>NEW</strong></button>
+                <button class="subject_list" name ="submit"  id="new1" value="new1"><strong>NEW</strong></button>
+                <label for=""><a href="{% url 'student_login' %}" style="background-color:blue;border-radius:5px;color:cornsilk">Back</a></label>
+        </div>
+
+        <div style="margin-left:0;width:100%;border-radius:5px;padding:20px 10px;" id="take_junior" hidden>
+                <div class="capt"><strong>JUNIOR-SUBJECTS FOR : {{ name }}</strong></div>                                                                                                                                                                             
+                <button class="subject_list" name ="submit"  id="agr" value="agr"><strong>AGR</strong></button>
+                <button class="subject_list" name ="submit"  id="arb" value="arb"><strong>ARB</strong></button>
+                <button class="subject_list" name ="submit"  id="bst" value="bst"><strong>BST</strong></button>
+                <button class="subject_list" name ="submit"  id="bus" value="bus"><strong>BUS</strong></button>
+                <button class="subject_list" name ="submit"  id="eng" value="eng"><strong>ENG</strong></button>
+                <button class="subject_list" name ="submit"  id="his" value="his"><strong>HIS</strong></button>
+                <button class="subject_list" name ="submit"  id="irs" value="irs"><strong>IRS</strong></button>
+                <button class="subject_list" name ="submit"  id="mat" value="mat"><strong>MAT</strong></button>
+                <button class="subject_list" name ="submit"  id="nav" value="nav"><strong>NAV</strong></button>
+                <button class="subject_list" name ="submit"  id="pre" value="pre"><strong>PRV</strong></button>
+                <button class="subject_list" name ="submit"  id="yor" value="yor"><strong>YOR</strong></button>
+                <button class="subject_list" name ="submit"  id="new" value="new"><strong>NEW</strong></button>
+                <label for=""><a href="{% url 'student_login' %}" style="background-color:blue;border-radius:5px;color:cornsilk">Back</a></label>
+        </div>
+
+        <div style="margin-left:0;width:100%;border-radius:5px;padding:20px 10px;" id="take_ent" hidden>
+                <div class="capt"><strong>ENT-SUBJECTS FOR : {{ name }}</strong></div>                                                                                                                                                                             
+                <button class="subject_list" name ="submit"  id="ctr" value="ctr"><strong>CAT</strong></button>
+                <button class="subject_list" name ="submit"  id="ele" value="ele"><strong>ELE</strong></button>
+                <button class="subject_list" name ="submit"  id="grm" value="grm"><strong>GAR</strong></button>
+                <label for=""><a href="{% url 'student_login' %}" style="background-color:blue;border-radius:5px;color:cornsilk">Back</a></label>
+        </div>
+    </body> 
+    
+<script>
+        $("input:radio[name='take']").change(function() {
+        var checks = $(".checks").prop('checked')
+        if (checks) {
+            var action_type = $(this).val();
+            switch(action_type){
+            case "scs": 
+                $("#take_science").show();
+                $("#see_result").hide();
+                $("#take_type").hide();
+                $("#take_junior").hide();
+                $("#take_comercial").hide();
+                $("#take_art").hide();
+                take_science.style.backgroundColor = 'orange'
+                break
+            case "art":
+                $("#take_science").hide();
+                $("#see_result").hide();
+                $("#take_type").hide();
+                $("#take_junior").hide();
+                $("#take_comercial").hide();
+                $("#take_art").show();
+                take_art.style.backgroundColor = 'green'
+                break
+
+            case  "coms":
+                $("#take_science").hide();
+                $("#see_result").hide();
+                $("#take_type").hide();
+                $("#take_junior").hide();
+                $("#take_comercial").show();
+                $("#take_art").hide();
+                take_comercial.style.backgroundColor = 'violet'
+                break
+
+            case  "juni":
+                $("#take_science").hide();
+                $("#see_result").hide();
+                $("#take_type").hide();
+                $("#take_junior").show();
+                $("#take_comercial").hide();
+                $("#take_art").hide();
+                take_junior.style.backgroundColor = 'grey'
+                break
+            }
+        }
+    else {
+        var action_type = $(this).val()
+        if (action_type == "result"){
+            $("#see_result").show();
+            $("#take_science").hide();
+            $("#take_type").hide();
+            $("#take_junior").hide();
+            $("#take_comercial").hide();
+            $("#take_art").hide();
+            var pk = parseInt(localStorage.getItem('passward'))
+            $("#student_id").html(pk);
+            see_result.style.backgroundColor = 'pink';
+        }
+
+        else {
+            alert("Select exam or result")
+            $("#take_type").show();}   
+        }
+        });
+        
+    </script>
+    
+    <script>
+        function redirect(to) {
+		var next = window.location.href.split('logins')[0]+to+'/';
+        location.replace(next)
+		};
+        $("button[name='submit']").click(function() {
+            if ($(this).val() == 'ent'){
+                $("#take_ent").show();
+                $("#take_science").hide();
+                $("#take_type").hide();
+                $("#take_junior").hide();
+                $("#take_comercial").hide();
+                $("#take_art").hide();
+                take_ent.style.backgroundColor = 'white';
+                
+                }
+            else {
+                var pk = parseInt(localStorage.getItem('passward'))
+                var small = $(this).val();
+                var cap = small.toUpperCase();
+                redirect('student_exam_page/'+pk+'/'+cap+'/')
+             
+            }
+        });
+        
+        $("button[name='result_list']").click(function() {
+            var vat = $(this).val();
+            var suj = vat.split(',')[0];
+            var xv = [['JSS 1', 'JSS 2', 'JSS 3', 'SSS 1', 'SSS 2', 'SSS 3'], ['ACC', 'AGR', 'ARB', 'BST', 'BIO', 'BUS', 'CTR', 'CHE', 'CIV', 'COM', 'ECO', 'ELE', 'ENG', 'FUR', 'GRM', 'GEO', 'GOV', 'HIS', 'ICT', 'IRS', 'LIT', 'MAT', 'NAV', 'PHY', 'PRV', 'YOR'], ['1st Term', '2nd Term', '3rd Term']]
+            alert(xv[1].indexOf(vat.split(',')[0]))
+            alert(xv[2].indexOf(vat.split(',')[1]))
+            
+        })
+    </script>
+     {% endblock %}

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% extends "base_generic.html" %}
+<html>
+    {% block content %}
+    <head>
+
+    </head>
+    <body>
+       <div class="capt">VALID INPUT</div>
+       <div style="font-size: 12px;margin-left:-6%;width:96%;">
+       <hr> 
+       <div style="font-size: 12px;"><em style="color:red;">Hint:</em> Valid text file could be prepared considering the following important points.</div>
+       <p style="font-size: 12px;"><em style="color:blue; font-size: 10px;">Valid TextFile:</em> A valid text file should contain Student Name, test score, atendance score, assignment score and exam score only making 5. eg [Adekunle Ismail, 18, 9, 8, 43] </p>
+       <p style="font-size: 12px;"><em style="color:green; font-size: 10px;">Exception:</em> Combined subject such as Basic Science and Technology will have nine [Bamidele Iyabo, 17, 18, 9, 8, 7, 6, 42, 34]</p>
+       <p style="font-size: 12px;"><em style="color:red; font-size: 10px;">Error:</em> Any input added be it letter, symbols or alphabet will be considered as invalid input.</p>
+       <hr>  
+       </div>  
+    </body>
+    {% endblock %}
+</html>

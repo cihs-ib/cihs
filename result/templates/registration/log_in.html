@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+{% extends "base_generic.html" %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}User Login/Sign Up{% endblock %}</title>
+       
+    </head>
+    <body>
+    {% block content %}
+
+<div id="login_type">
+		<div class="capt" style="border:2px solid white;"><strong style="background-color:white;border:2px solid blue;color:black;border-radius:5px;">SELECT LOGIN TYPE</strong>
+			<pre style="line-height: 2px;border:2px solid red;" id="preview">
+			<input style="margin-left:-20%;" type="radio" name="login" value="Staff Account" id="staff_login" onclick="widely('Staff_Account')"> <strong style="border-radius:5px;background-color:orange;border:2px solid black;">STAFF</strong></input><input style="margin-left:23%;" type="radio" name="login" value="Student Account" id="student_login" onclick="widely('Student_Account')"> <strong style="border-radius:5px;background-color:gold;border:2px solid white;">STUDENT</strong> </input><input style="margin-left:20%;" type="radio" name="login" value="Sign_up" id="staff_signup" onclick="widely('Sign_up')"> <strong style="border-radius: 5px;background-color:brown;color:white;border:2px solid red;"> STAFF SIGNUP</strong> </input>
+			</pre>
+		</div>
+</div>
+
+<form method="post" action="{% url 'logins' %}" id="Staff_Account" class='form' style="width:0%" hidden>
+		<div class="capt"><strong style='border:-radius:4px;background-color:white;color:red;'>STAFF LOGIN</strong></div>
+		{% csrf_token %}
+		<label for="user">User Name</label>
+		<input style="background-color:#61C0BF;color:white;border-radius:5px;border:1px solid gray;width:15%;" required type="text" name="username" placeholder ="username" id="user_name" value =""></input>
+		<label for="passward">Password</label>
+		<input style="background-color:#61C0BF;color:white;border-radius:5px;border:1px solid graywidth:15%;" required type="password" name="password" placeholder="***********" id="user_password"></input> 
+		<button type='submit' name="staffSubmit" style="line-height:35%;margin-left:43%;background-color:crimson;color:white;border-radius:5px;width:70px;text-align:center;" class="btn btn-success" id="stafflogged"><span class="glyphicon glyphicon-log-in" ></span><strong>Login</strong></button><br>
+		<span style="font-size:10px;color:#BF3C89;opacity:0.9;margin-left:0%;">*Staff loggings: Enter User name and password, then <u>double</u> click the submit button </span>
+</form>
+<form method="post" action="{% url 'user_qury' %}" id="Sign_up" class='form' style="width:0%" hidden>
+		<div class="capt"><strong style='border:-radius:4px;background-color:white;color:red;'>STAFF SIGNUP</strong></div>
+		{% csrf_token %}
+		<label for="user" style="font-size:48%;margin-left:6%;">Username:</label><label for="email" style="font-size:48%;margin-left:6%;">Email:</label><label for="passward" style="font-size:48%;margin-left:6%;">Password:</label><label for="passward1" style="font-size:48%;margin-left:0%;">Confirm Password:</label><br>
+		<em style="margin-left:10%;">
+			<input style="width:18%;background-color:#61C0BF;color:white;border-radius:5px;border:1px solid gray;" maxlength='8' required type="text" name="username" placeholder ="username" id="signup" autofocus="autofocus"  value =""></input>
+			<input style="width:20%;background-color:#61C0BF;color:white;border-radius:5px;border:1px solid gray;" required type="email" name="email" placeholder ="examples@umqhs.com" id="email"></input>
+			<input style="width:18%;background-color:#61C0BF;color:white;border-radius:5px;" required type="password" name="password" placeholder ="***********" id="sign_passward"></input>
+			<input style="width:18%;background-color:#61C0BF;color:white;border-radius:5px;" required type="password" name="password1" placeholder ="***********" id="confirm"></input> 
+		</em><br>
+               <strong><u style="color:lemongold;font-size:9px;">Sign Up Requirements:</u> </strong>
+               <ol style="border:1px solid green;border-radius:10px;width:100%;">
+		<li><span style="font-size:10px;color:gray;opacity:0.9;margin-left:0%;color:orange;" id="minimum">*......sign-up with maximum of eight chracters long username</span></li>
+		<li><span style="font-size:10px;color:gray;opacity:0.9;margin-left:0%;color:indigo;" id="unique">*......a valid and unique email is compulsory for new account!</span></li>		
+		<li><span style="font-size:10px;color:gray;opacity:0.9;margin-left:0%;color:violet;" id="create_key">*......create your unique strong passward!</span></li>
+		<li><span style="font-size:10px;color:gray;opacity:0.9;margin-left:0%;color:green;" id="confirmed_key">*......confirm your unique passward in the next box!</span></li>
+		<li><span style="font-size:10px;color:gray;opacity:1;margin-left:0%;color:dodgerblue;" id="valid">*......a valid <i> ref number </i>from admin must be provided to complete the registration!</span></li>
+		<span style="font-size:10px;color:gray;opacity:1;margin-left:20%;color:dodgerblue;" id="invalid" hidden>*......the <i> ref number </i>provided is invalid, contact the admin for valid ref No.</span>
+                <span style="font-size:10px;color:gray;opacity:0.9;margin-left:20%;color:red;" id="enter_valid_email" hidden>*......please enter a valid email address!</span>
+		
+                </ol>
+		<span style="line-height:15%;background-color:white;border-radius:5px;color:red;margin-left:15%;border:1px solid red;font-size:9px;" id="error" hidden> <strong> <span class="glyphicon glyphicon-exclamation-sign"></span> PASSWORD ERROR!.</strong></span>
+		<br>
+		<ul id='unordered'style="border:1px solid red;border-radius:10px;width:80%;margin-left:15%;" hidden>
+			<li style="font-size:10px;" id="length">Password length must be at least nine characters.</li>
+			<li style="font-size:10px;" id="cases">passward should contain upper and lower case letter (A-z).</li>
+			<li style="font-size:10px;" id="digit">Password should contain digit betwwen (0-9).</li>
+			<li style="font-size:10px;" id="characters">Password should contain any of the special characters (!@#$%^&*()_-).</li>
+		</ul>
+		<span style="line-height:35%;background-color:white;border-radius:5px;color:green;margin-left:37%;font-size:9px;border:1px solid green;" class='normal' id="Oky" hidden>Strong Password <span class="glyphicon glyphicon-ok-circle"></span></span>
+		<span style="line-height:35%;background-color:white;border-radius:5px;color:silver;margin-left:37%;font-size:9px;border:1px solid silver;" id="mismatched" class='normal' hidden><span class="glyphicon glyphicon-asterisk"></span>Passward is not matched.</span>
+		<span style="line-height:35%;background-color:white;border-radius:5px;color:orange;margin-left:37%;font-size:9px;opacity:0.6;border:1px solid orange;" id="weak_key" class='normal' hidden><span class="glyphicon glyphicon-info-sign"></span> Password is too weak!  </span>
+		<br>
+		<button type='submit' name="signupSubmit" id="signupSubmit" style="line-height:35%;margin-left:43%;background-color:crimson;color:white;border-radius:5px;width:70px;text-align:center;" class="btn btn-success" hidden></span><strong>Submit</strong></button>
+</form>
+<form method="post" action="" id="Student_Account" class='form' style="width:0%" hidden>
+		<div class="capt"><strong style='border:-radius:4px;background-color:white;color:red;'>STUDENT LOGIN</strong></div>
+		{% csrf_token %}
+		<label for="name">Student Name</label>
+		<input style="background-color:#61C0BF;color:white;border-radius:5px;border:1px solid gray;width:15%;" required type="studentname" name="studentname" placeholder ="Surname first" id="student_name" value =""></input>
+		<label for="id">Student ID</label> 
+		<input style="background-color:#61C0BF;color:white;border-radius:5px;border:1px solid gray;width:15%;" required type="password" name="studentid" placeholder ="***********" id="student_id" title="AA/J/24/1423"></input>
+		<button type='submit' name="studentSubmit"  id="studentSubmit" style="line-height:35%;margin-left:43%;background-color:crimson;color:white;border-radius:5px;width:70px;text-align:center;" class="btn btn-success"><span class="glyphicon glyphicon-log-in"></span><strong>Login</strong></button><br>
+		<span style="font-size:10px;color:#BF3C89;opacity:0.9;margin-left:0;">*Student loggings: Enter full name, Identification Number and <u>double</u> click the submit button </span>
+</form>
+<script>
+    var counter = {count:0};
+	function waring(targer){
+	var cot = 0;
+	var id = setInterval(frame , 450);
+	function frame(){
+		if (counter.count == 1){
+			$(targer).hide();
+			clearInterval(id);
+		}
+		else{
+			cot++;
+			$(targer).toggle(); 
+		}
+	} 
+	};
+	function redirect(to) {
+		var next = window.location.href.split('logins')[0]+to+'/';
+        location.replace(next)
+		};
+	 function widely(target) {
+  var elem = document.getElementById(target);
+  var pos = 0;
+  var id = setInterval(frame, 5);
+  function frame() {
+    if (pos == 100) {
+      clearInterval(id);
+    } else {
+      pos++;
+      elem.style.width = pos + '%';
+    }
+  }
+}
+
+	$("input:radio[name='login']").change(function() {
+	var login_type = $(this);
+	switch(login_type.val()){
+        case "Staff Account":
+			$("#Staff_Account").show();
+			$("#Student_Account").hide();
+			$("#Sign_up").hide();
+			Staff_Account.style.backgroundColor = 'silver';
+			break
+        case "Student Account":
+			$("#Student_Account").show();
+			$("#Staff_Account").hide();
+			$("#Sign_up").hide();
+			Student_Account.style.backgroundColor = 'seashell';
+			break
+        case "Sign_up":
+			$("#Student_Account").hide();
+			$("#Staff_Account").hide();
+			$("#Sign_up").show();
+			 
+			$("#minimum").show();
+			Sign_up.style.backgroundColor = 'white';
+			}
+    
+	});
+	var username = {unique:false};
+	$("#email, #signup").change(function(){
+         if ($("#email").val()){
+		username.unique = false;
+		var request = $.ajax({
+			url: "{% url  'user_qury' %}",
+			data: {'username':$("#signup").val(), 'email':$("#email").val()
+			},
+			dataType: 'json'	
+		});
+		request.done(function(data) {
+          if (data.taken == 'null'){
+					username.unique = true;
+				}
+				else {
+						alert(data.taken);
+						document.getElementById("email").value = "";
+						document.getElementById("signup").value = "";
+
+					}
+	 });
+	 request.fail(function(xhr, status, error) {
+       var errors = {'0':'Client connectivity', '500':'Internal Server' };
+      var errorMessage = errors[xhr.status] + ': ' + xhr.statusText
+      alert('Error - ' + errorMessage);
+})
+		
+	}	
+	});
+	
+	$("#sign_passward").change(function(){
+                counter.count = 1;
+		var pwd = $(this);
+		var isOkay = true;
+		if (pwd.val().match(/\d+/) == null || pwd.val().match(/[A-Z]/) == null || pwd.val().match(/[a-z]/) == null || pwd.val().length < 8){
+			waring("#error")
+			$("#unordered").show();
+			isOkay = false;
+                        counter.count = 0;
+		}			
+		if (isOkay == false){
+			pwd.removeClass("goodBox").addClass("errorBox");
+		}
+		else {
+			pwd.removeClass("errorBox").addClass("goodBox");
+			$("#Oky").show();
+			$("#error").hide();	
+			$("#unordered").hide()
+			localStorage.setItem("current_key", JSON.stringify($(this).val()));
+		if (pwd.val().match(/[!@#$%^&*()_-]/) != null){
+			$("#strong_key").show();
+			$("#weak_key").hide();
+		}else {  counter.count = 0;
+                           waring("#weak_key");
+			   $("#Oky").hide();
+			   }
+		}
+		return false;
+	});
+	
+	$("#confirm").change(function(){
+                counter.count = 1;
+		localStorage.setItem("confirm_key", JSON.stringify($(this).val()));
+		var kek = JSON.parse(localStorage.getItem("current_key"));
+		var key = JSON.parse(localStorage.getItem("confirm_key"))
+                  $('#signupSubmit').show()
+		if (kek == key){
+			var ref = prompt('Enter valid Ref number.');
+			var ref_no = [234, 345, 8970, 5467, 345, 8902]
+            if (ref_no.includes(Number(ref))){username.ref = true;}		
+			$(".normal").hide();
+			$("#confirm").removeClass("errorBox").addClass("goodBox");
+		}
+		else {       counter.count = 0;
+            $('#signupSubmit').hide();
+            $("#confirm").removeClass("goodBox").addClass("errorBox");
+            waring("#mismatched");
+			$("#Oky").hide();}
+	});
+			
+	
+$('.form').submit(function (evt) {
+           evt.preventDefault();	
+      $("button[name='staffSubmit']").click(function() {
+         var datas =  {'username': $("#user_name").val(), 'password': $("#user_password").val()};
+           $.ajax({
+			url: "{% url  'user_qury' %}",
+			data:datas,
+			dataType: 'json',
+			success: function(data) {
+				if (data.is_taken != 'null'){
+                    var con = confirm('Logging in as '+datas.username); 
+					if (con == true){
+						$("#stafflogged").hide()
+						$.ajax({
+									url: "{% url 'logins' %}",
+									data: datas,		                      
+												dataType: 'json',	    
+												success: function(data) {
+												redirect(data.redirect)
+												}           
+									})
+					}
+				}
+				else {
+					alert(data.error_message)
+				}
+			}
+		})
+          });
+$("button[name='signupSubmit']").click(function() {
+         if (username.unique == true && username.ref == true){
+		$("#signupSubmit").hide()
+          var request = $.ajax({
+			url: "{% url  'user_qury' %}",
+			data:{'signupname': $("#signup").val(), 'email':$('#email').val(), 'password':$('#sign_passward').val(), 'password2': $("#confirm").val()},
+			dataType: 'json',
+			
+		});request.done(function(data) {
+                alert('Account with user namen: '+ data.status +' created');
+                redirect('home')
+	 });
+	 request.fail(function(xhr, status, error) {
+       var errors = {'0':'Client connectivity', '500':'Internal Server' };
+      var errorMessage = errors[xhr.status] + ': ' + xhr.statusText
+      alert('Error - ' + errorMessage);
+})
+     }else{alert('Please,  review your provided information!');
+              document.getElementById("sign_passward").value = "";
+	      document.getElementById("confirm").value = "";
+                }
+          });
+   $("button[name='studentSubmit']").click(function() {
+		var pas = $("#student_id").val();
+		if (/^[A-Z]*[/][A-Z][/][0-9]*[/][0-9]*$/.test(pas) == true){
+					$("#studentSubmit").hide()
+                      $.ajax({
+                          url:"{% url  'user_qury' %}",
+                         data: {'student_id':pas},
+                        dataType: 'json',
+                       success: function(data) {
+                              if (data.valid_id){
+                                  alert('Name: '+data.name+'  ID: '+pas);
+                                  localStorage.removeItem('tries');
+                                  localStorage.setItem('passward', pas.split('/')[3]);
+                                  localStorage.setItem('user_name', JSON.stringify(user_name));
+                     redirect('student_home_page/'+data.id)            
+                                  }
+                                else {
+                                    alert(data.error_message)
+                                 }
+                                 }
+                                })
+		         }else {alert(pas + ' is a wrong identification number!')}
+	});
+	});
+	</script>
+{% endblock %}
+    </body>
+</html>

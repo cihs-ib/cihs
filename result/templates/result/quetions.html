@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+{% extends "base_generic.html" %}
+<html lang="en">
+	<head>
+		 <title> {% block title %} {{ Class }}/{{ Subject }}/{{ Term }} {% endblock %} </title>
+	</head>
+	{% block content %}
+    <div class="capt" id="subject" hidden><pre style="line-height: 1px;" id="student_name"></pre><span id="header" hidden><em class="head_que" style="color:black;border-radius:4px;background-color:white;border:2px solid black;font-weight:bold;">SUBJECT :-</em><u style="color:white;border-radius:4px;background-color:black;border:2px solid white;font-weight:bold;">{{ Subject }}</u><em class="head_que" style="color:black;border-radius:4px;background-color:white;border:2px solid black;font-weight:bold;">CLASS :-</em><u style="color:white;border-radius:4px;background-color:black;border:2px solid white;font-weight:bold;">{{ Class }}</u><em class="head_que" style="color:black;border-radius:4px;background-color:white;border:2px solid black;font-weight:bold;">TERM :-</em><u style="color:white;border-radius:4px;background-color:black;border:2px solid white;font-weight:bold;">{{ Term }}</u></span><span id="scoreBord" style="width:42%;background-color:blue;color:white;font-size:15px;border-radius:5px;text-align:center;border: 1px solid rgba(247, 238, 238, 0.918);" hidden></span>
+    
+    </div>
+    
+    <br>
+    <body>
+        <script>
+            var myArray = [];
+            var corS = [];
+            var erS = [];
+            var myList = [];
+            var logger = "{{ logger }}"
+        </script>
+        {% if quetions %}
+        {% for scr in quetions %}
+        <div class="test" hidden>
+            <div class="{{ scr.questNum }}" value="{{ scr.CORRECT }}" style="color:white;width:76%;"><u style="color:white;background-color:black;border:2px solid white;border-radius:5px;text-align:center;width:45%;"><a href="{% url 'editQuest' scr.id %}">{{ scr.serial_no }}.</a></u> {{ scr.question}} </div>
+            {% if scr.image %}<em style="cursor:pointer;color:blue;" class="show_image_{{ scr.serial_no }}"><span class="glyphicon glyphicon-eye-open"></span></em><em style="cursor:pointer;color:blue;" class="hide_image_{{ scr.serial_no }}" hidden><span class="glyphicon glyphicon-eye-close"></span></em>
+<img src="{{ scr.image_link }}" alt="No" style="display:none;max-width: 30%; margin-left: 13%;" id="thisImage_{{ scr.serial_no }}">{% endif %}
+            <ol type="A">
+                <li class="{{ scr.answerA }}"><input type="radio" name="{{ scr.questNum }}" value="{{ scr.optionA }}" class="opt"> {{ scr.optionA }}</input></li>
+                <li class="{{ scr.answerB }}"><input type="radio" name="{{ scr.questNum }}" value="{{ scr.optionB }}" class="opt"> {{ scr.optionB }}</input></li>
+                <li class="{{ scr.answerC }}"><input type="radio" name="{{ scr.questNum }}" value="{{ scr.optionC }}" class="opt"> {{ scr.optionC }}</input></li>
+                <li class="{{ scr.answerD }}"><input type="radio" name="{{ scr.questNum }}" value="{{ scr.optionD }}" class="opt"> {{ scr.optionD }}</input></li>
+                {% if user.is_authenticated %}<input type="checkbox" class="edit_{{ scr.serial_no }}" value="{{ scr.id }}" ></input> <a href="{% url 'question_image' pk=scr.id %}"> Visual/Chart/Image</a> {% endif %}
+                <div name="{{ scr.questNum }}" value="{{ scr.CORRECT }}" hidden></div>
+                <div><strong name="Ok" style="margin-left:-3px;">Answer: </strong> <span id="{{ scr.questNum }}" style="color:black;background-color:white;border-radius:5px;border:2px solid blue;text-align:center;">No answer!</span></div>
+                <div class="Ok" hidden><strong style="margin-left:-3px;"> Correct: </strong> <div class="corrected"><span id="errorMessage" class="commText"><span class="glyphicon glyphicon-ok"> {{ scr.comment }}</span></span></div>     
+            <script>
+                $('li').on({
+                mouseenter: function() {
+                $(this).css('color', 'red');
+                $(this).css('font-size', '180%');
+                $(this).css('width', '70%');
+                $(this).css('background-color', 'orange');
+        
+                },
+                mouseleave: function() {
+                $(this).css('color', 'black');
+                $(this).css('font-size', '100%');
+                $(this).css('width', '70%');
+                $(this).css('background-color', 'gray');
+                
+                },
+                click: function() {
+                $(this).css('background-color', 'white');
+                }
+                });
+                $('.show_image_{{ scr.serial_no }}').on({
+                click: function() {
+                $("#thisImage_{{ scr.serial_no }}").show();
+                $(".hide_image_{{ scr.serial_no }}").show();
+                $(".show_image_{{ scr.serial_no }}").hide();
+                }
+                });
+                $('.hide_image_{{ scr.serial_no }}').on({
+                click: function() {
+                $("#thisImage_{{ scr.serial_no }}").hide();
+                $(".hide_image_{{ scr.serial_no }}").hide();
+                $(".show_image_{{ scr.serial_no }}").show();
+                }
+                });
+                
+          </script>
+            </ol>
+            <script>
+                $("input:radio[name='{{ scr.questNum }}']").change(function() {
+                $('#{{ scr.questNum }}').html($(this).val());
+                if (($(this).prop('checked')))
+                    var thisOpt = $(this);
+                    localStorage.setItem("{{ scr.questNum }}", thisOpt.val());
+                    myArray.unshift("{{ scr.questNum }}")
+                var corre = "{{ scr.CORRECT }}";
+                if (corre === thisOpt.val()) {
+                    corS.unshift(thisOpt.val());
+                    var list = document.getElementById('perfects');
+                    list.innerHTML += '<li>' + "{{ scr.serial_no }}"+'.  '+ "{{ scr.question}}"+ '<span class="glyphicon glyphicon-ok"></span>' + thisOpt.val()  +'</li>';
+                    myList.unshift("{{ scr.serial_no }}"+'.  '+ "{{ scr.question}}"+ '<span class="glyphicon glyphicon-ok"></span>' + thisOpt.val());
+                    }
+                else {
+                        erS.unshift(thisOpt);        
+                        }    
+                });
+           </script>
+          
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% if user.is_authenticated %}<button class="images" style="color:white;background-color:black;border:2px solid white;border-radius:5px;text-align:center;width:10%;"> Checks <span class="glyphicon glyphicon-check"></span></button> {% endif %}
+        <script>
+               reload();
+                function reload() {  
+                      var user_name = JSON.parse(localStorage.getItem('user_name'));
+                      var num = JSON.parse(localStorage.getItem(user_name));
+                    if (localStorage.user_name)
+                      for (var r = 0; r < num.length; r++) { 
+                          var radio_ = Array.from(document.getElementsByName(num[r]));
+                          var val1 = localStorage.getItem(num[r]); 
+                          for (var i = 0; i < radio_.length; i++) {
+                            if (radio_[i].value == val1) {
+                              radio_[i].checked = true;     
+                            }
+                          }
+                }
+                }
+        </script>
+        <div class="content" id="log_out" hidden>
+            <div class="section-inner clearfix">
+            <em class="capt">You are logged out. <a href="{% url 'logins' %}">Click here</a> to login again.</em>
+            </div>
+        </div>
+        <div class="sub_but" hidden><button id="showAns" style="margin-left:18%;width:12%;color:white;background-color:black;border:2px solid white;border-radius:5px;text-align:center;" title="You will have Zore score by displaying the answer"> Answers </button><button  id="finish" type="submit" style="margin-left:0%;width:12%;color:white;background-color:black;border:2px solid white;border-radius:5px;text-align:center;" title="You are about to submit finally!">Submit<span class="glyphicon glyphicon-ok"></span></button><a href=""><button id="resetMe" style="width:12%;border-radius:5px;text-align:center;border: 1px solid rgba(247, 238, 238, 0.918);" title="Click reset and refresh the page">Reset <span class="glyphicon glyphicon-repeat"></span> </button></a></div>
+        <script>
+            var tries = parseInt(localStorage.tries);
+            function ShowHandler() {
+            var divs = $(".correct");
+            if (tries >= 3){
+                $(".Ok").show();
+                $(".commText").show();
+                for (var i = 0; i < divs.length; i++) {
+                    divs[i].style.color = 'green';
+                    divs[i].style.fontWeight = 'bold';
+                    }
+                }
+            else {
+                    alert("Answer is displayed after three atempts!")
+                    }
+            }
+            var button = document.getElementById('showAns');
+            button.addEventListener('click', ShowHandler);                   
+            
+            var reset = 0;
+            function resetHandler() {
+            reset++;
+            if (reset == 1)
+            var pass = confirm("Reload Questions!");
+            if (pass == true){
+            $(".Ok").hide();
+            $(".commText").hide();
+            localStorage.removeItem('user_name')
+
+            }
+        }
+            var resets = document.getElementById('resetMe');
+            resets.addEventListener('click', resetHandler);
+            
+            var x = 0;
+            function submitedHandler() {
+            x++;
+            if (x == 1)
+            $(".Ok").hide();
+            $(".commText").hide();
+            var pass = confirm("Confirm Submission!");
+            if (pass == true) {
+            $('#perfects').show()
+            function roundToTwo(num) {return +(Math.round(num + 'e+2') + 'e-2');}
+            score = document.getElementById('scoreBord')
+            var agr = 1/"{{ quetions.count }}"
+            var uniqes = Array.from(new Set(corS.map((item) => item)))
+            var inPer = roundToTwo(uniqes.length*agr*100);
+            score.innerHTML = 'Your performance is '+inPer+'%';
+            $('#scoreBord').show();
+            $('#header').hide();
+            }
+            var user_name = JSON.parse(localStorage.getItem('user_name'));
+            localStorage.setItem(user_name, JSON.stringify(myArray));
+            var tries = 0;
+            if (localStorage.tries){
+                var tries = parseInt(localStorage.tries);
+                    }
+            tries += 1;
+            localStorage.setItem('tries', tries);
+            
+            if (myList.length != 0){
+                localStorage.setItem("myList", JSON.stringify(myList));
+                $("#score").show();
+                $(".test").hide();
+                $(".sub_but").hide();
+                $("#plane").show();
+            }
+            
+            }
+            var submited = document.getElementById('finish');
+            submited.addEventListener('click', submitedHandler);
+        </script>
+    <body> 
+    <span style="background-color:purple;color:white;font-size:19px;margin-left:90px;border-radius:5px;" id="score" hidden>QUESTIONS CORRECTLY ANSWERED!</span>
+    <pre id="plane" style="width:85%;margin-left:-8%;" hidden>
+        <ul type="1" style="width:85%;margin-left:-8%;"><span id="perfects" hidden></span></ul>
+    </pre>
+    <script>
+        var user_name = JSON.parse(localStorage.getItem('user_name'));
+        if (user_name == null) {
+            location.replace('http://127.0.0.1:8838/result/logins/')
+        }
+        else {
+        var login = confirm("Questions will be loaded to " + user_name +"'s account!");
+        $('#student_name').html(user_name);
+        if (login == true){
+            if ("{{ quetions.count }}" != 0){
+            alert("Click Ok to proced.")
+            $(".test").show();
+            $("#head").show();
+            $("#subject").show();
+            $(".sub_but").show();
+            $('#header').show();
+            
+            }
+            else {
+                location.replace('http://127.0.0.1:8838/result/logins/')
+            }
+                }
+        else {
+            alert("Log-out and select another account!.")
+            $("#log_out").show();
+        }
+        };
+        var allChecked = [];
+        $('input:checkbox').change(function() {
+                    var value = $(this).val();
+                    if ($(this).prop('checked')) {
+                        allChecked.push(value);
+                    }
+        });
+        $(".images").click(function() {
+            alert(allChecked.length)
+            for (var i = 0; i < allChecked.length; i++){
+                $.ajax({ 
+                url: 'http://127.0.0.1:8838/result/question_image/0/',
+                data: {'image_ids':allChecked[i]},
+                dataType: 'json',
+                success: function(data) {
+                    if (data.image_status){
+                        alert(data.image_status)
+                    }
+                    else {
+                        alert(data.image_empty)
+                    }
+                }
+            })
+            }
+            alert("Done!")
+        })
+    </script>
+        
+    {% endblock %} 
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jaquery.min.js"></script>

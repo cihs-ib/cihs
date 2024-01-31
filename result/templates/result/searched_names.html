@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+{% extends "base_generic.html" %}
+{% block content %}
+<div>
+	
+     <div class="capt" id="capt" style="color:white;">Note: Click the <a href="" style="color:blue;">hyper-link</a> from <strong style="color:blue;">{{ counts }}</strong> names, subjects and scores for review!
+     </div>	   
+     <div id="status_bar_container" style="margin-left:-53px;width:100%;height:15px;position:relative;background:green;border:1px solid white;border-radius:1px;" hidden> 
+          <input type="text" value="560 of 1000" disabled id="status_bar_animate" style="width:0%;height:14px;position:absolute;background:gray;text-align:center;font-size:70%;color:white;"> 
+    </div>
+  
+        <table>
+            <thead>
+	       
+            <tr><th>S/N</th><th>STUDENT NAMEs ({{ counts }})</th><th>Student ID</th><th>Age</th><th colspan="2">Club</th><th colspan="3">Annualy</th><th>Class</th></tr> 
+              </thead>
+          {% if all_page %}
+          {% for scr in all_page %} 
+          
+          <tr>
+            <td style="width:5%;">{{ forloop.counter }}</td>
+            <td style="cursor:pointer;width:40%;" onclick="$('#hid_{{ forloop.counter }}').toggle()">{{ scr.full_name }}
+            <div id="hid_{{ forloop.counter }}" hidden>
+              <button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;">
+                <a href="{% url 'student_info' pk=scr.id %}" title="{{ scr.student_id }}" style="color:blue;">
+                  Profile
+                </a>
+              </button><br>
+              <button style="line-height:65%;border:2px solid blue;color:blue;border-radius:5px;" onclick="cards('{{ scr.full_name }}', '{{ scr.Class }}', '1st')">1st Term Card</button><br>
+              <button style="line-height:65%;border:2px solid blue;color:blue;border-radius:5px;" onclick="cards('{{ scr.full_name }}', '{{ scr.Class }}', '2nd')">2nd Term Card</button><br>
+              <button style="line-height:65%;border:2px solid blue;color:blue;border-radius:5px;" onclick="cards('{{ scr.full_name }}', '{{ scr.Class }}', '3rd')">3rd Term Card</button>
+            </div>
+            </td>
+            <td style="width:10%;">{{ scr.uid }}
+            </td>
+            <td>{{ scr.age }}</td>
+            <td>{{ scr.club_one }}</td>
+            <td>{{ scr.club_two }}</td>
+            <td>{{ scr.annual_scores }}</td>
+            <td>{{ scr.annual_avr }}</td>
+            <td>{{ scr.posi }}</td>
+            <td style="width:7%;"><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;width:100%;" onclick="clet('{{ scr.Class }}')">{{ scr.Class }}</button></td>
+          </tr> 
+          
+          {% endfor %}
+          {% else %}
+              <pre style="width:70%;" >There are no records.</pre>
+          {% endif %}
+          <tfoot>
+                <tr><th colspan="10">
+                     {% if all_page.has_other_pages %}
+              <em class="pagination" >
+                {% if all_page.has_previous %}
+                  <li style="width:5%;line-height:65%;">
+                    <a href="?page={{ users.previous_page_number }}" style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;">&laquo;</a>
+                  </li>
+                {% else %}
+                  <li class="disabled" style="width:5%;line-height:65%;">
+                    <span style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;">&laquo;</span>
+                  </li>
+                {% endif %}
+                {% for i in all_page.paginator.page_range %}
+                  {% if all_page.number == i %}
+                    <li class="active" style="width:5%;line-height:65%;">
+                      <span style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;font-weight:bold;font-size:11px;line-height:65%;">{{ i }} <span class="sr-only">(current)</span></span>
+                    </li>
+                  {% else %}
+                    <li style="width:5%;line-height:65%;">
+                      <a href="?page={{ i }} "style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;">{{ i }}</a>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+                {% if all_page.has_next %}
+                  <li style="width:5%;line-height:65%;">
+                    <a href="?page={{ users.next_page_number }} "style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;">&raquo;</a>
+                  </li>
+                {% else %}
+                  <li class="disabled" style="width:5%;line-height:65%;">
+                    <span style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;">&raquo;</span>
+                  </li>
+                {% endif %}
+              </em>
+            {% endif %}
+            
+               <div style="color:white; font-size:13px;">Summary</div>|<button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;background-color:green;" title="Click to update JSS1 names" onclick="sycName('1')">{{Jo}}</button>--<button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;background-color:red;" title="Click to update JSS2 names" onclick="sycName(2)">{{Jt}}</button>--<button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;background-color:blue;" title="Click to update JSS3 names" onclick="sycName(3)">{{Jh}}</button>--<button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;background-color:green;" title="Click to update SSS1 names" onclick="sycName(4)" id='downloading'>{{So}}</button>--<button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;background-color:red;" title="Click to update SSS2 names" onclick="sycName(5)">{{St}}</button>--<button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;background-color:blue;" title="Click to update SSS3 names" onclick="sycName(6)">{{Sh}}</button>| <div style="color:white;font-size:13px;">{{ counts }} names returned </div></th></tr>
+          
+          </tfoot>
+          
+        </table>
+        <script>
+          var ErrorMap = {
+              '0': "Not connected.\nPlease verify your network connection.",
+              '400' : "Server understood the request, but request content was invalid.",
+              '401' : "Unauthorized access.",
+              '403' : "Forbidden resource can't be accessed.",
+              '404': "The requested page not found.",
+              '500' : "Internal server error.",
+              '503' : "Service unavailable.",
+              'parsererror' : "Requested JSON parse failed.",
+              'timeout': "Time out error.",
+              'abort': "Ajax request aborted.",
+          };
+          function clet(x){
+                 var ind = x.split(' ')[1];
+                 location.replace(window.location.href.split('student_names')[0]+'results_junior_senior/'+ind+"/")
+                  };
+          var cls = {class:1};
+          function sycName(cla){
+            cls.class = cla;
+            $('#status_bar_container').show();
+            $('#capt').hide()
+          var request  = $.ajax({
+          url: "http://uqhs.herokuapp.com/result/synchronizing/3/1/"+cla+"/",
+          data: {
+                'subject':1
+                },
+          dataType: 'json',
+          });
+          request.done(function(data) { 
+            if (window.location.href.split(':')[1] == '//127.0.0.1')
+                {status(1, 2, 'main');
+                var array = JSON.stringify(data.response);
+                var sub_request = $.ajax({
+                    type:'POST', 
+                    data:{'content':array},
+                    dataType: 'JSON', 
+                    url:"http://127.0.0.1:8838/result/synchronizing/3/2/"+cls.class+"/",
+                      });
+                sub_request.done(function(data) {
+                      status(2, 2, 'main');
+                      });
+                sub_request.fail(function(jqXHR, textStatus){
+                      alert(ErrorMap[jqXHR.status])
+                      $('#status_bar_container').hide()
+                      $('#capt').show()
+                      });
+                      };
+                      });  
+        request.fail(function(jqXHR, textStatus, data) {
+                        alert(ErrorMap[jqXHR.status]);
+                      $('#status_bar_container').hide()
+                      $('#capt').show()
+                        });
+                      
+          
+	};
+  function cards(nam, cls, trm){
+              var argt = {'JSS 1':'1', 'JSS 2':'2', 'JSS 3':'3', 'SSS 1':'4', 'SSS 2':'5', 'SSS 3':'6'}
+              var kwd = argt[cls]+'/'+trm+'/'+nam.split(' ')[0]+'_'+nam.split(' ')[1]+'.pdf'
+              var next = "https://dhnygxib7cbg0.cloudfront.net/pdf/cards /"+kwd;
+              window.open(next, '_blank');
+              };   
+        </script>
+
+{% endblock %}
+
+

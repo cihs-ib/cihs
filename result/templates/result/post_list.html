@@ -1,0 +1,53 @@
+{% extends "base_generic.html" %}
+ 
+{% block content %}
+<form>
+<div class="cap_form" ><a href="" style="color:palegoldenrod;">Posts</a><pre>{{ post }}</pre></div>
+    {% if all_page %}
+    	{% for sub in all_page %}
+        	{% if sub.published_date %}
+            <div class="date">
+                {{ sub.published_date }}
+            </div>
+        {% else %}
+            <a class="btn btn-default" href="{% url 'posts_publishing' pk=sub.pk %}">Publish</a>
+        {% endif %}
+        <a class="btn btn-default" href="{% url 'post_remove' sub.id %}"><span class="glyphicon glyphicon-remove"></span></a>
+        <h6><em style="font-family:Helvetica; color:red; font-size: 10px;">Request:</em> {{ sub.subject }}</h6>
+        <hr>
+	<pre>{{ sub.text|linebreaksbr }}</pre>
+	<div class="fc">
+             <em class="grd_count"><div style="font-family:Helvetica; color:green; font-size: 11px;"> {{ sub.comment|linebreaksbr }} </div></em>
+        </div>
+	<hr>
+    	{% endfor %}
+    {% else %}
+          <p>There are no post yet.</p>
+    {% endif %} 
+    <div><a href="{% url 'post_new' %}" style="font-family:Helvetica; color:red; font-size: 10px;"><h6>New request</h6></a></div>    
+</form>
+
+{% if all_page.has_other_pages %}
+      <ul class="pagination">
+        {% if all_page.has_previous %}
+          <li><a href="?page={{ users.previous_page_number }}">&laquo;</a></li>
+        {% else %}
+          <li class="disabled"><span>&laquo;</span></li>
+        {% endif %}
+        {% for i in all_page.paginator.page_range %}
+          {% if all_page.number == i %}
+            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+          {% else %}
+            <li><a href="?page={{ i }}">{{ i }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if all_page.has_next %}
+          <li><a href="?page={{ users.next_page_number }}">&raquo;</a></li>
+        {% else %}
+          <li class="disabled"><span>&raquo;</span></li>
+        {% endif %}
+	<a href="{% url 'home' %}" style="font-family:Helvetica; margin-left:160px; color:green; font-size: 20px;"><span class="glyphicon glyphicon-home"></span></a>
+      </ul>
+    {% endif %}
+<div><a href="" style="font-family:Helvetica; margin-left:36%; color:green; font-size: 20px;" target = _blank><span class="glyphicon glyphicon-list-alt"></span></a><a href="{% url 'home' %}" style="font-family:Helvetica; margin-left:0%; color:green; font-size: 20px;"><span class="glyphicon glyphicon-home"></span></a></div>
+{% endblock %}

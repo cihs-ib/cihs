@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+{% extends "base_generic.html" %}
+<html lang="en">
+<head>
+	<title> {% block title %} {{ scr.classes }}/{{ scr.subjects }}/{{ scr.terms }} {% endblock %} </title>
+</head>
+{% block content %}
+    <body>
+    <div class="capt">
+        <em class="head_que" style="color:black;border-radius:4px;background-color:white;border:2px solid black;font-weight:bold;">SUBJECT :-</em><u style="color:white;border-radius:4px;background-color:black;border:2px solid white;font-weight:bold;">{{ scr.subjects }}</u><em class="head_que" style="color:black;border-radius:4px;background-color:white;border:2px solid black;font-weight:bold;">CLASS :-</em><u style="color:white;border-radius:4px;background-color:black;border:2px solid white;font-weight:bold;">{{ scr.classes }}</u><em class="head_que" style="color:black;border-radius:4px;background-color:white;border:2px solid black;font-weight:bold;">TERM :-</em><u style="color:white;border-radius:4px;background-color:black;border:2px solid white;font-weight:bold;">{{ scr.terms }}</u></span>
+    </div>
+    <br>
+    <form action="">
+        <u style="color:white;background-color:black;border:2px solid white;border-radius:5px;text-align:center;width:45%;">{{ scr.serial_no }}.</u><input type="text" value="{{ scr.question}}" style="width:100%;border-radius:5px;border:2px solid white;background-color:gold;" id="question">
+        <br>
+        <div id="options">
+            <input type="text" value="{{ scr.optionA }}" style="margin-left:9%;width:20%;border-radius:5px;border:2px solid white;background-color:orange;text-align:center;" id="optionA">
+            <input type="text" value="{{ scr.optionB }}" style="width:20%;border-radius:5px;border:2px solid white;background-color:orange;text-align:center;" id="optionB">
+            <input type="text" value="{{ scr.optionC }}" style="width:20%;border-radius:5px;border:2px solid white;background-color:orange;text-align:center;" id="optionC">
+            <input type="text" value="{{ scr.optionD }}" style="width:20%;border-radius:5px;border:2px solid white;background-color:orange;text-align:center;" id="optionD">
+        </div>
+        <section>
+            <select id="answerA" style="margin-left:9%;width:12%;border-radius:5px;border:2px solid white;background-color:gray;text-align:center;">
+                    <option value="{{ scr.answerA }}"id="answerA">{{ scr.answerA }}</option>
+                    <option value="correct" id="correct">Answer</option>
+                    <option value="wrong" id="wrong">Wrong</option>
+            </select>
+            <select id="answerB" style="margin-left:8%;width:12%;border-radius:5px;border:2px solid white;background-color:gray;text-align:center;">
+                    <option value="{{ scr.answerB }}">{{ scr.answerB }}</option>
+                    <option value="correct" id="correct">Answer</option>
+                    <option value="wrong" id="wrong">Wrong</option>
+            </select>
+            <select id="answerC" style="margin-left:8%;width:12%;border-radius:5px;border:2px solid white;background-color:gray;text-align:center;">
+                    <option value="{{ scr.answerC }}">{{ scr.answerC }}</option>
+                    <option value="correct" id="correct">Answer</option>
+                    <option value="wrong" id="wrong">Wrong</option>
+            </select>
+            <select id="answerD" style="margin-left:16%;width:12%;border-radius:5px;border:2px solid white;background-color:gray;text-align:center;">
+                    <option value="{{ scr.answerD }}">{{ scr.answerD }}</option>
+                    <option value="correct" id="correct">Answer</option>
+                    <option value="wrong" id="wrong">Wrong</option>
+            </select>
+       </section>
+       <label for="" style="color:white;">CorrectAnswer:</label><label for="" style="color:white;margin-left:24%">AnswerComment:</label><br>
+        <input type="text" value="{{ scr.CORRECT }}" style="margin-left:22%;width:12%;border-radius:5px;border:2px solid white;background-color:#F0E68C;text-align:center;" id="correctAnswer">
+       <input type="text" value="{{ scr.comment }}" style="margin-left:37%;width:12%;border-radius:5px;border:2px solid white;background-color:#FFFACD;text-align:center;" id="AnswerComment">
+       <br> 
+       <option id="doned" style="margin-left:45%;color:white;background-color:black;border:2px solid white;border-radius:5px;text-align:center;width:10%;font-weight:bold;cursor:pointer;"> Done <span class="glyphicon glyphicon-check"></span></option>
+       </form>
+    </body>
+    <script>
+        var obj = {}
+        load();
+        function load() {
+                obj.pk = "{{ scr.id }}";
+                obj.question = $("#question").val();
+                obj.optionA = $("#optionA").val();
+                obj.optionB = $("#optionB").val();
+                obj.optionC = $("#optionC").val();
+                obj.optionD = $("#optionD").val();
+                obj.answerA = $("#answerA").val();
+                obj.answerB = $("#answerB").val();
+                obj.answerC = $("#answerC").val();
+                obj.answerD = $("#answerD").val();
+                obj.AnswerComment = $("#AnswerComment").val();
+                obj.correctAnswer = $("#correctAnswer").val()    
+        };
+        
+        $("#question").change(function(){
+            obj.question = $("#question").val();
+        });
+        $("#optionA").change(function(){
+            obj.optionA = $("#optionA").val();
+        });
+        $("#optionB").change(function(){
+            obj.optionB = $("#optionB").val();
+        });
+        $("#optionC").change(function(){
+            obj.optionC = $("#optionC").val();
+        });
+        $("#optionD").change(function(){
+            obj.optionD = $("#optionD").val();
+        });
+        $("#answerA").change(function(){
+            obj.answerA = $("#answerA").val();
+        });
+        $("#answerB").change(function(){
+            obj.answerB = $("#answerB").val();
+        });
+        $("#answerC").change(function(){
+            obj.answerC = $("#answerC").val();
+        });
+        $("#answerD").change(function(){
+            obj.answerD = $("#answerD").val();
+        });
+        $("#AnswerComment").change(function(){
+            obj.AnswerComment = $("#AnswerComment").val();
+        });
+        $("#correctAnswer").change(function(){
+            obj.correctAnswer = $("#correctAnswer").val();
+        });
+        $("#doned").click(function(){
+            $.ajax({ 
+                url: 'http://127.0.0.1:8838/result/editQuest/388/',
+                data: obj,
+                dataType: 'json',
+                success: function(data) {
+                    alert(data.status);
+                }
+            })
+            });
+    </script>
+    {% endblock %}
+</html>

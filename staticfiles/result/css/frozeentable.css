@@ -1,0 +1,454 @@
+*{
+    margin:0;
+  }
+  
+  .open-sans{font-family: 'Open Sans', sans-serif!important;}
+  .noto-sans{font-family: 'Noto Sans', sans-serif!important;}
+  
+  /*Sidebar*/
+    .sidebar{
+      display:none;
+        width:50%;
+        height:100%;
+        position:absolute;
+        right:0;
+        top:0;
+        background: linear-gradient(#d9d9d9, #f2f2f2);
+        z-index:2;
+      padding:16px;
+      transition:5s;
+    }
+  
+    .Slogo{
+      font-size:64px;
+      font-weight:550;
+      text-decoration:none;
+      text-align:center;
+      letter-spacing:4px;
+      color:black;
+      display:block;
+      padding:10px;
+    }
+  
+    .Slink{
+      font-size:24px;
+      font-weight:400;
+      text-decoration:none;
+      text-align:center;
+      letter-spacing:3px;
+      color:black;
+      display:block;
+      padding:10px;
+    }
+  
+    .Slink:hover{
+      background-color:#ccc;
+    }
+  
+    #close{
+      top:0;
+      right:0;
+      position:fixed;
+      padding:10px;
+      cursor:pointer;
+    }
+  
+  /*Navbar*/
+    .nav-wrapper{
+      z-index:1;
+      background-color:white;
+      padding:32px;
+      box-shadow:0px 2px 4px 0px rgba(0,0,0,.5);
+      position:relative;
+    }
+  
+    .logo{
+      font-size:32px;
+      font-weight:550;
+      text-decoration:none;
+      letter-spacing:4px;
+      color:black;
+      position:absolute;
+      left:5%;
+      top:50%;
+      transform:translate(0%,-50%);
+      padding:5px;
+    }
+  
+    .nav-container{
+      list-style:none;
+      overflow:hidden;
+      position:absolute;
+      top:50%;
+      right:5%;
+      transform:translate(0%,-50%);
+    }
+  
+    .nav-item,.nav-icon{
+      float:left;
+    }
+  
+    .nav-icon{
+      display:none;
+      font-size:24px;
+    }
+  
+    .nav-icon .nav-link{
+      font-size:24px;
+    }
+  
+    .nav-icon .nav-link:hover{
+      background:transparent;
+    }
+  
+    .nav-link{
+      font-size:18px;
+      font-weight:400;
+      text-decoration:none;
+      letter-spacing:3px;
+      color:black;
+      display:block;
+      padding:10px;
+      transition:.5s;
+    }
+  
+    .nav-link:hover{
+      background-color:#ccc;
+    }
+  
+    @media only screen and (max-width:650px){
+      .nav-item{
+        display:none;
+      }
+      .nav-icon{
+        display:block;
+      }
+    }
+        @keyframes rotation{
+            from{
+                transform: rotateY(0deg);
+            }
+            to{
+                transform: rotateY(360deg);
+            }
+      
+            /* css for bernner */
+        }
+        #bernner{
+          text-align: center; color: white;
+          display: flex;
+          font-size: 100%;
+          width: 100%;
+          justify-content: center;
+          align-items: center;
+          background: rgb(107, 188, 235);
+          line-height: 1.5;
+          text-align: center;
+      }
+      @-ms-viewport{
+                width: 1fr;
+              }
+              body {
+                background-color:#dbc78f;
+              margin-top:10%;
+              font-size: 14px;
+              line-height: 1.1;
+              }
+                table{ text-align: center;background-color:#93e6bf; }
+              .table-container{ 
+              width: 100%;
+              height:100%;
+              overflow: scroll;}
+              table th, table td {
+              white-space: nowrap;
+              padding: 10px 20px;
+              font-family: Baskerville Old Face;
+              border:2px solid white;
+              border-radius:5px;
+              text-align: center;
+              }
+              table tr th:first-child, table td:first-child{
+              position: sticky;
+              width: 40px;
+              left: 0;
+              z-index: 0;
+              background:lightgrey;
+              width:10%;
+              text-align:left;
+              }
+              table tr th:first-child{
+              z-index: 11;
+              }
+              table tr th{
+              position: sticky;
+              top: 0;
+              z-index: 9;
+              background: #fff;
+              }
+      table {border-collapse: collapse;
+             
+          }
+        
+      th, td {padding: 0px;}
+      .inputs{	font-size: 18px;
+                  text-align:center;
+                  width:60px;
+                  background-color:white;
+                  color:black;
+                  border-radius:5px;
+                  height: 30px;
+          }
+          .forTd, .anu {
+                      width:12px;
+                      font-size:18px;
+                      box-shadow: 0px 0px 45px 0px rgba(0, 0, 0, 0.6);
+                        }
+          table {
+          border-spacing: 1px;
+          }
+          .ttot, .etot, .agr, .avg, .grd, .pos {
+                      border:2px solid darkkhaki;
+                      border-radius: 3px;
+                      background-color: white;
+                      color:red;
+                      
+                      }
+              .title {
+                      border:2px solid white;
+                      background-color:lightgrey;
+                      border-radius:12px;
+                      text-align:center;
+                      line-height:12px;
+                      font-size: 110%;
+                      }
+              .foot {
+                      border:2px solid rgb(249, 248, 252);
+                      border-radius: 5px;
+                      background-color: rgb(245, 199, 16);
+              color: black;
+                      }
+              .page-footer {
+                      position: fixed;
+                      right: 0;
+                      bottom: 50px;
+                      display: flex;
+                      align-items: center;
+                      padding: 5px;
+                      z-index: 1;
+                      background: var(--white);
+                      }
+              tr:nth-of-type(even) > * {
+                      background: var(--darkblue);
+                      }
+         @media(max-width: 638px) {
+                  .table-container {
+                      width: 100%;
+              margin-left: 0;
+                  }
+                  h1{
+                  top: 10%;
+                  font-size:80%;
+                  }
+            
+                  } 
+      
+            @import url(https://fonts.googleapis.com/css?family=Varela+Round);
+      
+            body {
+                        background: rgba(201, 245, 214, 0.9); 
+            }
+      
+            h1 {
+                      color: white;
+                      font: normal 100px Varela Round, sans-serif;
+                      height: 110px;
+                      letter-spacing: 5px;
+                      margin: -92px 0 0 0;
+                      position: absolute;
+                      text-align: center;
+                      text-transform: uppercase;
+                      top: 18%;
+                      font-size:500%;
+                      width: 100%;
+                      animation: move linear 2000ms infinite;
+                       
+                      }
+      
+            @keyframes move {
+            0% {
+              text-shadow:
+              4px -4px 0 hsla(0, 100%, 50%, 1), 
+              3px -3px 0 hsla(0, 100%, 50%, 1), 
+              2px -2px 0 hsla(0, 100%, 50%, 1), 
+              1px -1px 0 hsla(0, 100%, 50%, 1),
+              -4px 4px 0 rgb(12, 116, 202), 
+              -3px 3px 0 rgb(12, 116, 202),   
+              -2px 2px 0 rgb(12, 116, 202),   
+              -1px 1px 0 rgb(12, 116, 202), 
+              ;
+            }
+            25% {    
+              text-shadow:      
+              -4px -4px 0 rgb(12, 116, 202),   
+              -3px -3px 0 rgb(12, 116, 202),   
+              -2px -2px 0 rgb(12, 116, 202),   
+              -1px -1px 0 rgb(12, 116, 202),  
+              4px 4px 0 hsla(0, 100%, 50%, 1), 
+              3px 3px 0 hsla(0, 100%, 50%, 1), 
+              2px 2px 0 hsla(0, 100%, 50%, 1), 
+              1px 1px 0 hsla(0, 100%, 50%, 1)      
+              ;
+            }
+            50% {
+              text-shadow:
+              -4px 4px 0 hsla(0, 100%, 50%, 1), 
+              -3px 3px 0 hsla(0, 100%, 50%, 1), 
+              -2px 2px 0 hsla(0, 100%, 50%, 1), 
+              -1px 1px 0 hsla(0, 100%, 50%, 1),
+              4px -4px 0 rgb(12, 116, 202),   
+              3px -3px 0 rgb(12, 116, 202),   
+              2px -2px 0 rgb(12, 116, 202),   
+              1px -1px 0 rgb(12, 116, 202), 
+              ;
+            }
+            75% {
+              text-shadow:
+              4px 4px 0 rgb(12, 116, 202),   
+              3px 3px 0 rgb(12, 116, 202),   
+              2px 2px 0 rgb(12, 116, 202),   
+              1px 1px 0 rgb(12, 116, 202),  
+              -4px -4px 0 hsla(0, 100%, 50%, 1), 
+              -3px -3px 0 hsla(0, 100%, 50%, 1), 
+              -2px -2px 0 hsla(0, 100%, 50%, 1), 
+              -1px -1px 0 hsla(0, 100%, 50%, 1)      
+              ;
+            }
+            100% {
+              text-shadow:
+              4px -4px 0 hsla(0, 100%, 50%, 1), 
+              3px -3px 0 hsla(0, 100%, 50%, 1), 
+              2px -2px 0 hsla(0, 100%, 50%, 1), 
+              1px -1px 0 hsla(0, 100%, 50%, 1),
+              -4px 4px 0 rgb(12, 116, 202),   
+              -3px 3px 0 rgb(12, 116, 202),   
+              -2px 2px 0 rgb(12, 116, 202),   
+              -1px 1px 0 rgb(12, 116, 202), 
+              ;
+            }  
+            }
+      
+          .edit-buttons {
+            padding: 10px 0;
+            user-select: none;
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(0.8px);
+          }
+          .edit-buttons button {
+            border-radius: 5px;
+            border: 0;
+            background: rgb(226, 42, 42);
+            cursor: pointer;
+            padding: 0 10px;
+            user-select: none;
+            color: #007bff;
+            box-shadow: 1px 1px 5px black;
+          }
+          tbody {
+            counter-reset: row;
+            /* Set the row counter to 0 */
+            }
+      
+        .styled {
+                  border: 0;
+                  line-height: 2.5;
+                  padding: 0 20px;
+                  font-size: 1rem;
+                  text-align: center;
+                  color: #fff;
+                  text-shadow: 1px 1px 1px #000;
+                  border-radius: 10px;
+                  background-color: rgba(220, 0, 0, 1);
+                  background-image: linear-gradient(to top left, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0));
+                  box-shadow:
+                      inset 2px 2px 3px rgba(255, 255, 255, 0.6),
+                      inset -2px -2px 3px rgba(0, 0, 0, 0.6);
+                  }
+       
+       .styled:hover {
+                  background-color: rgba(255, 0, 0, 1);
+                  }
+       
+       .styled:active {
+                      box-shadow:
+                      inset -2px -2px 3px rgba(255, 255, 255, 0.6),
+                      inset 2px 2px 3px rgba(0, 0, 0, 0.6);
+                      }
+       @media only screen and (max-width:650px){
+        h1{
+          top: 100px;
+          font-size:15px;
+          }
+              
+            }
+     
+          footer {
+      /* Style */
+      border-top: solid 7.5px #C3C3B7;
+      background-color: rgba(255, 255, 230, 10%);
+  
+      /* Spacing */
+      min-width: 700px;
+      width: 100vw;
+      margin-bottom: -15px;
+      padding: 10px 0;
+  }
+  
+  footer > p {
+      /* Style */
+      color: black;
+      font-size: 12px;
+      font-family: serif;
+      font-style: italic;
+      font-weight: bold;
+  
+      /* Spacing */
+      padding: 0.3em;
+      margin-left: 225px;
+      margin-right: 100px;
+  }
+  .cd__credit{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    background: rgb(247, 6, 6);
+    color: rgb(248, 244, 244);
+    line-height: 1.5;
+    margin-top: 100%;
+    
+  }
+  
+  input[type=number] {
+    width:112px;
+    padding: 2px 2px;
+    box-sizing: border-box;
+    border: none;
+    background-color: #93e6bf;
+    color: white;
+    font-size: 1rem;
+  }
+  input[type=number]:focus {
+    background-color: #3CBC8D;
+  }
+  .table td,
+  .table th {
+    margin: 0;
+    padding: .5em;
+    /* 1 */
+    vertical-align: middle;
+  }
+  
+  .selectbut{
+          text-align:center;border:2px solid white;color:black;border-radius:5px;width:80px; border:1px solid red;border:2px solid white;color:black;border-radius:5px;font-family:Bodoni MT Condensed;line-height:16px;
+        }

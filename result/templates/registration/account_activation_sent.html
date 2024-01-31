@@ -1,0 +1,10 @@
+{% extends "base_generic.html" %}
+<title>{% block title %} Sign_up successful {% endblock %}</title>
+{% block content %}
+  <div class="fcs" style="width:85%;margin:0px; font-size:8">
+     <em class="capt">Registration Successful</em>
+     <div class="capt" style="width:80%;margin:1px; font-size:10">Your input will be reviewd for confirmation in less than 24 hours. If your confirmation stay longer than 24 hours then, send a short message (containing the email and username used to registered) to admin on this number <em style="font-family:Helvetica; color:purple; font-size: 10px;">08068302538</em> or email: <em style="font-family:Helvetica; color:purple; font-size: 10px;">uqhs2019@gmail.com</em></div>              
+</div>
+<a href="{% url 'post_list' %}">Homepage! </a>
+{% endblock %}
+

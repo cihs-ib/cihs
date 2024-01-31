@@ -1,0 +1,148 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+body {
+  background: url(https://dhnygxib7cbg0.cloudfront.net/pdf/outing.jpg);
+}
+.nav-bar {
+  display: flex;
+  padding: 2% 4%;
+}
+.nav-bar .nav-logo h2 {
+  color: #5bee17;
+  font-size: 35px;
+  text-decoration: underline;
+}
+.nav-bar .nav-links {
+  flex: 1;
+  text-align: right;
+}
+.nav-links ul li {
+  list-style: none;
+  display: inline-block;
+  padding: 8px 12px;
+}
+.nav-links ul li:hover {
+  transform: scale(1.1);
+  transition: 0.2s;
+}
+.nav-links ul a {
+  color: #f5f6fa;
+  text-decoration: none;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+.content {
+  width: 100%;
+  top: 70%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.content h1 {
+  font-size: 60px;
+  color: transparent;
+  text-transform: uppercase;
+  margin-bottom: 4%;
+  -webkit-text-stroke: 3px #5bee17;
+  background: url(https://atisnet.com/wp-content/uploads/2020/02/back.png);
+  -webkit-background-clip: text;
+  background-position: 0 0;
+  animation: background 20s linear infinite;
+}
+.btn {
+  width: 200px;
+  border: 3px solid #5bee17;
+  border-radius: 5px;
+  color: #fbfcff;
+  margin: auto;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.btn p {
+  font-size: 14px;
+  padding: 10px 20px;
+  font-weight: 800;
+  transition: 1s;
+}
+.btn span {
+  width: 80px;
+  height: 80px;
+  top: 80px;
+  position: absolute;
+  background: #f8f8f5;
+  border-radius: 50%;
+  z-index: -1;
+  transition: 1s;
+}
+.btn span:nth-child(1) {
+  left: -20px;
+}
+.btn span:nth-child(2) {
+  left: 30px;
+  transition-delay: 0.2s;
+}
+.btn span:nth-child(3) {
+  left: 80px;
+  transition-delay: 0.4s;
+}
+.btn span:nth-child(4) {
+  left: 205px;
+  transition-delay: 0.6s;
+}
+.btn:hover span {
+  top: -10px;
+}
+.btn:hover p {
+  color: rgb(240, 28, 28);
+  transition-delay: 0.4s;
+}
+@keyframes background {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 2000px 0;
+  }
+}
+.menu-icon {
+  width: 26px;
+  display: none;
+}
+@media (max-width: 700px) {
+  .content h1 {
+    font-size: 26px;
+    margin-bottom: 10%;
+  }
+  
+  .nav-logo {
+    margin: 10px 0 0 10px; 
+  }
+  .menu-icon {
+    display: block;
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    cursor: pointer;
+  }
+  #mobileMenu ul {
+    margin-top: 40px;
+  }
+  #mobileMenu ul li {
+    display: none;
+    overflow: hidden;
+    transition: 1s;
+  }
+  #mobileMenu.active ul li {
+    display: block;
+    transition: 1s;
+  }
+  .nav-links ul li:hover {
+    transform: scale(0.9);
+  }
+}

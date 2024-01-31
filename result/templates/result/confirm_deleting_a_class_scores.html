@@ -1,0 +1,14 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<form>
+<div class="cap_form">Action:<pre>Delete!</pre></div>
+Are you sure you want to delete: <em style="font-family:Helvetica; color:white;">
+<ol>
+        {% for i in qry %}<li>{{ i.student_name }} <span class="glyphicon glyphicon-remove" style="background-color:white;color:red;border-radius:5px;border:1px solid red;"></span></li>{% endfor %} 
+    </ol>
+</em>score completely ? <a href="{% url 'confirmed' pk=pk %}" style="font-family:Helvetica; color:red; font-size: 12px;">Yes</a>/<a href="{% url 'home' %}" style="font-family:Helvetica; color:purple; font-size: 12px;">No</a>
+</form>
+{% endblock %}
+

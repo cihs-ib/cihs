@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+{% extends "base_generic.html" %}
+<html lang="en">
+	<head>
+		<title> {% block title %}{{ request.user.username }}|Transfer {% endblock %}</title>
+	</head>
+	<body>
+	{% block content %}
+       <table>
+				 <div class="capt"><strong style="color:white;background-color:black;border:2px solid white;border-radius:5px;font-weight:bold;">SUBJECT LISTED:<em id='of'></em> of {{ counts }}</strong></div><tr>
+            <thead><tr><th>SN</th><th>To</th><th colspan="2" style="width:15%;">Subject Code</th><th>Detail</th><th colspan="3">Counts</th><th>Created</th><th>Updated</th>{% if request.user.is_superuser == True  and user.is_staff == True %}<th>Syc</th><th onclick="allPick()"><input type="checkbox" value="0" id="allPick"></th>{% endif %}</tr></thead>      
+          {% if all_page %}
+          {% for sub in all_page %}
+            <tr> <script>$('#of').html('{{ forloop.counter }}')</script><td>{{ forloop.counter }}</td><td style="color:white;"><a href="{% url 'tutor_update' pk=sub.first_term.id %}">{{ sub.tutor }}</a></td><td><a href="">{{ sub.first_term.subject }}</a></td><td>{{ sub.first_term.subject_teacher_id }}</td><td><a href="{% url 'subject_view' pk=sub.first_term.id md=1 %}">{{ sub.first_term.Class }}</a></td><td>{{ sub.first_term.males }}</<td><td>{{ sub.first_term.females }}</<td><td>{{ sub.first_term.males|add:sub.first_term.females }}</<td><td style="color:white;width:25%;">{{sub.created}}</td><td style="color:white;width:25%;">{{sub.updated}}</td>{% if request.user.is_superuser == True  and user.is_staff == True %}<td style='width:5%'><button id="clicked_{{ forloop.counter }}" onclick="synchr('{{ sub.first_term.subject }}', '{{ sub.first_term.Class }}', '{{ forloop.counter }}')" style="line-height:65%;border-radius:2px;background-color:green;color:white;border-radius:2px;font-size:8px;width:100%;"><span class="glyphicon glyphicon-refresh" title="click to update record"></span></button></td><td style="color:white;font-size:12px;"><input type="checkbox" value="{{ sub.first_term.id }}" class="pick" id="picked_{{ forloop.counter }}" style='font-size:5px;'></td>{% endif %}</tr>   
+          {% endfor %}
+          {% else %}
+              <pre style="width:70%;">There are no records.</pre>
+          {% endif %} 
+           
+          <tfoot><th colspan="12">
+               
+          {% if all_page.has_other_pages %}
+              <em class="pagination" >
+                {% if all_page.has_previous %}
+                  <li style="width:5%;line-height:65%;">
+                    <a href="?page={{ users.previous_page_number }}" style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;">&laquo;</a>
+                  </li>
+                {% else %}
+                  <li class="disabled" style="width:5%;line-height:65%;">
+                    <span style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;">&laquo;</span>
+                  </li>
+                {% endif %}
+                
+          {% if request.user.is_superuser == True  and user.is_staff == True %}<button style="line-height:220%;border:2px solid blue;color:black;border-radius:5px;" onclick="done()" id="downloading">Done</button>{% endif %}
+                {% for i in all_page.paginator.page_range %}
+                  {% if all_page.number == i %}
+                    <li class="active" style="width:5%;line-height:65%;">
+                      <span style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;font-weight:bold;font-size:11px;line-height:65%;">{{ i }} <span class="sr-only">(current)</span></span>
+                    </li>
+                  {% else %}
+                    <li style="width:5%;line-height:65%;">
+                      <a href="?page={{ i }} "style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;">{{ i }}</a>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+                {% if all_page.has_next %}
+                  <li style="width:5%;line-height:65%;">
+                    <a href="?page={{ users.next_page_number }} "style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;">&raquo;</a>
+                    
+                    <a href="{% url 'transfers' md=0 %}" style="color:green;">
+                      <span class="glyphicon glyphicon-list-alt" title='all'></span>
+                      </a>         
+                  </li>
+                {% else %}
+                  <li class="disabled" style="width:5%;line-height:65%;">
+                    <span style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;">&raquo;</span>
+                  </li>
+                {% endif %}
+              </em>
+            {% endif %}
+            
+          <div>
+        </th>
+        </tfoot>
+       </table>
+         </body> 
+	 
+     <script>
+     function progress_bar(i) {
+                        var elem = document.getElementById("status_bar_animate");
+                        elem.style.width = i + '%';
+                        };
+                    var chn = [];
+                    function status(step, dest, next){
+                        chn.push(step);
+                        var pro = (Array.from(new Set(chn)).length / dest)*100;
+                        var elem = document.getElementById("status_bar_animate");
+                        elem.value = ""+""+Array.from(new Set(chn)).length+" of "+""+dest;
+                        progress_bar(pro)
+                        if (Array.from(new Set(chn)).length == dest){
+                            if (next == 'main'){
+                            location.replace(window.location.href);
+                            };
+                            if (next == 'accounts'){
+                                var next = window.location.href.split('/')[0]+'/result/all_users/';  
+                            location.replace(next);
+                            }
+                            else{
+                            var next = window.location.href.split('/')[0]+'/result/'+next+'/1/';  
+                            location.replace(next);
+                            }}
+                        };
+     var subj = [['----', 'ACC', 'AGR', 'ARB', 'BST', 'BIO', 'BUS', 'CTR', 'CHE', 'CIV', 'COM', 'ECO', 'ELE', 'ENG', 'FUR', 'GRM', 'GEO', 'GOV', 'HIS', 'ICT', 'IRS', 'LIT', 'MAT', 'NAV', 'PHY', 'PRV', 'YOR'], ['', 'JSS 1', 'JSS 2', 'JSS 3', 'SSS 1', 'SSS 2', 'SSS 3']]
+          var ErrorMap = {
+              '0': "Not connected.\nPlease verify your network connection.",
+              '400' : "Server understood the request, but request content was invalid.",
+              '401' : "Unauthorized access.",
+              '403' : "Forbidden resource can't be accessed.",
+              '404': "The requested page not found.",
+              '500' : "Internal server error.",
+              '503' : "Service unavailable.",
+              'parsererror' : "Requested JSON parse failed.",
+              'timeout': "Time out error.",
+              'abort': "Ajax request aborted.",
+					};
+        function allPick(){
+          var pick = $('.pick');
+          for (var i = 0; i < pick.length; i++){
+                    var nik = pick[i];
+                    nik.checked = true;
+           };
+        };
+           function done(){
+              var pick = $('.pick');
+              var array = [];
+              var data = {};
+              for (var i = 1; i < pick.length+1; i++){
+                    var itr = ""+i;
+                    if (pick[i-1].checked){
+                        array.push($('#picked_'+itr).val())  
+                    }
+           };
+           for (var i = 0; i < array.length; i++){
+             var itr = ""+i;
+             data['pk_'+itr] = array[i];
+           };
+           data.end = array.length;
+           $('#status_bar_container').show();
+           status(1, 2, 'main');
+           var request = $.ajax({
+									url:"{% url 'auto_pdf_a' md=0 %}",
+									data:data,
+									dataType: 'json',
+									success: function(data) {
+                    if (data.done == ""+array.length){
+                        status(2, 2, 'main');
+                    }}		
+									});
+								request.fail(function(jqXHR, textStatus) {
+			  					alert(ErrorMap[jqXHR.status])});
+            };
+        
+        
+        function synchr(s, c, i){
+            $('#status_bar_container').show();
+            $("#clicked_"+""+i).css('background-color', 'white');
+            $("#clicked_"+""+i).css('color', 'green');
+          var request  = $.ajax({
+          url: "http://uqhs.herokuapp.com/result/synchronizing/0/"+""+subj[0].indexOf(s)+"/"+""+subj[1].indexOf(c)+"/",
+          data: {
+                'subject':1
+                },
+          dataType: 'json',
+          });
+          request.done(function(data) { 
+            if (window.location.href.split(':')[1] == '//127.0.0.1')
+                {status(1, 2, 'main');
+                    var array = JSON.stringify(data.response);
+                    var sub_request = $.ajax({
+                    url:"{% url 'synch' last=2 subject=0 Class=0 %}",
+                    data:{'content':array},
+                    type:'POST',
+                    dataType: 'json',
+                    success: function(data) {
+                    status(2, 2, data.id);
+                    }			
+                      });
+                    sub_request.fail(function(jqXHR, textStatus){
+                      alert(ErrorMap[jqXHR.status]);
+                      $('#status_bar_container').hide()
+                      });
+                      
+                      }});  
+                    request.fail(function(jqXHR, textStatus, data) {
+                        alert(ErrorMap[jqXHR.status]);
+                        $('#status_bar_container').hide()
+                        });
+                      
+          
+	}  
+    </script>
+    {% endblock %}
+    
+</html>
+
+ 
+
+
+ 
+
+ 

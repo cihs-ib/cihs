@@ -1,0 +1,44 @@
+{% extends "base_generic.html" %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title> {% block title %} New Student Name Registrations {% endblock %} </title>
+	</head>
+	 {% block content %}
+	<body>
+    	<form class="upload" action="{% url 'massRegistration'%}" method="POST" enctype="multipart/form-data" class="form-horizontal"> 
+				<div class="cap_form"><em color:orange;>{{ request.username }}</em><em style="color:red;"><pre style="line-height: 3px;">uploading.., 	
+				</em></pre></div>
+			<select value="" name="Class" style="text-align:center;border:2px solid orange;color:black;border-radius:5px;width:20%;height:23px;">
+				<option value="">Select Class</option>
+				<option value="JSS 1">JSS 1</option>
+				<option value="JSS 2">JSS 2</option>
+				<option value="JSS 3">JSS 3</option>
+				<option value="SSS 1">SSS 1</option>
+				<option value="SSS 2">SSS 2</option>
+				<option value="SSS 3">SSS 3</option>
+			</select>
+      	  {% csrf_token %}
+				<div class="row">
+   				<div class="col-xs-6">
+      				<input type="file" name="files" id="files" required="True" class="form-control">
+   				</div>
+   				<div class="col-xs-6">
+      				<button class="btn btn-primary"> <span class="glyphicon glyphicon-upload" style="margin-right:5px;"></span>Upload</button>
+   				</div>
+				</div>
+				<em style="color:red;">Instructions:</em> <em style="color:white;">Each student name should have the following in order:
+					<ol>
+						<li>First Name</li>
+						<li>Middle Name</li>
+						<li>Surname</li>
+						<li>Date of Birth</li>
+						<li>Gender: [Male:1; Female:2]</li>
+					</ol>
+				</em>
+    	 </form>
+    </body>
+	  {% endblock %}
+</html>
+

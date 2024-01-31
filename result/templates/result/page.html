@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+{% extends "base_generic.html" %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %} Tutor's account: {{ request.user.username }} {% endblock %}</title>
+    </head>
+    {% block content %}
+    <body>
+        <table>
+    		<div class="capt"><span style="font-size:13px;text-align:center;border:2px solid white;border-radius:5px;background-color:brown;font-weight:bold;"><u style=""> {{ page.count }}</u>  {% if tutor.tutor %} SHORTLISTED SUBJECTS {% else %} SHORTLISTED TERMS  {% endif %}</span></div>
+                <thead>
+                    <tr><th>SN</th><th colspan="2" style="width:15%;">Subject Code</th>{% if tutor.tutor %}<th>1st_term</th><th>2nd_term</th><th>3rd_term</th>{% else %}<th>Class</th><th>Term</th>{% endif %}<th colspan="4">Subject Detail</th><th>Created</th><th colspan="2">Update Time</th></tr>      
+                </thead>
+                <tbody>
+                    {% if page %}
+                    {% for sub in page %}
+                   <tr><td>{{ forloop.counter }}</td><td style="color:palegoldenrod;"><a href="{% url 'tutor_update' pk=sub.first_term.id %}" title="Click for details of {{ sub.first_term.subject }}'s uploaded">{{ sub.first_term.subject }}</a></td><td>{{ sub.first_term.subject_teacher_id }}</td><td><em onclick="marksheet('{{sub.first_term.subject}}', '1st', '{{sub.first_term.Class}}')" title="Lunch {{ sub.first_term.Class }} {{ sub.first_term.term }} {{ sub.first_term.subject }}" style="cursor:pointer;">{{ sub.first_term.Class }}</em></td><td title="Lunch {{ sub.second_term.Class }} {{ sub.second_term.term }} {{ sub.second_term.subject }}">{% if sub.second_term.Class == None %}<a href="{% url 'offline' pk=sub.first_term.id %}" style="cursor:pointer;">{{ sub.second_term.Class|default:'Update' }}</a>{% else %}<em onclick="marksheet('{{sub.second.subject}}', '2nd', '{{sub.second_term.Class}}')" title="Lunch {{ sub.first_term.Class }} {{ sub.first_term.term }} {{ sub.first_term.subject }}" style="cursor:pointer;">{{ sub.second_term.Class|default:'Update' }}</em>{% endif %}</td><td title="Lunch {{ sub.third_term.Class }} {{ sub.third_term.term }} {{ sub.third_term.subject }}">{% if sub.third_term.Class == None %}<a href="{% url 'offline' pk=sub.first_term.id %}">{{ sub.third_term.Class|default:'Update' }}</a>{% else %}<em onclick="marksheet('{{sub.third.subject}}', '3rd', '{{sub.third.Class}}')" title="Lunch {{ sub.first_term.Class }} {{ sub.first_term.term }} {{ sub.first_term.subject }}" style="cursor:pointer;">{{ sub.third_term.Class|default:'Update' }}</em>{% endif %}</td><td>{{ sub.first_term.males }}</td><td>{{ sub.first_term.females }}</td><td>{{ sub.first_term.males |add:sub.first_term.females }}</td><td><a href="{% url 'subject_view' pk=sub.first_term.id md=1 %}">???</td><td style="width:20%;">{{sub.first_term.created}}</td><td style="width:20%;">{{sub.first_term.updated}}</td><td><button id="clicked_{{ forloop.counter }}" onclick="synch('{{sub.subject}}', '{{sub.Class}}', '{{ forloop.counter }}')" style="line-height:65%;border:1px solid blue;color:black;border-radius:2px;font-size:8px;width:100%;"><span class="glyphicon glyphicon-refresh"></span></button></td></tr>
+                    {% endfor %}
+                       
+                    {% endif %}  
+                    <tfoot>
+                        <tr>{% if page %}<th colspan="13" style="cursor:pointer;" onclick="$('#hid').toggle()"><span class="glyphicon glyphicon-user" title='admin_page'></span>
+                        <em id="hid" hidden>
+                        <button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;"><a href="{% url 'admin_page' %}" style="color:blue;">Welcome Page</a></button><button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;"><a href=""  style="color:blue;">{{ request.user.profile.title }} {{ request.user.profile.last_name }} {{ request.user.profile.first_name }}</a></button>
+                        </em>       
+                        </th> {% endif %}  </tr>
+                    </tfoot>
+                </tbody>
+        </table>
+        <script>
+        var ErrorMap = {
+			'0': "Not connected.\nPlease verify your network connection.",
+			'400' : "Server understood the request, but request content was invalid.",
+			'401' : "Unauthorized access.",
+			'403' : "Forbidden resource can't be accessed.",
+			'404': "The requested page not found.",
+			'500' : "Internal server error.",
+			'503' : "Service unavailable.",
+			'parsererror' : "Requested JSON parse failed.",
+			'timeout': "Time out error.",
+			'abort': "Ajax request aborted.",
+					};
+        var chn = [];
+                    function status(step, dest, next){
+                        chn.push(step);
+                        var pro = (Array.from(new Set(chn)).length / dest)*100;
+                        var elem = document.getElementById("status_bar_animate");
+                        elem.value = ""+""+Array.from(new Set(chn)).length+" of "+""+dest;
+                        progress_bar(pro)
+                        if (Array.from(new Set(chn)).length == dest){
+                            if (next == 'main'){
+                            location.replace(window.location.href);
+                            };
+                            if (next == 'accounts'){
+                                var next = window.location.href.split('/')[0]+'/result/all_users/';  
+                            location.replace(next);
+                            }
+                            else{
+                            var next = window.location.href.split('/')[0]+'/result/'+next+'/1/';  
+                            location.replace(next);
+                            }}
+                        };
+
+        function marksheet(su, tm, cl){
+            /*'4/1st/ACC_4_1_21_0.pdf'*/
+            var trm = {'1':'1st', '2':'2nd', '3':'3rd'}; var cls = {'JSS 1':'1', 'JSS 2':2, 'JSS 3':3, 'SSS 1':4, 'SSS 2':5, 'SSS 3':6}
+            var next = window.location.href.replace('/home/', '/static/result/pdf/marksheets/'+cls[cl]+'/'+tm+'/'+su+'_'+cls[cl]+'_'+tm[0]+'.pdf')
+                       window.open(next, '_blank');
+        };
+        function synchr(s, c, i){
+            $('#status_bar_container').show();
+            $("#clicked_"+""+i).css('background-color', 'white');
+            $("#clicked_"+""+i).css('color', 'green');
+          var request  = $.ajax({
+          url: "http://uqhs.herokuapp.com/result/synchronizing/0/"+""+subj[0].indexOf(s)+"/"+""+subj[1].indexOf(c)+"/",
+          data: {
+                'subject':1
+                },
+          dataType: 'json',
+          });
+          request.done(function(data) { 
+            if (window.location.href.split(':')[1] == '//127.0.0.1')
+                {status(1, 2, 'main');
+                    var jdata = {'second_term':data.response[0][11], 'third_term': data.response[0][12], 'end':data.response.length};
+                for (var i = 0; i < data.response.length;  i++){
+                    jdata['serial_no_'+""+i] = data.response[i][0];
+                    jdata['test_'+""+i] = data.response[i][2]; 
+                    jdata['agn_'+""+i] = data.response[i][3];
+                    jdata['atd_'+""+i] = data.response[i][4]; 
+                    jdata['total_'+""+i] = data.response[i][5];
+                    jdata['exam_'+""+i] = data.response[i][6]; 
+                    jdata['agr_'+""+i] = data.response[i][7];
+                    jdata['grade_'+""+i] = data.response[i][8]; 
+                    jdata['posi_'+""+i] = data.response[i][9];
+                    jdata['fagr_'+""+i] = data.response[i][13];
+                    jdata['sagr_'+""+i] = data.response[i][14];
+                    jdata['username_'+""+i] = data.response[i][10]
+                    jdata['subject_code_'+""+i] = data.response[i][1]
+                         };
+                    var sub_request = $.ajax({
+                    url:"{% url 'synch' last=2 subject=0 Class=0 %}",
+                    data:jdata,
+                    dataType: 'json',
+                    success: function(data) {
+                        //var next = window.location.href.split('/')[0]+'/result/'+data.id+'/1/';  
+                           // location.replace(next);
+                    status(2, 2, data.id);
+                    }			
+                      });
+                    sub_request.fail(function(jqXHR, textStatus){
+                      alert(ErrorMap[jqXHR.status]);
+                      $('#status_bar_container').hide()
+                      });
+                      
+                      }});  
+                    request.fail(function(jqXHR, textStatus, data) {
+                        alert(ErrorMap[jqXHR.status]);
+                        $('#status_bar_container').hide()
+                        });
+                      
+          
+	}  
+        </script>
+    </body>
+    {% endblock %}
+</html>

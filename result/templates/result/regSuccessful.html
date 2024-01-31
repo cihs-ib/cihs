@@ -1,0 +1,23 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<form>
+<div class="cap_form">Details:<pre>REGISTRATION SUCCESSFUL</pre></div>
+The registrations were successful: <em style="font-family:Helvetica; color:white;">
+<ol>
+        {% for i, r in reged %}
+        <ul>
+        	<li><button style="background-color:white;color:green;border-radius:5px;border:1px solid green;">{{ forloop.counter }} / Student ID {{ r }}</button></li> 
+        	<li>Student Name :</u> {{ i.full_name }} </li> 
+        	<li>Class :</u>  {{ i.Class }} </li>
+        	<li>Date of Birth:</u> {{ i.birth_date }} </li>
+          <li>Gender :</u>  {{ i.sex }} <l/i>
+          <li>Time :</u>  {{ i.created }} </li> 
+          <span class="glyphicon glyphicon-ok" style="background-color:white;color:green;border-radius:5px;border:1px solid green;"></span> 
+        </ul>
+      {% endfor %} 
+    </ol>
+</em><a href="{% url 'home' %}" style="font-family:Helvetica; color:purple; font-size: 12px;">home</a>
+</form>
+{% endblock %}

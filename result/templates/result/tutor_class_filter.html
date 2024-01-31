@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+{% extends "base_generic.html" %}
+
+<html lang="en">
+	<head>
+		 <title> {% block title %} {{ detail }} {% endblock %} </title>
+	</head>
+    {% block content %}
+    <body>
+            <table>
+                    <div class="capt" style="font-size:11px;"><a href="" style="font-family:Helvetica; color:palegoldenrod;">Search:</a></strong> {{counts}}-{{detail}}</div>
+                <thead>
+                    <tr><th>Teacher</th><th>Subject</th><th>Class</th><th>Term</th><th>Males</th><th>Females</th><th>No in Class</th><th>Sessions</th></tr>      
+                </thead>
+                <tbody>
+                    {% if all_page %}
+                    {% for sub in all_page %}
+                        <tr><td style="font-family:Helvetica;color:green;font-size:10px;width:30%;">{{ sub.teacher_name }}</td><td>{{ sub.subject }}</td><td>{{ sub.Class }}</a></td><td><a href="{% url 'subject_view' pk=sub.id md=1 %}">{{ sub.term }}</a></td><td>{{ sub.males }}</td><td>{{ sub.females }}</td><td>{{ sub.males|add:sub.females }}</td><td>{{ sub.session }}</td></tr>
+                    {% endfor %}
+                    {% else %}
+                        <pre class="empty">There are no records.</pre>
+                    {% endif %}       
+                </tbody>
+                <tfoot>
+                    <tr><th colspan="8"><a href="{% url 'home' %}"><span class="glyphicon glyphicon-home"></span></a></th></tr>
+                </tfoot>
+                {% if all_page.has_other_pages %}
+              <em class="pagination" >
+                {% if all_page.has_previous %}
+                  <li style="width:5%;line-height:65%;">
+                    <a href="?page={{ users.previous_page_number }}" style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;">&laquo;</a>
+                  </li>
+                {% else %}
+                  <li class="disabled" style="width:5%;line-height:65%;">
+                    <span style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;">&laquo;</span>
+                  </li>
+                {% endif %}
+                {% for i in all_page.paginator.page_range %}
+                  {% if all_page.number == i %}
+                    <li class="active" style="width:5%;line-height:65%;">
+                      <span style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;font-weight:bold;font-size:11px;line-height:65%;">{{ i }} <span class="sr-only">(current)</span></span>
+                    </li>
+                  {% else %}
+                    <li style="width:5%;line-height:65%;">
+                      <a href="?page={{ i }} "style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;">{{ i }}</a>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+                {% if all_page.has_next %}
+                  <li style="width:5%;line-height:65%;">
+                    <a href="?page={{ users.next_page_number }} "style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;">&raquo;</a>
+                    
+                    <a href="" style="color:green;">
+                      <span class="glyphicon glyphicon-list-alt" title='all'></span>
+                      </a>         
+                  </li>
+                {% else %}
+                  <li class="disabled" style="width:5%;line-height:65%;">
+                    <span style="background-color:#CAA04F;border-radius:3px;border:1px solid orange;">&raquo;</span>
+                  </li>
+                {% endif %}
+              </em>
+            {% endif %}
+            </table>
+    </body>
+    {% endblock %}
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}{{Class}}{% endblock %}</title>
+    <style>
+            @page {
+				background-image: url("/Users/UQHS/AppData/Local/Programs/Python/Python310/uqh/result/static/result/uqhs.jpg");
+                opacity:0.3;
+                size: A4;
+                margin-top:1.5cm;
+                margin-left:1cm;
+                margin-right:1cm;
+                margin-bottom:1.5cm;
+                @frame footer {
+                    -pdf-frame-content: footerContent;
+                    bottom: 0.5cm;
+                    margin-left: 1cm;
+                    margin-right: 1cm;
+                    height: 1cm;
+                }
+            }
+
+            @page lastPage {
+                 -pdf-frame-content: summContent;
+                 bottom: 2.5cm;
+                 margin-left: 1cm;
+                 margin-right: 1cm;
+                 height: 4cm;
+            }
+			table, th, td {
+			border: 1px solid #b3bcbe;
+			border-radius: 5px;
+			font-family: Baskerville Old Face;
+			text-align: center;
+			font-size: 12px;
+			line-height:6px;
+			
+            }
+            .forTd {
+                 width:6%;
+                 color:white;
+            }
+			
+			.table {border-collapse: collapse;
+				margin-left:1%;
+				width: 98%;
+				}
+
+			th, td {padding: 2px;}
+
+			table {
+			border-spacing: 1px;
+			}
+
+			.em, .tfoot {background-color: #FFA07A;}
+
+			tbody {background-color: #20B2AA;}
+			tr:nth-child(even) {background-color:#90EE90;}
+			.capt{margin-left: 1%;
+				border-radius: 5px;
+				background-color:#7c84df;
+				text-align: center;
+				color: white;
+				font-size:13px;
+				width: 100%;
+				}
+		
+				.red_black {
+				color:white;
+				border-radius:4px;
+				background-color:#7c84df;
+				border:2px solid white;
+				
+				}
+
+				.red_white {
+				color:white;
+				border-radius:4px;
+				background-color:#7c84df;
+				border:2px solid white;
+				
+				}
+                .thh{
+                    style="background-color:#FFA07A;width:2%;"
+                }
+                img{
+        
+        border: 2px solid rgba(247, 238, 238, 0.918);border-radius:3px;
+        padding: 2px;
+    }
+				
+		</style>
+</head>
+<body style="background-color:#ddd;text-align:center;">
+    <div class="capt">
+				<table>
+					<td style="width:10%;"><img src="/Users/UQHS/AppData/Local/Programs/Python/Python310/uqh/result/static/result/iiro.jpg" height="80"  width="80" alt=""/></td><td id="header" style="background-color:#d84848;border:2px solid red;line-height:10px;"><strong style="font-size:28px;">UMMUL-QURA HIGH SCHOOL</strong></td>
+					<td>
+						<div id="header" style="background-color:#d84848;border:2px solid red;line-height:10px;">
+							<Address>
+							<State class="br">Arowona Bus-Stop, Akanran Road, Ibadan, Oyo State</State><br>
+							<i>Contact</i>: 08053776177, 07042950010<br>
+							<i>E-mail</i>: ummulquraschl@gmail.com, ummulqr@yahoo.com<br>
+							</Address>
+							<strong style="font-size:18px;">EXAMINATION VENUES </strong><br>
+							 <aside><strong>Venue Name:</strong><u>{{Class}}</u></aside><aside> <strong>Day:</strong><u>____</u> </aside> 
+						</div>
+					</td>
+					<td style="width:10%;"><img src="/Users/UQHS/AppData/Local/Programs/Python/Python310/uqh/result/static/result/uqhs.jpg" height="80"  width="80" alt=""/></td>
+				</table>		
+	</div>
+    <table class="table">
+            <tr><th colspan='3' style="background-color:#d84848;">Student Information</th><th colspan='10' style="background-color:#d84848;">Examination Papers</th><th colspan='2' style="background-color:#d84848;">Remarks</th></tr>
+			<tr style="background:#7c84df;">
+                <th style="background-color:#afe5c6;">SN</th>
+				<th colspan='2' style="background-color:#FFA07A;">Student Name and ID</th>
+			    <th style="background-color:#FFA07A;width:10%;">-1-</th>
+				<th style="background-color:#FFA07A;width:10%;">-2-</th>
+				<th style="background-color:#FFA07A;width:10%;">-3-</th>
+				<th style="background-color:#FFA07A;width:10%;">-4-</th>
+				<th style="background-color:#FFA07A;width:10%;">-5-</th>
+                <th style="background-color:#FFA07A;width:10%;">-6-</th>
+                <th style="background-color:#FFA07A;width:10%;">-7-</th>
+				<th style="background-color:#FFA07A;width:10%;">-8-</th>
+				<th style="background-color:#FFA07A;width:10%;">-9-</th>
+				<th style="background-color:#FFA07A;width:10%;">-10-</th>
+				<th style="background-color:#FFA07A;width:10%;">Class</th>
+                <th style="background-color:#989c5b;width:10%;">Rem</th>
+                        {% if students %} 
+                        {% for scr in students %}
+            <tbody>
+                <td style="font:VeraIt;font-size:9px;background-color:#afe5c6;width:5%;">{{ forloop.counter }}</td>
+                <td style="font:VeraIt;font-size:11px;background-color:#ebe1c6;width:30%;">{{scr.full_name}}</td>
+                <td style="color:black;width:15%;background-color:#c2b693;">{{scr.uid}}</td>
+                <td style="color:black;width:5%;background-color:#9ad9c4;">{{scr.test}}</td>
+                <td style="color:black;width:5%;background-color:#dfe39d;">{{scr.agn}}</td>
+                <td style="color:black;width:5%;background-color:#9ad9c4;">{{scr.atd}}</td>
+                <td style="color:black;width:5%;background-color:#dfe39d;">{{scr.total}}</td>
+                <td style="color:black;width:5%;background-color:#9ad9c4;">{{scr.exam}}</td>
+                <td style="color:black;width:5%;background-color:#dfe39d;">{{scr.agr}}</td>
+                <td style="color:black;width:5%;background-color:#9ad9c4;">{{scr.sagr}}</td>
+				<td style="color:black;width:5%;background-color:#dfe39d;">{{scr.fagr}}</td>
+				<td id="annual_{{ forloop.counter }}" style="color:black;width:5%;background-color:#9ad9c4;">{{scr.aagr}}</td>
+				<td id="avg_{{ forloop.counter }}" style="color:black;width:5%;background-color:#dfe39d;">{{scr.avr}}</td>
+                <td style="color:black;width:8%;background-color:#989c5b;">{{scr.Class}}</td>
+                <td style="width:5%;background-color:#989c5b;">{{scr.club_two}}</td>
+            </tbody>
+            {% endfor %}
+            {% else %}
+            <pre class="empty">There are no records.</pre>
+            {% endif %}
+        
+        </tr>    
+        <tr>    
+        <th style="background-color:#FFA07A;">-</th>        
+        <td  style="background-color:#FFA07A;" colspan="14">Supervisors</td>
+        </tr> 
+		<tr>
+			<th style="background-color:#b77a7a;color:white;">-</th>
+			<th style="background-color:#b77a7a;color:white;" colspan='4'>
+			<ul>
+			<li><strong>Name:</strong>_______________________</pre><pre><strong>SIGN:</strong>______</pre><pre><strong>DATE:</strong>______________</li>
+			
+			<li><strong>Name:</strong>_______________________</pre><pre><strong>SIGN:</strong>______</pre><pre><strong>DATE:</strong>______________</li>
+			</ul>
+			</th> 
+			<th style="background-color:#b77a7a;color:white;" colspan='10'>
+			<ul>
+			<li><strong>Name:</strong>_______________________</pre><pre><strong>SIGN:</strong>______</pre><pre><strong>DATE:</strong>______________</li>
+			
+			<li><strong>Name:</strong>_______________________</pre><pre><strong>SIGN:</strong>______</pre><pre><strong>DATE:</strong>______________</li>
+			</ul>
+			</th>   
+        </tr> 
+        <th  style="background-color:#d84848;color:white;"colspan="15" id="foot">
+        <ol>
+            <li>JETS: Junior Engineers, Technicians and Scientists Club<li>
+            <li>YGF: Young Farmers Club <li>
+            <li>L&D: literary and Debate Club<li>
+            <li>RSC: Road Safety Core Club<li>
+            <li>PRS: Press Club<li>
+        </ol>
+        </th>
+		
+		
+		
+	</table>
+    
+    <div id="footerContent">n
+            {%block page_foot%}
+			www.https://uqhs.herokuapp.com/result/render/pdf/{{qry.id}}/2/0/:
+            {{qry.subject.name}}/{{Class}}/{{term}}/generated <on:->{{ today }}</on:->
+			<br> 
+			By:-{{ request.user.profile.last_name }} {{ request.user.profile.first_name }}
+            [Page <pdf:pagenumber>]
+            {%endblock%}
+    </div>
+</body>
+</html>

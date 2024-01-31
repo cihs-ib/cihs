@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+   <head>
+        <div id="head">
+            <meta charset="UTF-8">
+            <title>
+                cihs |{% block title %} cihs {% endblock %}
+             </title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+            <link rel="shortcut icon" type="image/png" src="https://dhnygxib7cbg0.cloudfront.net/pdf/cihs.jpg">
+            <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+            <link rel="stylesheet" href="{% static 'result/css/result.css' %}">
+            <link rel="javascript" href="{% static 'result/js/result.js' %}">
+            <script type="text/javascript" src="{{ STATIC_URL }}/static/jquery-3.4.1.js"></script>
+            <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+            <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>  
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>  
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+           {% if request.user.is_superuser %}<script src="//cdn.jsdelivr.net/npm/eruda"></script> <script>eruda.init();</script> {% endif %}
+            <div class="navbar">
+                <div class="dropdown">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="{% url 'results_junior_senior' pk=4 %}" style='background-color:#5bee17;font-size:83%;'><img src="{% static "result/cihs.jpg"%}" alt="cihs-logo"  height:'120' width="120"/></a>
+                </div>
+                  <span class="dropbtn">Juniors</span>
+                  <div class="dropdown-content">
+                    <a href="{% url 'results_junior_senior' pk=1 %}" title="JSS 1 results">JSS 1</a>
+                    <a href="{% url 'results_junior_senior' pk=2 %}" title="JSS 2 results">JSS 2</a>
+                    <a href="{% url 'results_junior_senior' pk=3 %}" title="JSS 3 results">JSS 3</a>
+                    <a href="{% url 'post_list' %}" title="Post Lists">Info</a>
+                  </div>
+                </div>
+                <div class="dropdown">
+                  <span class="dropbtn">Seniors</span>
+                  <div class="dropdown-content">
+                    <a href="{% url 'results_junior_senior' pk=4 %}" title="SSS 1 results">SSS 1</a>
+                    <a href="{% url 'results_junior_senior' pk=5 %}" title="SSS 2 results">SSS 2</a>
+                    <a href="{% url 'results_junior_senior' pk=6 %}" title="SSS 3 results">SSS 3</a>
+                    <a href="{% url 'flexing' %}" title="Home Page">info</a>
+                  </div>
+                </div>
+                
+                <div class="dropdown">
+                  <span class="dropbtn">Library</span>
+                  <div class="dropdown-content">
+                    <a href="{% url 'results_junior_senior' pk=4 %}" title="Book list">Books</a>
+                    <a href="{% url 'results_junior_senior' pk=4 %}" title="Book Authors">Authors</a>
+                    <a href="{% url 'results_junior_senior' pk=4 %}" title="Book Genres">Genre</a>
+                    <a href="{% url 'results_junior_senior' pk=4 %}" class="top-menu" title="My library">Lib</a>
+                  </div>
+                </div>
+                <div class="dropdown">
+                  <span class="dropbtn">Students</span>
+                  <div class="dropdown-content">
+                    <a href="{% url 'student_names' pk=2 %}" title="Male name list">Male</a>
+                    <a href="{% url 'student_names' pk=1 %}" title="Female name list">Female</a>
+                   <a href="{% url 'student_names' pk=0 %}" title="Students name list">All</a>
+                  </div>
+                </div>
+                <span>
+                    <button style="color:white;background-color:#5bee17;" onclick="(location.replace(window.location.href.split('/')[0]+'/result/home/'))"><span class="glyphicon glyphicon-home btn-lg"></span></button>
+                </span>
+            </div>
+              <!-- Side navigation -->
+            <navz>
+                <span><em style="margin-left:250px; color: white;">Welcom to CITADEL ISLAMIC HIGH SCHOOL PORTAL </em></span>
+            </navz>
+            <div id="mySidebar" class="sidebar">
+            <div id="status_bar_container" style="width:100%;height:15px;position:relative;background:green;border:1px solid white;border-radius:1px;" hidden> 
+                <input type="text" value="560 of 1000" disabled id="status_bar_animate" style="width:0%;height:14px;position:absolute;background:gray;text-align:center;font-size:70%;color:white;"> 
+            </div>
+            {% if request.user.is_authenticated %}
+            <div class="dropdowns" style="min-width:380px;">
+                <span class="dropbtns" id="downloading"><img class="rounded-circle" src="{% static 'result/cihs.jpg' %}" alt="My_pics" style="max-width: 35px; margin: auto 0px;"/></span>
+                <div class="dropdown-contents">
+                <a href="{% url 'pro_detail' request.user.id %}" class="top-menu" title="Edit personal information"><span class="glyphicon glyphicon-edit"></a>
+                <a href="{% url 'offline' pk=0 %}" title="exam score computation"><span class="glyphicon glyphicon-tasks"></a>
+                <a href="{% url 'transfers' md=30 %}" title="Move a class subject to another teacher"><span class="glyphicon glyphicon-transfer"></a>
+                <a href="{% url 'pdf' ty=5 sx=0 pk=0 uk=1 %}" title="lesson template"><span class="glyphicon glyphicon-print"></a>
+               {% if request.user.is_superuser == True %}
+               <a href="{% url 'admin:index' %}" title='adimin'><span class="glyphicon glyphicon-globe"></span></a>
+               <a href="{% url 'all_users' pk=0 %}" title="exam score computation"><span class="glyphicon glyphicon-user"></a>
+               <a href="{% url 'pdf' ty=6 sx=0 pk=0 uk=1 %}" title="Examination venues"><span class="glyphicon glyphicon-list"></a>
+                <em style="width:30%;cursor:pointer;" onclick="$('#hid_k').show()"><span class="glyphicon glyphicon-download"></span>
+                <div id="hid_k" hidden>
+                <em style="color:#5bee17;" style="line-height5px;border:2px solid #5bee17;color:black;border-radius:5px;width:8%;">
+                <select value="" id="Class" style="line-height5px;border:2px solid #5bee17;color:black;border-radius:5px;width:8%;">
+                        <option value="">Class</option>
+                        <option value="1">JSS 1</option>
+                        <option value="2">JSS 2</option>
+                        <option value="3">JSS 3</option>
+                        <option value="4">SSS 1</option>
+                        <option value="5">SSS 2</option>
+                        <option value="6">SSS 3</option>
+                        <option value="9">BTUTOR</option>
+                        <option value="8">CARDS</option>
+                        <option value="7">USER</option>
+                    </select>
+                    
+                    <script>
+                    
+                    function progress_bar(i) {
+                        var elem = document.getElementById("status_bar_animate");
+                        elem.style.width = i + '%';
+                        };
+                    var chn = [];
+                    function status(step, dest, next){
+                        chn.push(step);
+                        var pro = (Array.from(new Set(chn)).length / dest)*100;
+                        var elem = document.getElementById("status_bar_animate");
+                        elem.value = ""+""+Array.from(new Set(chn)).length+" of "+""+dest;
+                        progress_bar(pro)
+                        if (Array.from(new Set(chn)).length == dest){
+                            if (next == 'main'){
+                            location.replace(window.location.href);
+                            };
+                            if (next == 'accounts'){
+                                var next = window.location.href.split('/')[0]+'/result/all_users/0/';  
+                            location.replace(next);
+                            };
+                            if (next == 'btutors'){
+                                var next = window.location.href.split('/')[0]+'/result/subject/transfers/30/';  
+                            location.replace(next);
+                            }
+                            else{
+                            var next = window.location.href.split('/')[0]+'/result/'+next+'/1/';  
+                            location.replace(next);
+                            }}
+                        };
+                        
+                        $("#Class").change(function(){
+                            
+                            if ($(this).val() == '7' || $(this).val() == '8' || $(this).val() == '9'){
+                                    if ($(this).val() == '8'){
+                                    var request = $.ajax({
+									url:"{% url 'auto_pdf_a' md=1 %}",
+									data:{'class':$("#Class").val()},
+									dataType: 'json',
+									success: function(data) {
+                                    if (data){
+                                            for (var i = 0; i < data.ids.length; i++){
+                                                var next = window.location.href.split('/')[0]+'/result/'+data.ids[i]+'/1/';  
+                                                window.open(next);
+                                                status(i, data.ids.length, 'main');
+                                            };
+                                            
+                                        }}		
+                                                        });
+                                                    request.fail(function(jqXHR, textStatus) {
+                                                    alert(ErrorMap[jqXHR.status])});}
+                                    else{
+                                        if ($(this).val() == '7'){
+                                        $('#status_bar_container').show();
+                                        var request  = $.ajax({
+                                        url: "http://uqhs.herokuapp.com/result/create_local_accounts/updates/0/",
+                                        data: {
+                                                'subject':1
+                                                },
+                                        dataType: 'json',
+                                        });
+                                        request.done(function(data) { 
+                                            if (window.location.href.split(':')[1] == '//127.0.0.1')
+                                                    {status(1, 2, 'main');
+                                                    var array = JSON.stringify(data.response);
+                                                    var sub_request = $.ajax({
+                                                    type:'POST', 
+                                                    data:{'content':array},
+                                                    dataType: 'JSON',
+                                                    url:"{% url 'create_local_accounts' x=1 %}",
+                                                    success: function(data) {
+                                                    status(2, 2, 'accounts');
+                                                    }			
+                                                    });
+                                                    sub_request.fail(function(jqXHR, textStatus){
+                                                    alert(ErrorMap[jqXHR.status]);
+                                                    $('#status_bar_container').hide()
+                                                    });
+                                                    
+                                                    }});  
+                                                    request.fail(function(jqXHR, textStatus, data) {
+                                                        alert(ErrorMap[jqXHR.status]);
+                                                        $('#status_bar_container').hide()
+                                                        });
+                                        }
+                                        else{
+                                            $('#status_bar_container').show();
+                                        var request  = $.ajax({
+                                        url: "http://uqhs.herokuapp.com/result/create_local_accounts/updates/2/",
+                                        data: {
+                                                'subject':1
+                                                },
+                                        dataType: 'json',
+                                        });
+                                        request.done(function(data) { 
+                                            if (window.location.href.split(':')[1] == '//127.0.0.1')
+                                                {status(1, 2, 'main');
+                                                    var array = JSON.stringify(data.tutors);
+                                                    var sub_request = $.ajax({
+                                                    type:'POST', 
+                                                    data:{'content':array},
+                                                    dataType: 'JSON',
+                                                    url:"{% url 'create_local_accounts' x=3 %}",
+                                                    success: function(data) {
+                                                    status(2, 2, 'btutors');
+                                                    }			
+                                                    });
+                                                    sub_request.fail(function(jqXHR, textStatus){
+                                                    alert(ErrorMap[jqXHR.status]);
+                                                    $('#status_bar_container').hide()
+                                                    });
+                                                    
+                                                    }});  
+                                                    request.fail(function(jqXHR, textStatus, data) {
+                                                        alert(ErrorMap[jqXHR.status]);
+                                                        $('#status_bar_container').hide()
+                                                        });
+                                        }
+
+
+                                                }
+                                            
+                                }
+                            else{
+                                synch($("#Class").val())
+                                                }
+                                                })
+                    </script>
+                    </em>   
+                    </div></em>
+                {% endif %}
+                {% if perms.catalog.can_mark_returned and request.username == "?" %}
+                <a href="{% url 'post_draft_list'  %}">Posts</a>
+                <a href="{% url 'all_accounts' %}" title='List of accounts'><span class="glyphicon glyphicon-user"></span></a>
+                <a href="{% url 'author_create'  %}">Authors</a>
+                <a href="{% url 'book_create'  %}">Books</a>
+                <a href="{% url 'genre_create'  %}">Genres</a>
+                <a href="{% url 'language_create'  %}">Languages</a>
+                <a href="{% url 'books' %}" class="top-menu">Manage Stores</a>
+                <a href="{% url 'br-books' %}">Manage Loans</a>
+                <a href="{% url 'renew_approval'  %}">Renew Books</a>
+                <a href="{% url 'qeuing'  %}">Grant Requests</a>
+                {% endif %}
+                {% if request.user.profile.class_in != None %}
+                <em style="width:30%;cursor:pointer;" onclick="$('#hid_{{ forloop.counter }}').show()"><span class="glyphicon glyphicon-download"></span>
+                    <div id="hid_{{ forloop.counter }}" hidden>
+                    <em style="color:#5bee17;" style="line-height5px;border:2px solid #5bee17;color:black;border-radius:5px;width:8%;">
+                    <select value="" id="sheets" style="line-height5px;border:2px solid #5bee17;color:black;border-radius:5px;width:18%;">
+                        <option value="">Broadsheet</option>
+                        <option value="3/2/">Pages 1 - 2</option>
+                        <option value="3/3/">Pages 3 - 4</option>
+                        <option value="3/0/">CSV</option>
+                    </select>
+                    </div>
+                </em>
+                <script>
+                    $("#sheets").change(function(){
+                        if ($(this).val() != ''){
+                        var next = window.location.href.split('/')[0]+'/result/render/pdf/'+$(this).val();  
+                        window.open(next)}})
+                </script>
+                {% endif %}
+                
+            </div>
+            <a href="{% url 'log_out' %}" style="font-family:Helvetica; color:red; font-size: 9px;" title="Do you want to logout?"><span class="glyphicon glyphicon-log-out"></span><em class=""><em style="font-family:Helvetica; font-size:9px;">Logout</em></em></a>                                              
+            {% endif %} 
+            </div>
+              
+            
+            <div class="sidenavs">
+                <bodys>
+                    <h1><P class='blocktext'>OUR STUDENTS</P></h1>
+                    <navs>
+                        <ul>
+                            <li><a href="#in_ass">On the Assembly</a></li>
+                            <li><a href="#in_lab">In the Laboratory</a></li>
+                            <li><a href="#in_hall">In the School Hall</a></li>
+                            <li><a href="#in_outing">On Escutions</a></li>
+                        </ul>
+                    </navs>
+                    <article id="Reliance"> 
+                        <h2>Reliance on Allah</h2>
+                        <img src="{% static "result/bill.jpg"%}" alt="True Provider for the Universe!" width=620>
+                        <h3>List of features</h3>
+                        <ul>
+                            <li>Aboundace Provission:1</li>
+                            <li>Total Security:2</li>
+                            <li>Hope for the Hopeless:3</li>
+                        </ul>
+                
+                        <div>
+                        <hr><pre>These are the interpretations! The only one who provide for all is Allah(SWA), His holy messanger atested to that!</pre><hr> 
+                        </div>
+                        <ol>First wisdom: No one like him.</ol>
+                        <ol>Second wisdom: He is everlasting.</ol>
+                        <ol>Third wisdom: His knowledge upon all.</ol>
+                    </article>
+                    <article id="in_lab"> 
+                        <h2>A glance to the laboratory</h2>
+                        <img src="{% static "result/lab.jpg"%}" alt="True Provider for the Universe!" width=620>
+                        <img src="{% static "result/lab2.jpg"%}" alt="True Provider for the Universe!" width=620>
+                        <img src="{% static "result/lab3.jpg"%}" alt="True Provider for the Universe!" width=620>
+                        <h3>Activities</h3>
+                        <ul>
+                            <li>Do it yourself titration in chemistry</li>
+                            <li>Supervised by the chemistry teacher</li>
+                            <li>Hope for the Hopeless:3</li>
+                        </ul>
+                
+                        <div>
+                        <hr><pre>These are the interpretations! The only one who provide for all is Allah(SWA), His holy messanger atested to that!</pre><hr> 
+                        </div>
+                        <ol>First wisdom: No one like him.</ol>
+                        <ol>Second wisdom: He is everlasting.</ol>
+                        <ol>Third wisdom: His knowledge upon all.</ol>
+                    </article>
+                    <article id="Provider"> 
+                        <h2>The Provider</h2>
+                        <img src="{% static "result/pic2.jpg"%}" alt="True Provider for the Universe!" width=620>
+                        <h3>List of features</h3>
+                        <ul>
+                            <li>Giver that never mind:1</li>
+                            <li>Giver that never lack:2</li>
+                            <li>Giver that never being given:3</li>
+                        </ul>
+                
+                        <div>
+                        <hr><pre>This is the interpretations! Any other giver will surely lack in one way or the other! Allah Akbar!! </pre><hr> 
+                        </div>
+                        <ol>First wisdom: He reward calling on Him alone.</ol>
+                        <ol>Second wisdom: He respond to call always.</ol>
+                        <ol>Third wisdom: He has painful torment for detesters.</ol>
+                    </article>
+                    <article id="in_hall"> 
+                        <h2>School Hall</h2>
+                        <img src="{% static "result/hall.jpg"%}" alt="True Provider for the Universe!" width=620>
+                        <img src="{% static "result/hall2.jpg"%}" alt="True Provider for the Universe!" width=620>
+                        <img src="{% static "result/hall5.jpg"%}" alt="True Provider for the Universe!" width=620>
+                        <h3>Activities</h3>
+                        <ul>
+                            <li>Do it yourself titration in chemistry</li>
+                            <li>Supervised by the chemistry teacher</li>
+                            <li>Hope for the Hopeless:3</li>
+                        </ul>
+                
+                        <div>
+                        <hr><pre>These are the interpretations! The only one who provide for all is Allah(SWA), His holy messanger atested to that!</pre><hr> 
+                        </div>
+                        <ol>First wisdom: No one like him.</ol>
+                        <ol>Second wisdom: He is everlasting.</ol>
+                        <ol>Third wisdom: His knowledge upon all.</ol>
+                    </article>
+                    <article id="in_ass"> 
+                        <h2>Morning Assembly to Class</h2>
+                        <img src="{% static "result/assembly.jpg"%}" alt="True Provider for the Universe!" width=620>
+                        <img src="{% static "result/class.jpg"%}" alt="True Provider for the Universe!" width=620>
+                        <img src="{% static "result/complab.jpg"%}" alt="True Provider for the Universe!" width=620>
+                        <h3>Activities</h3>
+                        <ul>
+                            <li>Do it yourself titration in chemistry</li>
+                            <li>Supervised by the chemistry teacher</li>
+                            <li>Hope for the Hopeless:3</li>
+                        </ul>
+                
+                        <div>
+                        <hr><pre>These are the interpretations! The only one who provide for all is Allah(SWA), His holy messanger atested to that!</pre><hr> 
+                        </div>
+                        <ol>First wisdom: No one like him.</ol>
+                        <ol>Second wisdom: He is everlasting.</ol>
+                        <ol>Third wisdom: His knowledge upon all.</ol>
+                    </article>
+                    <article id="Promise"> 
+                        <h2>He Fails Not His Promise</h2>
+                        <img src="{% static "result/pic3.jpg"%}" alt="True Provider for the Universe!" width=620>
+                        <h3>List of features</h3>
+                        <ul>
+                            <li>Alway with His Sincare Servant:1</li>
+                            <li>He them aright!:2</li>
+                            <li>He is Comfort is Certain:3</li>
+                        </ul>
+                
+                        <div>
+                        <hr><pre>This is the interpretations! He is Every part of our journey!</pre><hr> 
+                        </div>
+                        <ol>First wisdom</ol>
+                        <ol>Second wisdom</ol>
+                        <ol>Third wisdom</ol>
+                    </article>
+                    <article id="in_outing"> 
+                        <h2>Outings</h2>
+                        <img src="{% static "result/outing.jpg"%}" alt="True Provider for the Universe!" width=620>
+                        <img src="{% static "result/outing.jpg"%}" alt="True Provider for the Universe!" width=620>
+                        <img src="{% static "result/pri.jpg"%}" alt="True Provider for the Universe!" width=620>
+                        <h3>Activities</h3>
+                        <ul>
+                            <li>Do it yourself titration in chemistry</li>
+                            <li>Supervised by the chemistry teacher</li>
+                            <li>Hope for the Hopeless:3</li>
+                        </ul>
+                
+                        <div>
+                        <hr><pre>These are the interpretations! The only one who provide for all is Allah(SWA), His holy messanger atested to that!</pre><hr> 
+                        </div>
+                        <ol>First wisdom: No one like him.</ol>
+                        <ol>Second wisdom: He is everlasting.</ol>
+                        <ol>Third wisdom: His knowledge upon all.</ol>
+                    </article>
+                    <article id="Healthier">
+                        <h2>Healthier than Any!</h2>
+                        <img src="{% static "result/pic4.jpg"%}" alt="True Provider for the Universe!" width=620>
+                        <img src="{% static "result/pic1.jpg"%}" alt="True Provider for the Universe!" width=620>
+                        <h3>List of features</h3>
+                        <ul>
+                            <li>He test with sickness:1</li>
+                            <li>His the provider of sound health:2</li>
+                            <li>All doctors are only care, but He alone cures!:3</li>
+                        </ul>
+                
+                        <div>
+                        <hr><pre>This is the interpretations! All doctors are only care, but He alone cures!</pre><hr> 
+                        </div>
+                        <ol>First wisdom: Sure</ol>
+                        <ol>Second wisdom: Real</ol>
+                        <ol>Third wisdom: Reliable</ol>
+                    </article>
+                </bodys>
+            </div>
+            
+            <!-- Page content -->
+            <!--<div class="mains">-->
+            <!--...-->
+            <!--alert(oldurl.split('/')[2])</div>-->
+        </div>
+    </head>
+    <body>
+        <div class="content container">
+            <div class="row">
+                <div class="col-md-8">
+                {% block content %}
+                {% endblock %}
+                <div style="color:white;cursor:pointer;background-color:black;border-radius:5px;border:1px solid white;width:6%;text-align:center;font-weight:bold;line-height:65%;" id="back"><span class="glyphicon glyphicon-backward" title="Click next to enter student scores"></span></div>
+                <script>
+                    $("#back").click(function() {
+                    var oldurl = document.referrer;
+                    location.replace(oldurl)
+                    })
+                </script>
+                </div>
+            </div>
+        </div>
+    </body>
+    <div class="footer">
+        <div style="font-family:Helvetica; color:palegoldenrod; font-size: 10px;">©Copyright 2019 examing body. All rights reversed.</div>
+        <div class="footer-left">
+            {% if user.is_authenticated %}
+             <div class="ft" style="font-family:Helvetica; color:red; font-size: 10px;"> {{ user.username }}|logged as {% if user.is_staff == True and user.is_superuser == False %} Staff {% else %} Admin {% endif %}<small><a href="{% url 'log_out' %}" title="Do you want to logout?"><span class="glyphicon glyphicon-log-out"></span></a></small></div>
+                 {% if request.user.profile.email_confirmed == False %}
+                 <div class="ft"><a href="{% url 'pro_detail' request.user.id %}"><small><span class="glyphicon glyphicon-flag" style="color:white;border-radius:5px;"></small></span><h6>{{ request.user.profile.bio|default:"Action required!" }}</h6></a></div>
+                 {% endif %}
+            {% endif %}
+        <div  style="font-family:Helvetica; color:white; font-size: 10px;"><strong style="font-family:Blackadder ITC; color:red; font-size: 10px;">Contact: </strong>Akomeji Oganke, thy-will, Bus-Stop Akanran Road, Ibadan.</div>
+        <div  style="font-family:Helvetica; color:white; font-size: 10px;"><strong style="font-family:Blackadder ITC; color:red; font-size: 10px;">E-mail: </strong> cihs@gmail.com, cihs@yahoo.com</div>
+        <div  style="font-family:Helvetica; color:white; font-size: 10px;"><strong style="font-family:Blackadder ITC; color:red; font-size: 10px;">Tell: </strong>08110650468, 08102262538, 08054426623</div>
+        </div> 
+        <form method="GET" action="{% url 'searchs'%}"  style="margin-left:10px;">
+                <div class="input-group">{% csrf_token %}
+                  <input type="text" name="q" id="search" placeholder="search" value="{{ request.GET.q }}" class="form-control" style="border-radius:5px;border:2px solid white;background-color:blue;text-align:center;">
+                <span class="input-group-btn">
+                <button type="submit" class="btn btn-primary"><span style="font-size:1.4em; border-radius: 10px;" class="glyphicon glyphicon-search"></span> </button>
+                </span>
+                </div>
+              </form>
+    </div>
+    <script>
+    var ErrorMap = {
+			'0': "Not connected.\nPlease verify your network connection.",
+			'400' : "Server understood the request, but request content was invalid.",
+			'401' : "Unauthorized access.",
+			'403' : "Forbidden resource can't be accessed.",
+			'404': "The requested page not found.",
+			'500' : "Internal server error.",
+			'503' : "Service unavailable.",
+			'parsererror' : "Requested JSON parse failed.",
+			'timeout': "Time out error.",
+			'abort': "Ajax request aborted.",
+					};
+    function allTerm(x){
+        var con = confirm('Do you want to change all to '+x+'?')
+        if (con == true){
+            var request  = $.ajax({
+          url: "{% url 'responsive_updates' pk=0 uk=1 %}",
+          data: {
+                'Term':x, 'flow':'currnetTerms'
+                },
+          dataType: 'json',
+          success: function(data) {alert(data.tutors+' accounts upadated')}
+          });
+        request.fail(function(jqXHR, textStatus, data) {
+                        alert(ErrorMap[jqXHR.status]);
+                        });
+        };
+        
+    };
+        
+        function synch(c){
+            $('#status_bar_container').show();
+          var request  = $.ajax({
+          url: "http://uqhs.herokuapp.com/result/synchronizing/1/0/"+c+"/",
+          data: {
+                'subject':1
+                },
+          dataType: 'json',
+          });
+          request.done(function(data) { 
+            if (window.location.href.split(':')[1] == '//127.0.0.1')
+                {status(1, 2, 'main');
+                 var array = JSON.stringify(data.response);
+                    var sub_request = $.ajax({
+                    type:'POST', 
+                    data:{'content':array},
+                    dataType: 'JSON',
+                    url:"{% url 'synch' last=2 subject=0 Class=0 %}",
+                    success: function(data) {
+                    status(2, 2, data.id);
+                    }			
+                      });
+                    sub_request.fail(function(jqXHR, textStatus){
+                      alert(ErrorMap[jqXHR.status])
+                      $('#status_bar_container').hide()
+                      });
+                      
+                      }});  
+                    request.fail(function(jqXHR, textStatus, data) {
+                        alert(ErrorMap[jqXHR.status]);
+                        $('#status_bar_container').hide()
+                        });
+                      
+          
+	}   
+
+    </script>
+</html>

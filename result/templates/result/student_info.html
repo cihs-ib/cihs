@@ -1,0 +1,362 @@
+{% extends "base_generic.html" %}
+<html lang="en">
+	<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> {% block title %} {{ info.full_name }} {% endblock %} </title>
+    
+</head>
+ {% block content %}
+<body>
+    <div action="" method="POST" id="info_form">
+        {% csrf_token %}
+        <div class="capt" style="font-weight:bold;">STUDENT INFORMATION - {{ info.uid }}|{{ info.serial_no }}<a href="{% url 'offline' pk=0 %}" title="Register a new student name"><span class="glyphicon glyphicon-plus" style="color:white; margin-left:20%;background-color:green;border:1px solid blue;border-radius:5px;"></span></a><em id="edit" onclick="$('#names, #nameh').toggle()" title="Edit student name"><span class="glyphicon glyphicon-pencil" style="color:white;margin-left:1%;background-color:yellow;border:1px solid blue;border-radius:5px;"></span></em></div><br>
+        <div style="font-weight:bold;background-color:black;color:white;border-radius:5px;border:1px solid blue;text-align:center;width:10%;font-size:100%">Profile</div>
+            <label for="" style="font-size:60%;width:25%;">STUDENT NAME: </label>
+            <input type="text" value="{{ info.full_name }}" style="background-color:black;color:white;text-align:center;border-radius:5px;line-height:5px;font-size:10px;width:25%;" id='name'><label for="" style='font-size:60%;width:25%;'>ADMISSION NO.:</label><input type="text" id='uid' value="{{ info.uid }}" style="background-color:black;color:white;text-align:center;border-radius:5px;font-size:60%;width:20%;"><br>
+                 <div>
+            <label for="" style="font-size:60%">Class: </label>
+                <select name="class" id="class" required="True" style="line-height:5px;background-color:#9DC0AF;color:white;width:10%;text-align:center;border-radius:5px;line-height:5px;font-size:10px;">
+                            <option value="{{ info.Class }}">{{ info.Class }}</option>
+                            <option value="JSS 1">JSS 1</option>
+                            <option value="JSS 2">JSS 2</option>
+                            <option value="JSS 3">JSS 3</option>
+                            <option value="SSS 1">SSS 1</option>
+                            <option value="SSS 2">SSS 2</option>
+                            <option value="SSS 3">SSS 3</option>
+                            <option value="LEFT">LEFT</option>
+                </select>
+            <label for="" style="font-size:60%">Term: </label>
+                <select name="term" id="term" required="True" style="line-height:5px;background-color:#9DC0AF;color:white;width:10%;text-align:center;border-radius:5px;line-height:5px;font-size:10px;">
+                            <option value="{{ info.term }}">{{ info.term }}</option>
+                            <option value="1st Term">first term</option>
+                            <option value="2nd Term">second term</option>
+                            <option value="3rd Term">third term</option>
+                </select>
+            <label for="" style="font-size:60%">Birth: </label>
+                <input type="date" id="birth"  name='age'  max="2011-1-30" style="line-height:5px;background-color:#9DC0AF;color:white;width:15%;text-align:center;border-radius:5px;line-height:5px;font-size:10px;" value='{{birth_date}}'>
+            <label for="" style="font-size:60%">Age</label>
+                <span style="line-height:5px;background-color:#9DC0AF;color:white;width:20%;text-align:center;border-radius:5px;line-height:5px;font-size:10px;">{{info.age}}</span>
+            </div>
+                <div style="font-size:100%;font-weight:bold;background-color:black;color:white;border-radius:5px;border:1px solid blue;text-align:center;width:20%;">Parent info; </div>
+                <label for="" style="font-size:60%">Title:</label>
+                <select name="title" id="title" required="True" style="line-height:5px;background-color:#9DC0AF;color:white;width:10%;text-align:center;border-radius:5px;line-height:5px;font-size:10px;">
+                            <option value="{{ info.title }}">{{ info.title }}</option>
+                            <option value="Mr.">Mr</option>
+                            <option value="Mrs.">Mrs</option>
+                            <option value="Ahj.">Alh</option>
+                            <option value="Dr.">Dr</option>
+                </select>
+                <label for="" style="font-size:60%;">Full Name: </label>
+            <input type="text" value="{{ info.p_name }}" style="line-height:5px;font-size:60%;width:55%;background-color:#9DC0AF;color:white;border-radius:5px;font-size:10px;" name="pname" id="pname">
+               <label for="" style="font-size:60%">Parent Ocupation:</label>
+                <select name="pocp" id="pocp" required="True" style="line-height:5px;background-color:#9DC0AF;color:white;width:20%;text-align:center;border-radius:5px;line-height:5px;font-size:10px;">
+                            <option value="{{ info.occupation }}">{{ info.occupation }}</option>
+                            <option value="Trading">Trading</option>
+                            <option value="Civil Servant">Civil Servant</option>
+                            <option value="Artisan">Artisan</option>
+                            <option value="Others">Others</option>
+                </select>
+            <label for="" style="font-size:60%;">Contacts: </label>
+            <input type="tel" value="{{ info.contact1 }}" style="line-height:5px;font-size:60%;width:18%;background-color:#9DC0AF;color:white;border-radius:5px;font-size:10px;" name="contact1" id="contact1" max=11>/<input type="tel" value="{{ info.contact2 }}" style="line-height:5px;font-size:60%;width:18%;background-color:#9DC0AF;color:white;border-radius:5px;font-size:10px;" name="contact" id="contact2" max=11>
+   
+            <label style="font-size:60%">Address.:</label><input type="text" value="{{ info.address }}" style="font-size:60%;height:19px;width:84%;background-color:#A29A9A;border-radius:3px;color:white;" name="address" id="address"><br>
+        <div style="font-weight:bold;background-color:black;color:white;border-radius:5px;border:1px solid blue;text-align:center;width:40%;">Attendance and Punctuality</div>
+            <ul>No. of times <br>
+            <table class="info_tab_marg">
+                <tr>
+                    <th>School Open:</th>
+                    <th>Present:</th>
+                    <th>Punctual:</th>
+                </tr>
+                <tr>
+                    <td><input type="text" value="{{ info.no_open }}" style="line-height:5px;width:100%;text-align:center;border-radius:5px;background-color:#6657AB;color:white;font-size:10px;" name="opened" id="opened" required="True"></td>
+                    <td><input type="text" value="{{ info.no_present }}" style="line-height:5px;width:100%;text-align:center;border-radius:5px;background-color:#6657AB;color:white;font-size:10px;" name="presence" id="presence" required="True"></td>
+                    <td><input type="text" value="{{ info.no_absent }}" style="line-height:5px;width:100%;text-align:center;border-radius:5px;background-color:#6657AB;color:white;font-size:10px;" name="punctual" id="punctual" required="True"></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bold;">Comment:</td>
+                    <td colspan='2'><input type="text" value="{{ info.comment }}" style="line-height:5px;width:100%;text-align:center;border-radius:5px;background-color:#6657AB;color:white;" name="comment" id="comment" required="True"></td>
+                </tr>
+            </table>
+            </ul>
+        <div style="font-size:100%;font-weight:bold;width:45%;background-color:black;color:white;border-radius:5px;border:1px solid blue;text-align:center;">Physical, Health and Development</div>
+        <table class="info_tab_marg">
+            <tr>
+                <th colspan="2">Height(m)</th>
+                <th colspan="2">Weight(kg)</th>
+                <th colspan="2"></th>
+            </tr>
+            <tr>
+                <th>Beginning of term</th>
+                <th>End of term</th>
+                <th>Beginning of term</th>
+                <th>End of term</th>
+                <th>No. of Day Absent</th>
+                <th>Purpose</th>
+            </tr>
+            <tr>
+                <td><input type="text" value="{{ info.H_begin }}" style="background-color:rgb(236, 235, 234);color:Maroon;width:100%;text-align:center;border-radius:5px;" name="hbegin" id="hbegin" required="True"></td>
+                <td><input type="text" value="{{ info.H_end }}" style="background-color:rgb(236, 235, 234);color:Maroon;width:100%;text-align:center;border-radius:5px;" name="hend" id="hend" required="True"></td>
+                <td><input type="text" value="{{ info.W_begin }}" style="background-color:rgb(236, 235, 234);color:Maroon;width:100%;text-align:center;border-radius:5px;" name="wbegin" id="wbegin" required="True"></td>
+                <td><input type="text" value="{{ info.W_end }}" style="background-color:rgb(236, 235, 234);color:Maroon;width:100%;text-align:center;border-radius:5px;" name="wend" id="wend" required="True"></td>
+                <td><input type="text" value="{{ info.no_of_day_abs }}" style="background-color:rgb(236, 235, 234);color:Maroon;width:89%;text-align:center;border-radius:5px;" name="daysAbsent" id="daysAbsent" disabled></td>
+                <td><input type="text" value="{{ info.purpose }}" style="background-color:rgb(236, 235, 234);color:Maroon;text-align:center;border-radius:5px;width:100%;" name="purpose" id="purpose" required="True"></td>
+            </tr>
+            <tr>
+                <th>Remark</th>
+                <th>
+                    <select style="background-color:rgb(236, 235, 234);color:Maroon;width:100%;text-align:center;border-radius:5px;" name="good" id="good" required="True">
+                        <option value="{{ info.good }}" style="width:100%;text-align:center;border-radius:5px;">{{ info.good }}</option>
+                        <option value="good">Good</option>
+                        <option value="None">None</option>
+                    </select>
+                </th>
+                <th>
+                    <select style="background-color:rgb(236, 235, 234);color:Maroon;width:100%;text-align:center;border-radius:5px;" name="fair" id="fair" required="True">
+                        <option value="{{ info.fair }}" style="width:100%;text-align:center;border-radius:5px;">{{ info.fair }}</option>
+                        <option value="fair">Fair</option>
+                        <option value="None">None</option>
+                    </select>
+                </th>
+                <th>
+                    <select style="background-color:rgb(236, 235, 234);color:Maroon;width:100%;text-align:center;border-radius:5px;" name="poor" id="poor" required="True">
+                        <option value="{{ info.poor }}" style="width:100%;text-align:center;border-radius:5px;">{{ info.poor }}</option>
+                        <option value="poor">Poor</option>
+                        <option value="None">None</option>
+                    </select>
+                </th>
+                <th colspan="2"><input type="text" value="{{ info.remark }}" style="background-color:rgb(236, 235, 234);color:Maroon;width:100%;text-align:center;border-radius:5px;" name="remark" id="remark" required="True"></th>
+            </tr>
+        </table>
+        <div style="font-size:100%;font-weight:bold;width:28%;background-color:black;color:white;border-radius:5px;border:1px solid blue;text-align:center;">Sporting Activities</div>
+        <table class="info_tab_marg">
+            <tr>
+                <th>Event</th>
+                <th>Indoor game</th>
+                <th>Ball game</th>
+                <th>Combative gamr</th>
+                <th>Tract</th>
+                <th>Jump</th>
+                <th>Throw</th>
+                <th>Swim</th>
+                <th>Weight Lifting</th>
+            </tr>
+            <tr>
+                 <td>
+                    <select style="background-color:rgb(236, 235, 234);color:Maroon;width:100%;text-align:center;border-radius:5px;" name="event" id="event" required="True">
+                        <option value="{{ info.event }}" style="width:100%;text-align:center;border-radius:5px;">{{ info.event }}</option>
+                        <option value="event">Event</option>
+                        <option value="_____">_____</option>
+                    </select>
+                </td>
+                <td>
+                    <select style="background-color:rgb(236, 235, 234);color:Maroon;width:100%;text-align:center;border-radius:5px;" name="indoor" id="indoor" required="True">
+                        <option value="{{ info.indoor }}" style="width:100%;text-align:center;border-radius:5px;">{{ info.indoor }}</option>
+                        <option value="indoor">Indoor</option>
+                        <option value="_____">_____</option>
+                    </select>
+                </td>
+                <td>
+                    <select style="background-color:rgb(236, 235, 234);color:Maroon;width:100%;text-align:center;border-radius:5px;" name="ball" id="ball" required="True">
+                        <option value="{{ info.ball }}" style="width:100%;text-align:center;border-radius:5px;">{{ info.ball }}</option>
+                        <option value="ball">Ball</option>
+                        <option value="_____">_____</option>
+                    </select>
+                </td>
+                <td>
+                    <select style="background-color:rgb(236, 235, 234);color:Maroon;width:100%;text-align:center;border-radius:5px;" name="combat" id="combat" required="True">
+                        <option value="{{ info.combat }}" style="width:100%;text-align:center;border-radius:5px;">{{ info.combat }}</option>
+                        <option value="combat">Combative</option>
+                        <option value="_____">_____</option>
+                    </select>
+                </td>
+                <td>
+                    <select style="background-color:rgb(236, 235, 234);color:Maroon;width:100%;text-align:center;border-radius:5px;" name="track" id="track" required="True">
+                        <option value="{{ info.track }}" style="width:100%;text-align:center;border-radius:5px;">{{ info.track }}</option>
+                        <option value="track">Tract</option>
+                        <option value="_____">_____</option>
+                    </select>
+                </td>
+                <td>
+                    <select style="background-color:rgb(236, 235, 234);color:Maroon;width:100%;text-align:center;border-radius:5px;" name="jump" id="jump" required="True">
+                        <option value="{{ info.jump }}" style="width:100%;text-align:center;border-radius:5px;">{{ info.jump }}</option>
+                        <option value="jump">Jump</option>
+                        <option value="_____">_____</option>
+                    </select>
+                </td>
+                <td>
+                    <select style="background-color:rgb(236, 235, 234);color:Maroon;width:100%;text-align:center;border-radius:5px;" name="throw" id="throw" required="True">
+                        <option value="{{ info.throw }}" style="width:100%;text-align:center;border-radius:5px;">{{ info.throw }}</option>
+                        <option value="throw">Throw</option>
+                        <option value="_____">_____</option>
+                    </select>
+                </td>
+                <td>
+                    <select style="background-color:rgb(236, 235, 234);color:Maroon;width:100%;text-align:center;border-radius:5px;" name="swim" id="swim" required="True">
+                        <option value="{{ info.swim }}" style="width:100%;text-align:center;border-radius:5px;">{{ info.swim }}</option>
+                        <option value="swim">Swiming</option>
+                        <option value="_____">_____</option>
+                    </select>
+                </td>
+                <td>
+                    <select style="background-color:rgb(236, 235, 234);color:Maroon;width:100%;text-align:center;border-radius:5px;" name="lift" id="lift" required="True">
+                        <option value="{{ info.lift }}" style="width:100%;text-align:center;border-radius:5px;">{{ info.lift }}</option>
+                        <option value="lift">Weight Lifting</option>
+                        <option value="_____">_____</option>
+                    </select>
+                </td>
+                
+            </tr>
+            <tr>
+                <th>Comment</th>
+                <td colspan="8"><input type="text" value="{{ info.sport_comment }}" style="background-color:rgb(236, 235, 234);color:Maroon;width:100%;text-align:center;border-radius:5px;" name="sport_comment" id="sport_comment" required="True"></td>
+            </tr>
+        </table>
+        <div style="font-size:100%;font-weight:bold;width:20%;background-color:black;color:white;border-radius:5px;border:1px solid blue;text-align:center;">Club Activities</div>
+        <table class="info_tab_marg">
+            <tr>
+                <th>Clubs/Societies</th>
+                <th>Office Held</th>
+                <th>Contributions</th>
+                <th>Signature</th>
+            </tr>
+            <tr>
+                <td>
+                    <select name="club_one" id="club_one" required="True" value="{{ info.club_one }}" style="background-color:rgb(236, 235, 234);color:Maroon;width:100%;text-align:center;border-radius:5px;">
+                        <option value="{{ info.club_one }}">{{ info.club_one }}</option>
+                        <option value="ART">Arts & Craft</option>
+                        <option value="CHY">Choreography</option>
+                        <option value="LDS">Literary and Debating Society</option>
+                        <option value="JETS">The JETS club</option>
+                        <option value="SCT">Scout of Nigeria</option>
+                        <option value="PRS">The Press club</option>
+                        <option value="YGF">The Young Agriculturist</option>
+                        <option value="MSSN">Muslim Student Society of Nigeria</option>
+                        <option value="RSC">Nigeria Road Safety club</option>
+                    </select>
+                </td>
+                <td>
+                <select name="" value="{{ info.office_one }}" style="background-color:rgb(236, 235, 234);color:Maroon;width:100%;text-align:center;border-radius:5px;" name="office_one" id="office_one" required="True">
+                    <option type="text" value="{{info.office_one}}" >{{info.office_one}}</option>
+                    <option value="Member.">Member.</option>
+                    <option value="Time Keeper.">Time Keeper.</option>
+                    <option value="Group Coordinator.">Group Coordinator.</option>
+                    <option value="Mosque Coordinator.">Mosque Coordinator.</option>
+                    <option value="Da'wah Coordinator.">Da'wah Coordinator.</option>
+                    <option value="Ameer.">Ameer.</option>
+                    <option value="Ameerah.">Ameerah.</option>
+                    <option value="Secretary.">Secretary.</option>
+                    <option value="Asset maintnance officer.">AMO.</option>
+                    <option value="Attendance Monitor.">Attendance Monitor.</option>
+                    <option value="Financial secretary.">Financial secretary.</option>
+                    <option value="Mu'ahdhin.">Mu'ahdhin.</option>
+                    <option value="Farm manager/coordinator.">Farm manager/coordinator.</option>
+                    <option value="Chief Press.">Chief Press.</option>
+                </select>
+                </td>
+                <td>
+                <select name="" style="background-color:rgb(236, 235, 234);color:Maroon;width:100%;text-align:center;border-radius:5px;"
+                name="contrib_one" id="contrib_one" required="True">
+                    <option type="text" value="{{info.contrib_one}}" >{{info.contrib_one}}</option>
+                    <option value="Efficient and effective participation in all activities.">Efficient and effective participation in all activities.</option>
+                    <option value="Very active in his/her desgnative office/role.">Very active in his/her desgnative office/role.</option>
+                    <option value="Active member.">Active member.</option>
+                    <option value="Non-active member.">Non-active member.</option>
+                </select>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    <select name="club_two" id="club_two" required="True" value="{{ info.club_two }}" style="background-color:rgb(236, 235, 234);color:Maroon;width:100%;text-align:center;border-radius:5px;">
+                        <option value="{{ info.club_two }}">{{ info.club_two }}</option>
+                        <option value="ART">Arts & Craft</option>
+                        <option value="CHY">Choreography</option>
+                        <option value="LDS">Literary and Debating Society</option>
+                        <option value="JETS">The JETS club</option>
+                        <option value="SCT">Scout of Nigeria</option>
+                        <option value="PRS">The Press club</option>
+                        <option value="YGF">The Young Agriculturist</option>
+                        <option value="MSSN">Muslim Student Society of Nigeria</option>
+                        <option value="RSC">Nigeria Road Safety club</option>
+                    </select>
+                </td>
+                <td>
+                <select name="" value="{{ info.office_two }}" style="background-color:rgb(236, 235, 234);color:Maroon;width:100%;text-align:center;border-radius:5px;" name="office_two" id="office_two" required="True">
+                    <option type="text" value="{{ info.office_two }}" >{{ info.office_two }}</option>
+                    <option value="Member.">Member.</option>
+                    <option value="Time Keeper.">Time Keeper.</option>
+                    <option value="Group Coordinator.">Group Coordinator.</option>
+                    <option value="Mosque Coordinator.">Mosque Coordinator.</option>
+                    <option value="Da'wah Coordinator.">Da'wah Coordinator.</option>
+                    <option value="Ameer.">Ameer.</option>
+                    <option value="Ameerah.">Ameerah.</option>
+                    <option value="Secretary.">Secretary.</option>
+                    <option value="Asset maintnance officer.">AMO.</option>
+                    <option value="Attendance Monitor.">Attendance Monitor.</option>
+                    <option value="Financial secretary.">Financial secretary.</option>
+                    <option value="Mu'ahdhin.">Mu'ahdhin.</option>
+                    <option value="Farm manager/coordinator.">Farm manager/coordinator.</option>
+                    <option value="Chief Press.">Chief Press.</option>
+                </select>
+                </td>
+                <td>
+                <select name="" value="{{ info.contrib_two }}" style="background-color:rgb(236, 235, 234);color:Maroon;width:100%;text-align:center;border-radius:5px;" name="contrib_two" id="contrib_two" required="True">
+                    <option type="text" value="{{ info.contrib_two }}" >{{ info.contrib_two }}</option>
+                    <option value="Efficient and effective participation in all activities.">Efficient and effective participation in all activities.</option>
+                    <option value="Very active in his/her desgnative office/role.">Very active in his/her desgnative office/role.</option>
+                    <option value="Active member.">Active member.</option>
+                    <option value="Non-active member.">Non-active member.</option>
+                </select>
+                </td>
+                <td></td>
+            </tr>
+        </table>
+        <br>
+        <div  style="margin-left:-12%">
+            <select name="dropDown" id="dropDown" style="width:30%;margin-left:40%;background-color:green;color:white;border-radius:5px;font-size:10px;">
+                <option value="{{ info.full_name }}">{{ info.full_name }}</option>
+                {% if current %}
+                {% for scr in current %}
+                    <option name="dropDownOpt" id="dropDownOpt" value="{{ scr.id }}">{{ scr.full_name }}</option>
+                {% endfor %}
+                {% endif %}
+            </select>
+            <button class="btn-btn-primary" name='Save' style="background-color:green;color:white;border-radius:5px;font-size:10px;">Save<span class="glyphicon glyphicon-ok"> </span></button><br>
+            <div style="width:100%;font-weight:bold;margin-left:0%;background-color:white;color:gray;opacity:0.6;border-radius:5px;border:1px solid blue;text-align:center;" id="outcome" hidden><em id="success"></em> <button style="line-height:65%;border:2px solid blue;color:black;border-radius:5px;"><a href="{% url 'pdf' ty=4 sx=info.id pk=0 uk=1 %}" title="{{ scr.student_id }}" style="color:white;">Go to Report Card</a></button></div>
+        </div>
+        
+    </div>   
+    <script>
+        function redirect(to) {
+		var next = window.location.href.split('student_info')[0]+to+'/';
+        location.replace(next)
+		};
+        $("#dropDown").change(function(){
+                var pk = $("#dropDown").val();
+                redirect('student_info/'+pk)
+            });
+        
+        $("button[name='Save']").click(function(){
+            var argument = {pk:{{ info.id }}, uid:$("#uid").val(), name:$("#name").val(), class:$("#class").val(), term:$("#term").val(), opened:$("#opened").val(), presence:$("#presence").val(), punctual:$("#punctual").val(), comment:$("#comment").val(), hbegin:$("#hbegin").val(), hend:$("#hend").val(), wbegin:$("#wbegin").val(), wend:$("#wend").val(), daysAbsent:$("#opened").val() - $("#presence").val(), purpose:$("#purpose").val(), good:$("#good").val(), fair:$("#fair").val(), poor:$("#poor").val(), remark:$("#remark").val(), event:$("#event").val(), indoor:$("#indoor").val(), ball:$("#ball").val(), combat:$("#combat").val(), track:$("#track").val(), jump:$("#jump").val(), throw:$("#throw").val(), swim:$("#swim").val(), lift:$("#lift").val(), sport_comment:$("#sport_comment").val(), club_one:$("#club_one").val(), office_one:$("#office_one").val(), contrib_one:$("#contrib_one").val(), club_two:$("#club_two").val(), office_two:$("#office_two").val(), contrib_two:$("#contrib_two").val(),birth:$("#birth").val(),title:$("#title").val(),pname:$("#pname").val(),pocp:$("#pocp").val(),contact1:$("#contact1").val(),contact2:$("#contact2").val(),address:$("#address").val()
+                            };
+           var request = $.ajax({
+                            url:"{% url 'student_info_json' %}",
+                            data: argument,
+                            dataType: 'json',
+                        });
+                        request.done(function(data) {
+                                $("#outcome").show();
+                                $("#success").html(data.status+" data saved!");
+                        });     
+                        request.fail(function( jqXHR, textStatus ) {
+                            alert( "Request failed: " + jqXHR.status );
+                        });
+            });
+    </script>
+</body>
+ {% endblock %}
+ 
+</html>

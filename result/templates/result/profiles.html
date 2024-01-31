@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+{% extends "base_generic.html" %}
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}{{ qry.last_name }}:{{ qry.first_name }}'s profile {% endblock %}</title>
+    </head>
+    {% block content %}
+    <form>
+      <div class="cap_form"><a href="{% url 'home' %}" style="color:white;">Account </a><pre>{{ qry.last_name }}</pre></div>
+        <div class="capt" style="width:23%;"><a href="{% url 'user_update' qry.id %}" style="color:white; font-size:10px;"><span class="glyphicon glyphicon-edit">Profile</span></a></div><a href="{% url 'upload_photo' pk=request.user.id %}"><img class="rounded-circle" src="{% static request.user.profile.image %}" alt="My_pics" style="max-width: 3em; margin-left: 500px;"/></a></em></em>
+        <div class="row">
+	    <div class="col-xs-4">
+                <em>Title:</em><pre style="line-height:5px;"> {{ qry.title }}</pre>
+            </div>
+            <div class="col-xs-4">
+                <em>Surname:</em><pre style="line-height:5px;"> {{ qry.last_name }}</pre>
+            </div>
+            <div class="col-xs-4">
+                <em>Other Name:</em><pre style="line-height:5px;"> {{ qry.first_name }}</pre>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4">
+                <em>Birth:</em><pre style="line-height:5px;"> {{ qry.birth_date }}</pre>
+            </div>
+            <div class="col-xs-4">
+                <em>City:</em><pre style="line-height:5px;"> {{ qry.city }}</pre>
+            </div>
+            <div class="col-xs-4">
+                <em>Nationality:</em><pre style="line-height:5px;"> {{ qry.country }}</pre>
+            </div>
+        </div>
+	<div class="row">
+            <div class="col-xs-3">
+                <em>Department:</<em><pre style="line-height:5px;"> {{ qry.department }}</pre>
+            </div>
+            <div class="col-xs-3">
+                <em>Organization:</em><pre style="line-height:5px;"> {{ qry.organization }}</pre>
+            </div>
+            <div class="col-xs-3">
+                <em>Location:</em><pre style="line-height:5px;"> {{ qry.location }}</pre>
+            </div>
+	    <div class="col-xs-3">
+                <em>Class in Charge:</em><pre style="line-height:5px;"> {{ qry.class_in }}</pre>
+            </div>
+	</div>
+        <em>About You:</em><p style="width:100%;"> {{ qry.bio }}</p>
+            						
+	<div class="capt" style="width:25%;font-size:10px;">Status: <strong>{{ qry.email_confirmed }}</strong></div>
+    </form> 
+    {% endblock %}
+</html>
+
+           

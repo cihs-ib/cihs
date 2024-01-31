@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{% extends "base_generic.html" %}
+{% load crispy_forms_tags %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} Update Subject Details {% endblock %} </title>
+</head>
+<body>
+    {% block content %}
+    <form method="post">
+    {% csrf_token %}
+    <div class="capt">Subject Transfer</div>
+    <div><strong>Teachers</strong>: To transfer account, correct destination account should be selected. </div>
+     <strong style="width:230px; line-height:15px; color:purple;">Select approprately</strong>
+    <div class="row">
+      <div class="col-xs-6">
+        {{ form.tutor|as_crispy_field }}
+      </div>
+      <div class="col-xs-6">
+        {{ form.teacher_name|as_crispy_field }}
+      </div>
+      
+    </div>
+    <div class="row">
+      <div class="col-xs-4">
+	{{ form.first_term|as_crispy_field }}
+      </div>
+      <div class="col-xs-4">
+        {{ form.second_term|as_crispy_field }}
+      </div>
+      <div class="col-xs-4">
+        {{ form.third_term|as_crispy_field }}
+      </div>
+    </div>
+    	<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-check">Save</span></button>
+	Create new subject instance <a href="{% url 'offline' pk=0 %}"> <em style="font-family:Helvetica; color:purple; font-size: 10px;">here.</em></a>
+  </form>
+   {% endblock %} 
+</body>
+</html>
+

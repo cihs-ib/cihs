@@ -1,0 +1,128 @@
+/* RESET & BASIC STYLES
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap");
+html{
+    background-color: #ffffff;
+}
+:root {
+  --white: #fff;
+  --darkblue: #654e1b;
+  --lightblue: #edf2f4;
+}
+body {
+	font-family: serif;
+	color: rgb(0, 0, 0);
+}
+* {
+  padding: 0;
+  margin: 0;
+}
+
+#ttbody {
+  margin: 50px 0 150px;
+  font-family: "Noto Sans", sans-serif;
+}
+
+.container {
+  max-width: 100%;
+  padding: 0 15px;
+}
+
+h1 {
+  font-size: 1.5em;
+}
+
+/* TABLE STYLES
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.table-wrapper {
+  height:80%;
+  width: 100%;
+}
+
+.table-wrapper::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: var(--darkblue);
+  border-radius: 40px;
+}
+
+.table-wrapper::::-webkit-scrollbar-track {
+  background: var(--white);
+  border-radius: 40px;
+}
+
+.table-wrapper table {
+  margin: 0 0 0 0;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.table-wrapper table th,
+.table-wrapper table td {
+  padding: 10px;
+  min-width: 8%;
+}
+
+.table-wrapper table th {
+  color: var(--white);
+  background: var(--darkblue);
+}
+
+.table-wrapper table tbody tr:nth-of-type(even) > * {
+  background: var(--lightblue);
+}
+.table-wrapper table tbody tr:nth-of-type(odd) > * {
+    background: #ffffff;
+  }
+
+.table-wrapper table td:first-child {
+  display: grid;
+  grid-template-columns: 5px 1fr;
+  grid-gap: 10px;
+  text-align: left;
+}
+
+.table-credits {
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+/* FOOTER STYLES
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.page-footer {
+  position: fixed;
+  right: 0;
+  bottom: 50px;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  z-index: 1;
+  background: var(--white);
+}
+
+.page-footer a {
+  display: flex;
+  margin-left: 4px;
+}
+.foot {
+  border:2px solid rgb(238, 11, 11);
+  border-radius: 5px;
+}
+.title {
+  border:2px solid white;background-color:lightgrey;border-radius:12px;text-align:center
+}
+.ttot, .etot, .agr, .avg, .grd, .pos {
+  border:2px solid darkkhaki;
+  border-radius: 3px;
+  background-color: rgb(247, 230, 210);
+  
+}
+.stn {width:250px;}
+@media only screen and (max-width:650px){
+    .container {
+        max-width: 100%;
+        padding: 0 15px;
+      }
+  }

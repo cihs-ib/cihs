@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% extends "base_generic.html" %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %} uqhs | Tutor's account: {{ request.user.username }} {% endblock %}</title>
+    </head>
+    {% block content %}
+    <body>
+        <table>
+    		<div class="capt" style="font-size:13px;text-align: center;"><a href="{% url 'created_subject_list' pk=0 %}" style="color:blue;">{{ ids.subject }}</a> appeared more than once, delete or edit one now!</div>
+                <thead>
+                    <tr><th>Teacher</th><th>Subject</th><th>Names</th><th>Review</th><th>Annual</th><th>Scores</th><th>Delete</th></tr>      
+                </thead>
+                <tbody>
+                    {% if tutor %}
+                    {% for sub in tutor %}
+                        <tr><td style="color:palegoldenrod;"><a href="{% url 'tutor_update' sub.id %}">{{ sub.teacher_name }}</a></td><td><a href="{% url 'ques_subject_updates' sub.id %}">{{ sub.subject }}</a></td><td><a href="{% url 'extract_name' pk=sub.id %}">{{ sub.Class }}</a></td><td><a href="{% url 'subject_view' pk=sub.id %}">{{ sub.term }}</a></td><td><a href="{% url 'export_all' pk=sub.id %}"><span class="glyphicon glyphicon-save"></span></a></td><td><a href="{% url 'export_users_scores' pk=sub.id %}"><span class="glyphicon glyphicon-save"></span></a></td><td><a href="{% url 'warning_delete' pk=sub.id %}"><span class="glyphicon glyphicon-remove"></span></a></td></tr>
+                    {% endfor %}
+                    {% else %}
+                        <pre style="width:70%;text-align: center;">There are no records in your account yet.</pre>
+                    {% endif %}       
+                </tbody>
+        </table>
+    </body>
+    {% endblock %}
+</html>

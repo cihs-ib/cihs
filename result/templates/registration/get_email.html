@@ -1,0 +1,30 @@
+{% extends "base_generic.html" %}
+ 
+{% block content %}
+    {% if form.errors %}
+        {{ form.errors }}
+    {% endif %}
+    <form method="post" action="">
+    {% csrf_token %}
+        <div class="container text-center">
+<br><p style="width:50%;margin-left: 0px; font-size:12">Reset Password!</p>
+<div class='passward' style="width:50%;margin-left: 0px; font-size:12">
+<form role="form" method="post">
+	{% csrf_token %}
+	{{form.non_field_errors}}
+	<br>
+	<div class="fieldWrapper">
+		{{form.email.errors}}
+		<label for="form.email.id_for_label">Email: </label><br>
+		{{form.email}}
+	</div>
+	<br>
+		<input type="submit" value="Continue" class="btn button-primary"/>
+	<a href="{% url 'logins' %}"><h6>Login!</h6></a>
+       <input type="hidden" name="next" value="{{ next }}" />
+</form>
+</div>
+{% endblock %}
+
+
+

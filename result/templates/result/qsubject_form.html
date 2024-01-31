@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+{% extends "base_generic.html" %}
+{% load crispy_forms_tags %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Subject Update{% endblock %}</title>
+</head>
+<body>
+    {% block content %}
+    <form method="post">
+    <div class="capt">SUBJECT UPDATE{% if form.info %}<a href="{% url 'student_info' pk=form.info.id %}"><span class="glyphicon glyphicon-pencil" style="color:white;margin-left:1%;background-color:yellow;border:1px solid blue;border-radius:5px;"></span></a>{% else %}<a href="{% url 'student_info' pk=form.id %}"><span class="glyphicon glyphicon-plus" style="color:white; margin-left:44%;background-color:green;border:1px solid blue;border-radius:5px;"></span></a>{% endif %}</div>
+    <em style="font-family:Helvetica; color:white; font-size: 10px;">Correct student {% if form.student_name %}<a style="font-family:Helvetica; color:white; font-style: italic; font-size: 12px;" href="{% url 'new_student_name' s=0 pk=form.student_name.id %}">NAME</a>{% endif %} should be </em><em style="font-family:Helvetica; color:yellow; font-size: 10px;">ENSURED,</em><em style="font-family:Helvetica; color:white; font-size: 10px;">while updating records!</em>{% if form.student_name %}<a href="{% url 'new_student_name' s=2 pk=form.student_name.id %}">{% endif %} <em style="font-family:Helvetica; color:red; font-size: 13px;"><span class="glyphicon glyphicon-edit">EDIT_NAME.</span></em></a>
+    {% csrf_token %}
+    <br>
+        <label for="" style="margin-left:-7%;">TUTOR: </label>
+        <select name="tutor" id="tutor" style="width:30%;margin-left:2%;background-color:green;color:white;border-radius:5px;">
+        <option name="tutorOpt" id="tutorOpt" value="{{ form.tutor_id }}">{{ form.tutor }}</option>
+                {% if tutor %}
+                {% for scr in tutor %}
+                    <option name="tutorOpt" id="tutorOpt" value="{{ scr.tutor_id }}">{{ scr.tutor }}</option>
+                {% endfor %}
+                {% endif %}
+                
+            </select>
+        <label for="" style="margin-left:-2%;">STUDENT NAME: </label>
+        <select name="student_name" id="student_name" style="width:30%;margin-left:2%;background-color:green;color:white;border-radius:5px;">
+            <option name="student_nameOpt" id="student_nameOpt" value="{{ form.student_name_id }}">{{ form.student_name }}
+                {% if tutor %}
+                {% for scr in tutor %}
+                    <option name="student_nameOpt" id="student_nameOpt" value="{{ scr.student_name_id }}">{{ scr.student_name }}</option>
+                {% endfor %}
+                {% endif %}
+                
+            </select>
+        <br>
+        
+        <label for="" style="margin-left:-2%;">Test: </label>
+        <input type="number" name="test" id="test" value="{{ form.test }}" style="background-color:rgb(236, 235, 234);color:Maroon;text-align:center;border-radius:5px;width:8%"> 
+        <label for="" style="margin-left:-2%;">Agn: </label>
+        <input type="number" name="agn" id="agn" value="{{ form.agn }}" style="background-color:rgb(236, 235, 234);color:Maroon;text-align:center;border-radius:5px;width:8%"> 
+        <label for="" style="margin-left:-2%;">Atd: </label>
+        <input type="number" name="atd" id="atd" value="{{ form.atd }}" style="background-color:rgb(236, 235, 234);color:Maroon;text-align:center;border-radius:5px;width:10%"> 
+        <label for="" style="margin-left:-2%;">Exam: </label>
+        <input type="number" name="exam" id="exam" value="{{ form.exam }}"style="background-color:rgb(236, 235, 234);color:Maroon;text-align:center;border-radius:5px;width:10%">
+        <label for="" style="margin-left:-2%;">Student Info: </label> 
+        <select name="info" id="info" style="width:20%;margin-left:60%;background-color:green;color:white;border-radius:5px;">
+            <option name="infoOpt" id="infoOpt" value="{{ form.info_id }}">{{ form.info.student_name }}</option>
+                {% if info %}
+                {% for info in info %}
+                    <option name="infoOpt" id="infoOpt" value="{{ info.id }}">{{ info.student_name }}</option>
+                {% endfor %}
+                {% endif %}
+            </select><br>
+     <button class="btn-btn-primary" name='Save' style="margin-left:47%;background-color:green;color:white;border-radius:5px;">Save<span class="glyphicon glyphicon-ok"> </span></button>
+    
+  </form>
+ 
+   {% endblock %}
+ 
+ 
+</body>
+</html>
+
